@@ -1,0 +1,86 @@
+.portfolio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+
+.main-wrapper {
+  position: absolute;
+  height: 100%;
+  width: 900px;
+  max-width: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.main-header {
+  width: 100%;
+  height: 120px;
+  padding: 0 16px;
+  display: flex;
+}
+
+.main-header h1 {
+  height: 120px;
+  line-height: 120px;
+  margin: 0;
+  font-size: 42px;  
+  font-weight: 400;
+  flex: 1;
+}
+
+.main-header .options {
+  margin-top: 16px;
+}
+
+.main-header .options a {
+  margin-right: 16px;
+  text-decoration: none;
+}
+
+.main-header .options a.github {
+  color: #000;
+}
+
+.main-header .options a.twitter {
+  color: #0084ff;
+}
+
+.main-header .options a.email {
+  color: #000;
+  margin-right: 0;
+}
+
+.subheader {
+  padding: 16px;
+  color: #006324;
+  font-size: 22px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.subheader>span:not(.comment) {
+  margin-right: 32px;
+}
+
+.subheader>span:last-child {
+  margin-right: none;
+}
+
+.subheader>span.on {
+  font-weight: bold;
+}
+
+.subheader .arrow {
+  display: none;
+}
+
+.subheader>span.on .arrow {
+  display: initial;
+}
+
+.subheader>span:not(.comment):not(.on) {
+  cursor: pointer;
+}
