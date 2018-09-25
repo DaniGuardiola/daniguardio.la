@@ -19,7 +19,7 @@ class App extends Component {
             <span className='comment'>// </span>
             <span className='projects on'><span className='arrow'>> </span>projects</span>
             <span className='blog'><span className='arrow'>> </span>blog</span>
-            <span className='other'><span className='arrow'>> </span>other stuff</span>
+            <span className='about'><span className='arrow'>> </span>about me</span>
           </div>
           <div className='content'>
             <Projects />
