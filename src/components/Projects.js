@@ -1,27 +1,6 @@
 import React, { Component } from 'react'
 import './Projects.css'
-
-const MOCK_ARTICLES = [{
-  key: 'bitcoin-lightweight',
-  title: 'bitcoin-lightweight: an electrum websocket implementation',
-  tags: ['js', 'crypto', 'bitcoin']
-}, {
-  key: 'lorem-ipsum',
-  title: 'lorem ipsum: some example of something blablabla and stuff',
-  tags: ['quantum-mechanics', 'somebody']
-}, {
-  key: 'portal-gun',
-  title: 'portal gun: an Arduino™ powered interdimensional transport device',
-  tags: ['once', 'told', 'me']
-}, {
-  key: 'not-a-flamethrower',
-  title: 'not-a-flamethrower: definitely not a flamethrower',
-  tags: ['fire', 'flames']
-}, {
-  key: 'electrumjs',
-  title: 'electrumjs: electrum websocket and tcp socket client',
-  tags: ['js', 'typescript', 'crypto']
-}]
+import ARTICLES_DATA from '../data/projects'
 
 class Projects extends Component {
   createArticle (data) {
@@ -44,7 +23,7 @@ class Projects extends Component {
   render () {
     return (
       <div className='projects-content'>
-        {this.createArticles(MOCK_ARTICLES)}
+        {this.createArticles(ARTICLES_DATA)}
       </div>
     )
   }
