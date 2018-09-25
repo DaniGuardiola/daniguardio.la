@@ -16,7 +16,7 @@ class App extends Component {
             </div>
           </header>
           <div className='subheader'>
-            <span className='comment'>// </span>
+            <span className='comment'>{'// '}</span>
             <span className='projects on'><span className='arrow'>> </span>projects</span>
             <span className='blog'><span className='arrow'>> </span>blog</span>
             <span className='about'><span className='arrow'>> </span>about me</span>

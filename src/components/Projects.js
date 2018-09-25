@@ -1,209 +1,53 @@
 import React, { Component } from 'react'
 import './Projects.css'
 
-class App extends Component {
+const MOCK_ARTICLES = [{
+  key: 'bitcoin-lightweight',
+  title: 'bitcoin-lightweight: an electrum websocket implementation',
+  tags: ['js', 'crypto', 'bitcoin']
+}, {
+  key: 'lorem-ipsum',
+  title: 'lorem ipsum: some example of something blablabla and stuff',
+  tags: ['quantum-mechanics', 'somebody']
+}, {
+  key: 'portal-gun',
+  title: 'portal gun: an Arduino™ powered interdimensional transport device',
+  tags: ['once', 'told', 'me']
+}, {
+  key: 'not-a-flamethrower',
+  title: 'not-a-flamethrower: definitely not a flamethrower',
+  tags: ['fire', 'flames']
+}, {
+  key: 'electrumjs',
+  title: 'electrumjs: electrum websocket and tcp socket client',
+  tags: ['js', 'typescript', 'crypto']
+}]
+
+class Projects extends Component {
+  createArticle (data) {
+    return <article key={data.key}>
+      <div className='headline'>
+        <span className='text'>{data.title}</span>
+        <span className='tags'>
+          {data.tags.map(tag => <span key={tag}>#{tag}</span>)}
+        </span>
+      </div>
+    </article>
+  }
+
+  createArticles (data) {
+    const articles = []
+    data.map(article => articles.push(this.createArticle(article)))
+    return articles
+  }
+
   render () {
     return (
       <div className='projects-content'>
-        <article>
-          <div className='headline'>
-            <span className='text'>electrumjs: electrum websocket and tcp socket client</span>
-            <span className='tags'>
-              <span>#js</span>
-              <span>#typescript</span>
-              <span>#crypto</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>bitcoin-lightweight: an electrum websocket implementation</span>
-            <span className='tags'>
-              <span>#js</span>
-              <span>#crypto</span>
-              <span>#bitcoin</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>lorem ipsum: some example of something blablabla and stuff</span>
-            <span className='tags'>
-              <span>#quantum-mechanics</span>
-              <span>#somebody</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>portal gun: an Arduino™ powered interdimensional transport device</span>
-            <span className='tags'>
-              <span>#once</span>
-              <span>#told-me</span>
-              <span>#the</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>not-a-flamethrower: definitely not a flamethrower</span>
-            <span className='tags'>
-              <span>#world</span>
-              <span>#is</span>
-              <span>#gonna</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>electrumjs: electrum websocket and tcp socket client</span>
-            <span className='tags'>
-              <span>#js</span>
-              <span>#typescript</span>
-              <span>#crypto</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>bitcoin-lightweight: an electrum websocket implementation</span>
-            <span className='tags'>
-              <span>#js</span>
-              <span>#crypto</span>
-              <span>#bitcoin</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>lorem ipsum: some example of something blablabla and stuff</span>
-            <span className='tags'>
-              <span>#quantum-mechanics</span>
-              <span>#somebody</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>portal gun: an Arduino™ powered interdimensional transport device</span>
-            <span className='tags'>
-              <span>#once</span>
-              <span>#told-me</span>
-              <span>#the</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>not-a-flamethrower: definitely not a flamethrower</span>
-            <span className='tags'>
-              <span>#world</span>
-              <span>#is</span>
-              <span>#gonna</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>electrumjs: electrum websocket and tcp socket client</span>
-            <span className='tags'>
-              <span>#js</span>
-              <span>#typescript</span>
-              <span>#crypto</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>bitcoin-lightweight: an electrum websocket implementation</span>
-            <span className='tags'>
-              <span>#js</span>
-              <span>#crypto</span>
-              <span>#bitcoin</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>lorem ipsum: some example of something blablabla and stuff</span>
-            <span className='tags'>
-              <span>#quantum-mechanics</span>
-              <span>#somebody</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>portal gun: an Arduino™ powered interdimensional transport device</span>
-            <span className='tags'>
-              <span>#once</span>
-              <span>#told-me</span>
-              <span>#the</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>not-a-flamethrower: definitely not a flamethrower</span>
-            <span className='tags'>
-              <span>#world</span>
-              <span>#is</span>
-              <span>#gonna</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>electrumjs: electrum websocket and tcp socket client</span>
-            <span className='tags'>
-              <span>#js</span>
-              <span>#typescript</span>
-              <span>#crypto</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>bitcoin-lightweight: an electrum websocket implementation</span>
-            <span className='tags'>
-              <span>#js</span>
-              <span>#crypto</span>
-              <span>#bitcoin</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>lorem ipsum: some example of something blablabla and stuff</span>
-            <span className='tags'>
-              <span>#quantum-mechanics</span>
-              <span>#somebody</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>portal gun: an Arduino™ powered interdimensional transport device</span>
-            <span className='tags'>
-              <span>#once</span>
-              <span>#told-me</span>
-              <span>#the</span>
-            </span>
-          </div>
-        </article>
-        <article>
-          <div className='headline'>
-            <span className='text'>not-a-flamethrower: definitely not a flamethrower</span>
-            <span className='tags'>
-              <span>#world</span>
-              <span>#is</span>
-              <span>#gonna</span>
-            </span>
-          </div>
-        </article>
+        {this.createArticles(MOCK_ARTICLES)}
       </div>
     )
   }
 }
 
-export default App
+export default Projects
