@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Projects from './components/Projects'
 import './App.css'
 
 class App extends Component {
@@ -16,9 +17,12 @@ class App extends Component {
           </header>
           <div className='subheader'>
             <span className='comment'>// </span>
-            <span className='projects on'> <span className='arrow'>> </span>projects</span>
-            <span className='blog'> <span className='arrow'>> </span>blog</span>
-            <span className='other'> <span className='arrow'>> </span>other stuff</span>
+            <span className='projects on'><span className='arrow'>> </span>projects</span>
+            <span className='blog'><span className='arrow'>> </span>blog</span>
+            <span className='other'><span className='arrow'>> </span>other stuff</span>
+          </div>
+          <div className='content'>
+            <Projects />
           </div>
         </div>
       </div>

@@ -1,0 +1,47 @@
+.projects-content {
+  padding: 0 16px;
+}
+
+.projects-content article .headline {
+  display: flex;
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  white-space: nowrap;
+  font-family: "Roboto Mono", monospace;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.projects-content article .headline .text:hover {
+  text-decoration: underline;
+}
+
+.projects-content article .headline .text {
+  flex: 1;
+}
+
+.projects-content article .headline .tags {
+  margin-left: 48px;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.projects-content article .headline .tags span {
+  margin-left: 6px;
+}
+
+.projects-content article .headline .tags span:hover {
+  text-decoration: underline;
+}
+
+.projects-content article section {
+  height: 0;
+  overflow: hidden;
+  transition: 0.2s ease-in-out;
+}
+
+.projects-content article.on section {
+  height: initial;
+}
