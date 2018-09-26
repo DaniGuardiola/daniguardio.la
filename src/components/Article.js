@@ -1,7 +1,14 @@
 /* eslint-env browser */
 import React, { Component } from 'react'
 import marked from 'marked'
+import highlightjs from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
 import './Article.css'
+
+marked.setOptions({
+  highlight: (code, lang) =>
+    highlightjs.highlight(lang, code).value
+})
 
 const cache = {}
 

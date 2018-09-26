@@ -7,6 +7,7 @@ tags: js,typescript,crypto
 # electrumjs: an ElectrumX communication layer for Node.js
 
 > [electrumjs on Github](https://github.com/DaniGuardiola/electrumjs)
+
 > [electrumjs on npm](https://www.npmjs.com/package/electrumjs)
 
 When I was just getting started on my [lightweight bitcoin wallet project](/project/coinwallet), one of the main challenges remained the connection and communication with the Electrum servers.
