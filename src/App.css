@@ -35,7 +35,7 @@
   height: 120px;
   line-height: 120px;
   margin: 0;
-  font-size: 42px;  
+  font-size: 42px;
   font-weight: 300;
   flex: 1;
 }
@@ -80,6 +80,14 @@
 }
 
 .subheader>span:not(.comment):not(.on):hover {
+  text-decoration: underline;
+}
+
+.portfolio.view-article .subheader>span:not(.comment).on {
+  cursor: pointer;
+}
+
+.portfolio.view-article .subheader>span:not(.comment).on:hover {
   text-decoration: underline;
 }
 
