@@ -17,7 +17,6 @@ class Article extends Component {
 
   async get (article) {
     if (cache[article]) return cache[article]
-    console.log(article)
     const request = new Request(`/data-${article}.md`)
     const response = await fetch(request)
     const result = await response.text()
@@ -26,7 +25,6 @@ class Article extends Component {
   }
 
   async loadArticle (article) {
-    console.log('loading article', article)
     this.setState({ article, loading: true })
     const content = await this.get(article)
     if (this.props.data === article) {
@@ -38,10 +36,6 @@ class Article extends Component {
   }
 
   render () {
-    console.log(this.state)
-    if (this.props.data && this.props.data !== this.state.article) {
-      this.loadArticle(this.props.data)
-    }
     return (
       <div className='article-wrapper' style={{
         display: this.props.visible ? 'initial' : 'none'
@@ -52,6 +46,12 @@ class Article extends Component {
         <div className='article-loader' />
       </div>
     )
+  }
+
+  componentDidMount () {
+    if (this.props.data && this.props.data !== this.state.article) {
+      this.loadArticle(this.props.data)
+    }
   }
 }
 
