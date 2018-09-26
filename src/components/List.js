@@ -7,7 +7,10 @@ class List extends Component {
   createItem (data) {
     return <div className='item' key={data.key}>
       <div className='headline'>
-        <span className='text'>{data.title}</span>
+        <span
+          className='text'
+          onClick={() => this.props['article-handler'](data.key)}
+        >{data.title}</span>
         <span className='tags'>
           {data.tags.map(tag => <span key={tag}>#{tag}</span>)}
         </span>
@@ -27,7 +30,7 @@ class List extends Component {
       : PROJECTS_DATA
     return (
       <div className='list-content' style={{
-        display: this.props.visible ? 'initial' : 'none'
+        display: this.props.visible ? 'block' : 'none'
       }}>
         {this.createItems(data)}
       </div>

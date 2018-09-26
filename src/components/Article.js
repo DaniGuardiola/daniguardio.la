@@ -16,25 +16,20 @@ class Article extends Component {
   }
 
   async get (article) {
-    if (cache[article]) {
-      return {
-        article,
-        result: cache[article]
-      }
-    }
-    const request = new Request(article)
-    const result = await fetch(request)
+    if (cache[article]) return cache[article]
+    console.log(article)
+    const request = new Request(`/data-${article}.md`)
+    const response = await fetch(request)
+    const result = await response.text()
     cache[article] = result
-    return {
-      article,
-      result
-    }
+    return result
   }
 
   async loadArticle (article) {
+    console.log('loading article', article)
     this.setState({ article, loading: true })
     const content = await this.get(article)
-    if (this.props.article === article) {
+    if (this.props.data === article) {
       this.setState({
         html: marked(content),
         loading: false
@@ -43,14 +38,17 @@ class Article extends Component {
   }
 
   render () {
-    if (this.props.article && this.props.article !== this.state.article) {
-      this.loadArticle(this.props.article)
+    console.log(this.state)
+    if (this.props.data && this.props.data !== this.state.article) {
+      this.loadArticle(this.props.data)
     }
     return (
       <div className='article-wrapper' style={{
         display: this.props.visible ? 'initial' : 'none'
       }}>
-        <div className='article-html'>{this.state.html}</div>
+        <div
+          className='article-html'
+          dangerouslySetInnerHTML={{ __html: this.state.html }} />
         <div className='article-loader' />
       </div>
     )
