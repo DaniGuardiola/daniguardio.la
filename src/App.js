@@ -1,8 +1,19 @@
 import React, { Component } from 'react'
-import Projects from './components/Projects'
+import List from './components/List'
+import Article from './components/Article'
 import './App.css'
 
 class App extends Component {
+  constructor () {
+    super()
+
+    this.state = {
+      view: 'list',
+      list: 'projects',
+      article: ''
+    }
+  }
+
   render () {
     return (
       <div className='portfolio'>
@@ -22,7 +33,8 @@ class App extends Component {
             <span className='about'><span className='arrow'>> </span>about me</span>
           </div>
           <div className='content'>
-            <Projects />
+            <List data={this.state.list} visible={this.state.view === 'list'} />
+            <Article data={this.state.article} visible={this.state.view === 'article'} />
           </div>
         </div>
       </div>

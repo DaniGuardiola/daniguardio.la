@@ -1,8 +1,8 @@
-.projects-content {
+.list-content {
   padding: 0 16px;
 }
 
-.projects-content article .headline {
+.list-content .item .headline {
   display: flex;
   width: 100%;
   height: 48px;
@@ -13,35 +13,35 @@
   cursor: pointer;
 }
 
-.projects-content article .headline .text:hover {
+.list-content .item .headline .text:hover {
   text-decoration: underline;
 }
 
-.projects-content article .headline .text {
+.list-content .item .headline .text {
   flex: 1;
 }
 
-.projects-content article .headline .tags {
+.list-content .item .headline .tags {
   margin-left: 48px;
   font-style: italic;
   font-weight: bold;
   font-size: 14px;
 }
 
-.projects-content article .headline .tags span {
+.list-content .item .headline .tags span {
   margin-left: 6px;
 }
 
-.projects-content article .headline .tags span:hover {
+.list-content .item .headline .tags span:hover {
   text-decoration: underline;
 }
 
-.projects-content article section {
+.list-content .item section {
   height: 0;
   overflow: hidden;
   transition: 0.2s ease-in-out;
 }
 
-.projects-content article.on section {
+.list-content .item.on section {
   height: initial;
 }
