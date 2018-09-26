@@ -13,6 +13,7 @@ class App extends Component {
     this.state = routeData.state
 
     window.addEventListener('popstate', () => this.handleHistoryChange())
+    document.title = routeData.title
   }
 
   getRouteData (pathname = window.location.pathname) {
@@ -89,6 +90,7 @@ class App extends Component {
     const { state, title, sanePath } = this.getRouteData(path)
     this.setState(state)
     if (!noPushState) window.history.pushState(state, title, sanePath)
+    document.title = title
   }
 
   handleHistoryChange (event) {
