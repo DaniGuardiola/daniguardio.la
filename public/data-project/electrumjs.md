@@ -1,6 +1,6 @@
 <!--
-key: test
-name: bitcoin-lightweight: an electrum websocket implementation
+key: electrumjs
+name: electrumjs: an ElectrumX communication layer for Node.js
 tags: js,typescript,crypto
 -->
 

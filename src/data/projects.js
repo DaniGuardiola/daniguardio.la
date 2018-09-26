@@ -1,6 +1,6 @@
 export default [{
-  key: 'project/test',
-  title: 'bitcoin-lightweight: an electrum websocket implementation',
+  key: 'project/electrumjs',
+  title: 'electrumjs: an ElectrumX communication layer for Node.js',
   tags: ['js', 'crypto', 'bitcoin']
 }, {
   key: 'project/test2',
