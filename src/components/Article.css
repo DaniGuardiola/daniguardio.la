@@ -10,7 +10,7 @@
   user-select: text;
 }
 
-.article-wrapper .article-html p {
+.article-wrapper .article-html>p {
   font-weight: 300;
   line-height: 32px;
 }
@@ -31,4 +31,17 @@
 }
 .article-wrapper .article-html img {
   max-width: 100%;
+}
+
+.article-wrapper .article-html blockquote {
+  border-left: 6px solid #8c8c8c;
+  padding-left: 16px;
+  margin-inline-start: 16px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.article-wrapper .article-html blockquote>p {
+  margin: 0;
+  padding: 8px 0;
 }
