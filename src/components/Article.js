@@ -16,20 +16,22 @@ class Article extends Component {
   }
 
   async get (article) {
+    if (cache[article]) console.log('Cache:', article)
     if (cache[article]) return cache[article]
     const request = new Request(`/data-${article}.md`)
+    console.log('Requesting:', `/data-${article}.md`)
     const response = await fetch(request)
-    const result = await response.text()
+    const result = marked(await response.text())
     cache[article] = result
     return result
   }
 
   async loadArticle (article) {
     this.setState({ article, loading: true })
-    const content = await this.get(article)
+    const html = await this.get(article)
     if (this.props.data === article) {
       this.setState({
-        html: marked(content),
+        html,
         loading: false
       })
     }
@@ -48,10 +50,18 @@ class Article extends Component {
     )
   }
 
-  componentDidMount () {
+  load () {
     if (this.props.data && this.props.data !== this.state.article) {
       this.loadArticle(this.props.data)
     }
+  }
+
+  componentDidMount () {
+    this.load()
+  }
+
+  componentDidUpdate () {
+    this.load()
   }
 }
 
