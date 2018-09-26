@@ -102,13 +102,16 @@ class App extends Component {
   }
 
   loadSection (section) {
-    if (this.state.section === section) return
+    if (this.state.section === section && this.state.view !== 'article') return
     this.loadRoute(section)
   }
 
   render () {
+    const viewClass = this.state.section === 'about'
+      ? 'about'
+      : this.state.view
     return (
-      <div className='portfolio'>
+      <div className={`portfolio view-${viewClass}`}>
         <div className='main-wrapper'>
           <header className='main-header'>
             <span>Dani Guardiola</span>
