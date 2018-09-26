@@ -45,3 +45,7 @@
   margin: 0;
   padding: 8px 0;
 }
+
+.article-wrapper .article-html code {
+  font-family: 'Roboto Mono', monospace;
+}
