@@ -113,28 +113,30 @@ class App extends Component {
     return (
       <div className={`portfolio view-${viewClass}`}>
         <div className='main-wrapper'>
-          <header className='main-header'>
-            <span>Dani Guardiola</span>
-            <div className='options'>
-              <a className='github' href='https://github.com/DaniGuardiola'>github</a>
-              <a className='twitter' href='https://twitter.com/DaniMGuardiola'>twitter</a>
-              <a className='email' href='mailto:contact@daniguardiola.me'>email</a>
+          <div className='header-wrapper'>
+            <header className='main-header'>
+              <span>Dani Guardiola</span>
+              <div className='options'>
+                <a className='github' href='https://github.com/DaniGuardiola'>github</a>
+                <a className='twitter' href='https://twitter.com/DaniMGuardiola'>twitter</a>
+                <a className='email' href='mailto:contact@daniguardiola.me'>email</a>
+              </div>
+            </header>
+            <div className='subheader'>
+              <span className='comment'>{'// '}</span>
+              <span
+                className={`projects${this.state.section === 'projects' ? ' on' : ''}`}
+                onClick={() => this.loadSection('projects')}
+              ><span className='arrow'>> </span>projects</span>
+              <span
+                className={`blog${this.state.section === 'blog' ? ' on' : ''}`}
+                onClick={() => this.loadSection('blog')}
+              ><span className='arrow'>> </span>blog</span>
+              <span
+                className={`about${this.state.section === 'about' ? ' on' : ''}`}
+                onClick={() => this.loadSection('about')}
+              ><span className='arrow'>> </span>about me</span>
             </div>
-          </header>
-          <div className='subheader'>
-            <span className='comment'>{'// '}</span>
-            <span
-              className={`projects${this.state.section === 'projects' ? ' on' : ''}`}
-              onClick={() => this.loadSection('projects')}
-            ><span className='arrow'>> </span>projects</span>
-            <span
-              className={`blog${this.state.section === 'blog' ? ' on' : ''}`}
-              onClick={() => this.loadSection('blog')}
-            ><span className='arrow'>> </span>blog</span>
-            <span
-              className={`about${this.state.section === 'about' ? ' on' : ''}`}
-              onClick={() => this.loadSection('about')}
-            ><span className='arrow'>> </span>about me</span>
           </div>
           <div className='content'>
             <List

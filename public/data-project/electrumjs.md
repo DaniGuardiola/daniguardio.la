@@ -20,7 +20,7 @@ The protocol used by electrum is JSON RPC 2.0 (1.0 is supported but 2.0 is prefe
 
 Now let me give you some context about my project to further clarify what the challenge was about. I'm trying to build a React Native app for Android and iOS, more specifically a lightweight bitcoin wallet. That means that the platform I'm gonna be using is a Javascript engine without the NodeJS environment. React Native has a bunch of APIs, as Expo does, but all of the NodeJS functionality layer is unavailable.
 
-That means no `fs`, no `crypto`, no `Buffer`, no `net`, etc. That last one is very relevant for this specific problem, as `net` is the package that enables TCP socket connections through the `TCPSocket` class. Quick example of how it usually looks ([source](https://www.hacksparrow.com/tcp-socket-programming-in-node-js.html)):
+That means no `fs`, no `crypto`, no `Buffer`, no [`net`](https://nodejs.org/api/net.html), etc. That last one is very relevant for this specific problem, as `net` is the package that enables TCP socket connections through the `Socket` class. Here's an example I found ([source](https://www.hacksparrow.com/tcp-socket-programming-in-node-js.html)):
 
 ```javascript
 var net = require('net');
