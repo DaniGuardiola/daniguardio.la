@@ -58,15 +58,15 @@ After some intense googling, these are the options I found:
 
 - Using [`react-native-tcp`](https://github.com/PeelTechnologies/react-native-tcp)
 
-When I first found this native (not pure Javascript) package for React Native I thought it was the most straightforward solution. However, after taking a deeper look I found a few problems with it, like the complications of using native code (Android and iOS have different setups, Expo cannot be used anymore, the project has to be ejected...), but the killer issue was the [lack of support for TLS](https://github.com/PeelTechnologies/react-native-tcp/issues/15) connections, which I believe is a must for any Bitcoin-related piece of software (wallet addresses could be intercepted and be correlated, rendering the privacy of BIP32 useless).
+When I first found this native (not pure Javascript) package for React Native I thought it was the most straightforward solution. However, after taking a deeper look I found a few problems with it, like the complications of using native code (Android and iOS have different setups, Expo cannot be used anymore, the project has to be ejected...), but the killer issue was the [lack of support for TLS](https://github.com/PeelTechnologies/react-native-tcp/issues/15) connections, which I believe is a must for any Bitcoin-related piece of software (addresses could be intercepted by an attacker that can then link them as part of the same wallet, rendering the privacy of BIP32 useless).
 
-If I was gonna go with this options, I would have to somehow re-code the TLS layer on top of the `net` package, which likely means some native iOS and Android code. After taking a look at the [`nodejs` implementation of TLS](https://github.com/nodejs/node/blob/master/lib/tls.js) (as mentioned in the project issue) I decided that this was probably overkill.
+If I was gonna go with this option, I would have to somehow re-code the TLS layer on top of the `net` package, which likely means some native iOS and Android code. After taking a look at the [`nodejs` implementation of TLS](https://github.com/nodejs/node/blob/master/lib/tls.js) (as mentioned in the project issue) I decided that this was probably overkill.
 
 - Using a proxy service like [`websockify`](https://github.com/novnc/websockify)
 
-Another option is having a middleman connect to clients and ElectrumX servers in order to create a bridge. One option would be to provide a REST API, but that would quickly become a mess with subscriptions as polling overloads servers and is frequently laggy. The other option is a websocket interface, which can be achieved with `websockify` and looks pretty automagical.
+Another option is having a middleman connect to clients and ElectrumX servers in order to create a bridge. One option would be to provide a REST API, but that would quickly become a mess with subscriptions as polling overloads servers and is frequently buggy. The other option is a websocket interface, which can be achieved with `websockify` and looks pretty automagical.
 
-The main issue with this solution is that new servers have to be added, and all of the traffic from the use of this client would need to be sustained by these specific servers, when there's a whole bunch of ElectrumX servers already up and running and maintained by the community. I don't think the overhead is worth it.
+The main issue with this solution is that new servers have to be added, and all of the traffic from this client would need to be sustained by these specific servers, when there's a whole bunch of ElectrumX servers already up and running and maintained by the community. I didn't think the overhead is worth it.
 
 - Implementing websocket support directly in the ElectrumX codebase
 
