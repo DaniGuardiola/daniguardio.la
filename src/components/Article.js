@@ -53,6 +53,9 @@ class Article extends Component {
         display: this.props.visible ? 'block' : 'none'
       }}>
         <div
+          style={{
+            display: this.state.loading ? 'none' : 'block'
+          }}
           className='article-html'
           dangerouslySetInnerHTML={{ __html: this.state.html }} />
         <div className='article-loader' style={{

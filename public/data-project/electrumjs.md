@@ -23,32 +23,27 @@ Now let me give you some context about my project to further clarify what the ch
 That means no `fs`, no `crypto`, no `Buffer`, no [`net`](https://nodejs.org/api/net.html), etc. That last one is very relevant for this specific problem, as `net` is the package that enables TCP socket connections through the `Socket` class. Here's an example I found ([source](https://www.hacksparrow.com/tcp-socket-programming-in-node-js.html)):
 
 ```javascript
-var net = require('net');
+const net = require('net')
 
-var HOST = '127.0.0.1';
-var PORT = 6969;
+const HOST = '127.0.0.1'
+const PORT = 6969
 
-var client = new net.Socket();
-client.connect(PORT, HOST, function() {
+const client = new net.Socket()
+client.connect(PORT, HOST, () => {
+    console.log(`CONNECTED TO: ${HOST}:${PORT}`)
+    // write a message to the socket as soon as the client is connected
+    // the server will receive it as message from the client 
+    client.write('I am Chuck Norris!')
+})
 
-    console.log('CONNECTED TO: ' + HOST + ':' + PORT);
-    // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client 
-    client.write('I am Chuck Norris!');
-
-});
-
-// Add a 'data' event handler for the client socket
+// add a 'data' event handler for the client socket
 // data is what the server sent to this socket
-client.on('data', function(data) {
-    
-    console.log('DATA: ' + data);
-    // Close the client socket completely
-    client.destroy();
-    
-});
+client.on('data', data => {    
+    console.log(`DATA: ${data}`)
+    // close the client socket completely
+    client.destroy()    
+})
 
-// Add a 'close' event handler for the client socket
-client.on('close', function() {
-    console.log('Connection closed');
-});
+// add a 'close' event handler for the client socket
+client.on('close', () => console.log('Connection closed'))
 ```
