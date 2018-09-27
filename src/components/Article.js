@@ -23,12 +23,15 @@ class Article extends Component {
   }
 
   async get (article) {
-    if (cache[article]) console.log('Cache:', article)
     if (cache[article]) return cache[article]
     const request = new Request(`/data-${article}.md`)
-    console.log('Requesting:', `/data-${article}.md`)
     const response = await fetch(request)
-    const result = marked(await response.text())
+    if (response.status === 404) return this.get('404')
+    const text = await response.text()
+    if (text.substring(0, 15).toLowerCase().startsWith('<!doctype html>')) return this.get('404')
+    console.log(response)
+    console.log(text)
+    const result = marked(text)
     cache[article] = result
     return result
   }
@@ -36,7 +39,7 @@ class Article extends Component {
   async loadArticle (article) {
     this.setState({ article, loading: true })
     const html = await this.get(article)
-    if (this.props.data === article) {
+    if (this.state.article === article) {
       this.setState({
         html,
         loading: false
@@ -47,12 +50,14 @@ class Article extends Component {
   render () {
     return (
       <div className='article-wrapper' style={{
-        display: this.props.visible ? 'initial' : 'none'
+        display: this.props.visible ? 'block' : 'none'
       }}>
         <div
           className='article-html'
           dangerouslySetInnerHTML={{ __html: this.state.html }} />
-        <div className='article-loader' />
+        <div className='article-loader' style={{
+          display: this.state.loading ? 'block' : 'none'
+        }} />
       </div>
     )
   }

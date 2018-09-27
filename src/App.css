@@ -29,15 +29,14 @@
 
 .main-header {
   width: 100%;
-  min-height: 96px;
   display: flex;
 }
 
 .main-header span {
   padding-left: 16px;
+  padding-top: 16px;
   white-space: nowrap;
-  height: 96px;
-  line-height: 96px;
+  line-height: 42px;
   margin: 0;
   font-size: 42px;
   font-weight: 300;

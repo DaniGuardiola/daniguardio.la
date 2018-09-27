@@ -1,3 +1,10 @@
+.article-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+
 .article-wrapper .article-html {
   padding: 0 16%;
   font-size: 19px;
@@ -25,7 +32,7 @@
 }
 
 .article-wrapper .article-html blockquote {
-  border-left: 6px solid #8c8c8c;
+  border-left: 4px solid #8c8c8c;
   padding-left: 16px;
   margin-inline-start: 16px;
   margin-block-start: 0;
@@ -64,4 +71,13 @@
 .article-wrapper .article-html pre::-webkit-scrollbar-thumb {
 	background-color: #8c8c8c;	
   border-radius: 8px;
+}
+
+.article-wrapper .article-loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: #fff;
 }
