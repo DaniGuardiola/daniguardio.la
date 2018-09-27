@@ -119,18 +119,3 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-
-.content::-webkit-scrollbar-track {
-  background-color: #e8e8e8;
-  border-radius: 8px;
-}
-
-.content::-webkit-scrollbar {
-	width: 6px;
-	background-color: #F5F5F5;
-}
-
-.content::-webkit-scrollbar-thumb {
-	background-color: #8c8c8c;	
-  border-radius: 8px;
-}

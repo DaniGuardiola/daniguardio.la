@@ -4,6 +4,8 @@ name: electrumjs: an ElectrumX communication layer for Node.js, the browser and 
 tags: js,typescript,crypto
 -->
 
+# WIP!!
+
 # electrumjs: an ElectrumX communication layer for Node.js, the browser and React Native
 
 > [electrumjs on Github](https://github.com/DaniGuardiola/electrumjs)
