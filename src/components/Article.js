@@ -23,7 +23,7 @@ class Article extends Component {
     const text = await response.text()
     if (text.substring(0, 15).toLowerCase().startsWith('<!doctype html>')) return this.get('404')
     const marked = await import('marked')
-    const highlightjs = await import('highlight.js')
+    const highlightjs = await import('../lib/highlight.pack')
     marked.setOptions({
       highlight: (code, lang) =>
         highlightjs.highlight(lang, code).value
