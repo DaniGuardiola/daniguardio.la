@@ -9,7 +9,7 @@ tags: js,react,web
 
 I've had many websites since I was very young. I remember being a little kid, maybe 7 or 8, and playing around with Microsoft Frontpage (a WYSIWYG webpage editor) on my already-outdated Windows 98 machine. Someone gifted me at some point an introductory book on HTML and I remember looking at the code generated trying to understand the soup of tags.
 
-Some years later I created a few different websites and blogs that I would abandon after a while, with anything from a music website to a "comedy" (or whatever "comedy" meant to 12yo me) blog called elASDFblog that I maintained with my cousin and a dear internet friend of mine. Now that I think about it, that was shitposting before shitposting was cool on the internets...
+Some years later I created a few different websites and blogs that I would abandon after a while, with anything from a music "newspaper" to a "comedy" (or whatever "comedy" meant to 12yo me) blog called [elASDFblog](https://web.archive.org/web/20120509105202/http://elasdfblog.blogspot.com.es/) that I maintained with my cousin and a dear internet friend of mine. Now that I think about it, that was shitposting before shitposting was cool on the internets...
 
 Fast forward a few years: I just turned 18 and I was already working on my first development job, so I felt the need to have something professional and public. I bought the `daniguardiola.me` domain, copied a cool template and built a simple single-page portfolio on top of it. [Then I never ever updated it again other than to change my age.](https://web.archive.org/web/20171221154558/http://daniguardiola.me:80/)
 
