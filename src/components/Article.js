@@ -1,14 +1,7 @@
 /* eslint-env browser */
 import React, { Component } from 'react'
-import marked from 'marked'
-import highlightjs from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import './Article.css'
-
-marked.setOptions({
-  highlight: (code, lang) =>
-    highlightjs.highlight(lang, code).value
-})
 
 const cache = {}
 
@@ -29,8 +22,12 @@ class Article extends Component {
     if (response.status === 404) return this.get('404')
     const text = await response.text()
     if (text.substring(0, 15).toLowerCase().startsWith('<!doctype html>')) return this.get('404')
-    console.log(response)
-    console.log(text)
+    const marked = await import('marked')
+    const highlightjs = await import('highlight.js')
+    marked.setOptions({
+      highlight: (code, lang) =>
+        highlightjs.highlight(lang, code).value
+    })
     const result = marked(text)
     cache[article] = result
     return result
