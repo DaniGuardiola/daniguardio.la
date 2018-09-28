@@ -25,7 +25,7 @@ My main goal with this website is to have a personal public record of my project
 
 ## Design
 
-To keep things simple, I decided to go with a minimalistic layout and navigation. The website cannot get any simpler: a header, a menu and a content area. The `projects` and `blog` sections are nothing more than lists of articles (just two layers of navigation), and the `about me` section is just another article where I get to be egocentric in a socially acceptable content.
+To keep things simple, I decided to go with a minimalistic layout and navigation. The website cannot get any simpler: a header, a menu and a content area. The `projects` and `blog` sections are nothing more than lists of articles (just two layers of navigation), and the `about me` section is just another article where I get to be egocentric in a socially acceptable context.
 
 To make it work as a portfolio, some of my coolest projects are listed in the `projects` section plus some contact links are in the header. To write or post about anything else I have the `blog` section.
 
