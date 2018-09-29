@@ -5,7 +5,6 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 
 window.addEventListener('load', () => {
-  console.log('hey')
   import('marked')
   import('./lib/highlight.pack')
 })
