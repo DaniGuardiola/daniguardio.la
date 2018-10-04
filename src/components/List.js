@@ -20,7 +20,9 @@ class List extends Component {
 
   createItems (data) {
     const articles = []
-    data.map(article => articles.push(this.createItem(article)))
+    data
+      .filter(item => !item.draft || window.DRAFTS_VISIBLE)
+      .map(article => articles.push(this.createItem(article)))
     return articles
   }
 

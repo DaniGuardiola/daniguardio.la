@@ -52,6 +52,8 @@ client.on('data', data => {
 client.on('close', () => console.log('Connection closed'))
 ```
 
+Websockets and normal requests are supported out-of-the-box though.
+
 ## The options
 
 After some intense googling, these are the options I found:
@@ -70,3 +72,16 @@ The main issue with this solution is that new servers have to be added, and all 
 
 - Implementing websocket support directly in the ElectrumX codebase
 
+ElectrumX is [open-source and actively maintained on Github](https://github.com/kyuupichan/electrumx/), so it doesn't hurt to consider this option. It is the most straightforward way to get good support for ElectrumX on React Native applications, but it involves learning about ElectrumX's basecode and creating an implementation with tests, documentation and all that, which is not completely trivial.
+
+To explore this option, [I created an issue](https://github.com/kyuupichan/electrumx/issues/499) asking the maintainer about it, and I got a positive answer: the PR will be accepted if everything (tests, quality, etc) is in order. I also did [some preliminary research](https://gitlab.com/DaniGuardiola/electrum-websocket-demo) and my plan was to delegate the task to a Python developer instead of tackling it myself. Python was the first programming language I learned but it's been a while since I last used it, so coding this myself would have involved re-learning it. However, in the end I ended up doing just that, and working on the [WePlayBot](/project/weplaybot) project was really helpful, as it involved a lot of Python programming. The work on the ElectrumX repo is not really relevant to `electrumjs`, so I wrote a separate blog post about it:
+
+> [Adding websocket support to ElectrumX servers](/b/adding-websocket-support-to-electrumx-servers)
+
+## Trying not to reinvent the wheel
+
+> "If you wish to make an apple pie from scratch, you must first invent the universe" - [Carl Sagan](https://www.youtube.com/watch?v=7s664NsLeFM)
+
+All good programmers know that 99.99% of the time the best approach to a programming challenge of any kind is to offload as much of the work as possible to existing software libraries. At the end of the day, what you really want is to have something that works well without creating everything from scratch. Because to get an apple pie made it's easier to use the already existing oven than to create the universe and then wait 13.8 billion years.
+
+And so I went on a search for prior work:

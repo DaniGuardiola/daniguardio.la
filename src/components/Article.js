@@ -13,6 +13,7 @@ class Article extends Component {
       loading: true,
       html: ''
     }
+    this.htmlRef = React.createRef()
   }
 
   async get (article) {
@@ -54,7 +55,8 @@ class Article extends Component {
             display: this.state.loading ? 'none' : 'block'
           }}
           className='article-html'
-          dangerouslySetInnerHTML={{ __html: this.state.html }} />
+          dangerouslySetInnerHTML={{ __html: this.state.html }}
+          ref={this.htmlRef} />
         <div className='article-loader' style={{
           display: this.state.loading ? 'block' : 'none'
         }} />
@@ -74,6 +76,7 @@ class Article extends Component {
 
   componentDidUpdate () {
     this.load()
+    this.htmlRef.current.scrollTo(0, 0)
   }
 }
 
