@@ -18,7 +18,7 @@ There's a very useful feature on the `network` tab of Chromium's devtools, netwo
 
 With this setup I ran an initial test on a production build:
 
-![no code splitting](/data-project/daniguardiola-me_devtools-no-splitting.png)
+![no code splitting](/img/optimizing-the-load-time-of-my-website_devtools-no-splitting.png)
 
 Woah! 24 seconds to load a simple list of articles! And this screenshot is one of the better ones, let's not talk about the ones in which it takes 50+ seconds... Look at that bundle size, it's almost a whole megabyte: `822kb`. I had to do something about it.
 
@@ -83,7 +83,7 @@ async get (article) {
 
 After re-building the project, this is the result of the network test:
 
-![code splitting](/data-project/daniguardiola-me_devtools-splitting.png)
+![code splitting](/img/optimizing-the-load-time-of-my-website_devtools-splitting.png)
 
 That's a different story! Now the main bundle weights just `134kb`, and the website loads in roughly 10 seconds. Not bad for a slow 3G connection! And as soon as I click on any article, the `marked` and `highlight.js` bundles download, just when I needed them.
 

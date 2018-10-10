@@ -42,7 +42,6 @@ export default [{
   title: 'incubator: crowdsourcing content through a custom platform',
   tags: ['js', 'php', 'web', 'fun']
 }, {
-  draft: true,
   key: 'project/agario-ninja',
   title: 'Agar.io ninja: hacking a web game to allow keyboard controls',
   tags: ['js', 'chrome', 'fun']

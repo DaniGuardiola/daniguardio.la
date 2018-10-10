@@ -8,9 +8,13 @@ tags: js,react,web
 
 > [Repo on github](https://github.com/DaniGuardiola/daniguardiola-me/)
 >
-> Hosted in **daniguardiola.me** (right here :D)
+> Available at **daniguardiola.me** (right here :D)
 
-## A little bit of history
+## TL;DR ⚡️
+
+I built this portfolio / blog from scratch using React and a markdown parser. It was fun.
+
+## A little bit of history 📅
 
 I've had many websites since I was very young. I remember being a little kid, maybe 7 or 8, and playing around with Microsoft Frontpage (a WYSIWYG webpage editor) on my already-outdated Windows 98 machine. Someone gifted me at some point an introductory book on HTML and I remember looking at the code generated trying to understand the soup of tags.
 
@@ -20,17 +24,17 @@ Fast forward a few years: I had just turned 18 and I was already working on my f
 
 After some time I decided that I needed a decent (and up-to-date) website so I started building one from scratch, using mainly vanilla Javascript, HTML and CSS with a little bit of Polymer Material Design components here and there. [Here's what it looked like!](https://web.archive.org/web/20180927120528/http://daniguardiola.me/daniguardiola-dotme/) It had some very nice parallax and the buttons had a cool ripple effect that colorfully expands to cover the whole container ([I made a gist explaining how it works](https://gist.github.com/DaniGuardiola/c4c623e58dee2a324900)). Please disregard the cringey SJW text- I was young. Also the dude in the picture is not me, it's a stock photo.
 
-![Look at those ripples](/data-project/daniguardiola-me_old-website.gif)
+![Look at those ripples](/img/daniguardiola-me_old-website.gif)
 
 However, I got really busy with my job and my projects at the time and I never finished it. It was really fun building it though. And... that was my last attempt at a personal website until now.
 
 _\* I *still am* an activist, I just realized I needed to take a step back and go with a more professional and focused approach._
 
-## Motivation
+## Motivation 🎯
 
 My main goal with this website is to have a personal public record of my projects, creations and thoughts. I want it to act as a portfolio of my open-source work and also as a mirror of what's on my mind. And I want to keep it as simple as possible.
 
-## Design
+## Design 📐
 
 To keep things simple, I decided to go with a minimalistic layout and navigation. The website cannot get any simpler: a header, a menu and a content area. The `projects` and `blog` sections are nothing more than lists of articles (just two layers of navigation), and the `about me` section is just another article where I get to be egocentric in a socially acceptable context.
 
@@ -40,7 +44,7 @@ The theme I went for is minimalistic / hacky, hence the programming comment styl
 
 As a `TODO`, I still need to design and implement the mobile layout.
 
-## Implementation
+## Implementation 🔨
 
 The website has been implemented in React from scratch, using `create-react-app` as a starting point (boilerplate can be messy so thank you benevolent React Gods for this blessed tooling!).
 
@@ -52,13 +56,13 @@ The articles are just plain markdown files that are requested from the server in
 
 The main advantage to having the content of the website in the repo itself is that changing it is very easy, with the main drawback being version control pollution (every edit is a commit), but that's not so bad and it allows me to let the webhooks do their magic to pull and build the changes on my server almost instantly.
 
-## Load time optimization
+## Load time optimization 🐢
 
 Making the website load fast is critical for a good user experience. I wrote a blog post about how I did it:
 
-> [Optimizing the load time of my website](/b/optimizing-the-load-time-of-my-website)
+> [📝Optimizing the load time of my website](/b/optimizing-the-load-time-of-my-website)
 
-## To do
+## To do ✔️
 
 There are still a few details that I need to take care of, including:
 
