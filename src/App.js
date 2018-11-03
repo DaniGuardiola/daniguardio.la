@@ -1,16 +1,8 @@
 /* eslint-env browser */
 import React from 'react'
-import List from './components/List'
-import Article from './components/Article'
 import './App.css'
-import { Router, Route, NavLink } from 'react-router-dom'
-
-function Projects () {
-  return <List
-    article-handler={article => this.loadArticle(article)}
-    data={this.state.list}
-    visible={this.state.view === 'list'} />
-}
+import { BrowserRouter as Router, NavLink } from 'react-router-dom'
+import Content from './components/Content'
 
 function App () {
   return (
@@ -31,26 +23,26 @@ function App () {
               <NavLink
                 className='projects'
                 to='/'
+                activeClassName='on'
+                isActive={(match, { pathname }) => {
+                  return pathname === '/' || pathname.startsWith('/projects')
+                }}
+                exact
               ><span className='arrow'>> </span>projects</NavLink>
               <NavLink
                 className='blog'
                 to='/blog'
+                activeClassName='on'
               ><span className='arrow'>> </span>blog</NavLink>
               <NavLink
                 className='about'
                 to='/about'
+                activeClassName='on'
+                exact
               ><span className='arrow'>> </span>about me</NavLink>
             </div>
           </div>
-          <div className='content'>
-            <List
-              article-handler={article => this.loadArticle(article)}
-              data={this.state.list}
-              visible={this.state.view === 'list'} />
-            <Article
-              data={this.state.article}
-              visible={this.state.view === 'article'} />
-          </div>
+          <Content />
         </div>
       </div>
     </Router>

@@ -3,12 +3,6 @@
   height: 100%;
   font-family: 'Roboto Slab', serif;
   background: #fff;
-  /* disable text selection */
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -78,40 +72,38 @@
   white-space: nowrap;
 }
 
-.subheader>span:not(.comment) {
+.subheader>a {
   margin-right: 32px;
+  text-decoration: none;
+  color: #006324;
 }
 
-.subheader>span:not(.comment):not(.on):hover {
+.subheader>a.on {
+  font-weight: bold;
+}
+
+.subheader>a:hover {
   text-decoration: underline;
 }
 
-.portfolio.view-article .subheader>span:not(.comment).on {
+.portfolio.view-article .subheader>a.on {
   cursor: pointer;
 }
 
-.portfolio.view-article .subheader>span:not(.comment).on:hover {
+.portfolio.view-article .subheader>a.on:hover {
   text-decoration: underline;
 }
 
-.subheader>span:last-child {
+.subheader>a:last-child {
   margin-right: none;
-}
-
-.subheader>span.on {
-  font-weight: bold;
 }
 
 .subheader .arrow {
   display: none;
 }
 
-.subheader>span.on .arrow {
+.subheader>a.on .arrow {
   display: initial;
-}
-
-.subheader>span:not(.comment):not(.on) {
-  cursor: pointer;
 }
 
 .content {

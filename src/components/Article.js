@@ -1,83 +1,64 @@
-/* eslint-env browser */
-import React, { Component } from 'react'
+import React, { Suspense, Component } from 'react'
 import 'highlight.js/styles/monokai-sublime.css'
 import './Article.css'
+import { html as html404 } from '../data/404.json'
+import { unstable_createResource as createResource } from 'react-cache'
 
-const cache = {}
+const getArticle = async path => {
+  const request = new Request(`/articles/${path}.html`)
+  const response = await fetch(request)
+  if (response.status === 404) throw new Error(404)
+  const text = await response.text()
+  if (text.substring(0, 15).toLowerCase().startsWith('<!doctype html>')) throw new Error(404)
+  return text
+}
 
-class Article extends Component {
-  constructor () {
-    super()
-    this.state = {
-      article: '',
-      loading: true,
-      html: ''
-    }
-    this.htmlRef = React.createRef()
+const ArticleResource = createResource(getArticle)
+
+function ArticleContent ({ id, html }) {
+  const __html = html || ArticleResource.read(id)
+  return (
+    <div
+      className='article-html'
+      dangerouslySetInnerHTML={{ __html }} />
+  )
+}
+
+class ArticleErrorBoundary extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { hasError: false }
   }
 
-  async get (article) {
-    if (cache[article]) return cache[article]
-    const request = new Request(`/data-${article}.md`)
-    const response = await fetch(request)
-    if (response.status === 404) return this.get('404')
-    const text = await response.text()
-    if (text.substring(0, 15).toLowerCase().startsWith('<!doctype html>')) return this.get('404')
-    const marked = await import('marked')
-    const highlightjs = await import('../lib/highlight.pack')
-    marked.setOptions({
-      highlight: (code, lang) =>
-        highlightjs.highlight(lang, code).value
-    })
-    const result = marked(text)
-    cache[article] = result
-    return result
-  }
-
-  async loadArticle (article) {
-    this.setState({ article, loading: true })
-    const html = await this.get(article)
-    if (this.state.article === article) {
-      this.setState({
-        html,
-        loading: false
-      })
+  static getDerivedStateFromError (error) {
+    return {
+      hasError: true,
+      error404: error.message === '404'
     }
   }
 
   render () {
-    return (
-      <div className='article-wrapper' style={{
-        display: this.props.visible ? 'block' : 'none'
-      }}>
-        <div
-          style={{
-            display: this.state.loading ? 'none' : 'block'
-          }}
-          className='article-html'
-          dangerouslySetInnerHTML={{ __html: this.state.html }}
-          ref={this.htmlRef} />
-        <div className='article-loader' style={{
-          display: this.state.loading ? 'block' : 'none'
-        }} />
-      </div>
-    )
-  }
-
-  load () {
-    if (this.props.data && this.props.data !== this.state.article) {
-      this.loadArticle(this.props.data)
+    if (this.state.hasError) {
+      return this.state.error404
+        ? <ArticleContent html={html404} />
+        : <h2>Error! :(</h2>
     }
-  }
 
-  componentDidMount () {
-    this.load()
+    return this.props.children
   }
+}
 
-  componentDidUpdate () {
-    this.load()
-    this.htmlRef.current.scrollTo(0, 0)
-  }
+function Article ({ article }) {
+  return (
+    <div className='article-wrapper'>
+      <ArticleErrorBoundary>
+        <Suspense
+          fallback={<div className='article-loader' />}>
+          <ArticleContent id={article} />
+        </Suspense>
+      </ArticleErrorBoundary>
+    </div>
+  )
 }
 
 export default Article

@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import './List.css'
-import PROJECTS_DATA from '../data/projects'
-import BLOG_DATA from '../data/blog'
+import DATA from '../data/articles.json'
 
 class List extends Component {
   createItem (data) {
+    const { history, articlePrefix } = this.props
     return <div className='item' key={data.key}>
       <div className='headline'>
         <span
           className='text'
-          onClick={() => this.props['article-handler'](data.key)}
-        >{data.title}</span>
+          onClick={() => history.push(`/${articlePrefix}/${data.key}`)}
+        >{data.name}</span>
         <span className='tags'>
           {data.tags.map(tag => <span key={tag}>#{tag}</span>)}
         </span>
@@ -18,23 +18,21 @@ class List extends Component {
     </div>
   }
 
-  createItems (data) {
-    const articles = []
-    data
+  createItems (items) {
+    return items
       .filter(item => !item.draft || window.DRAFTS_VISIBLE)
-      .map(article => articles.push(this.createItem(article)))
-    return articles
+      .map(article => this.createItem(article))
   }
 
   render () {
-    const data = this.props.data === 'blog'
-      ? BLOG_DATA
-      : PROJECTS_DATA
+    console.log(this.props.type)
+    const type = this.props.type === 'blog'
+      ? DATA.posts
+      : DATA.projects
+    console.log(type)
     return (
-      <div className='list-content' style={{
-        display: this.props.visible ? 'block' : 'none'
-      }}>
-        {this.createItems(data)}
+      <div className='list-content'>
+        {this.createItems(type)}
       </div>
     )
   }

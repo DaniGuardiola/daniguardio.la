@@ -1,0 +1,5 @@
+name: 'electrumjs: an ElectrumX client for Node.js, the browser and React Native'
+tags:
+  - js
+  - typescript
+  - crypto

@@ -1,0 +1,42 @@
+{
+  "posts": [
+    {
+      "name": "Optimizing the load time of my website",
+      "tags": [
+        "js",
+        "react",
+        "web"
+      ],
+      "key": "optimizing-the-load-time-of-my-website"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Agar.io ninja: hacking a web game to allow keyboard controls",
+      "tags": [
+        "js",
+        "chrome",
+        "fun"
+      ],
+      "key": "agario-ninja"
+    },
+    {
+      "name": "Building my personal website (yes, this one)",
+      "tags": [
+        "js",
+        "react",
+        "web"
+      ],
+      "key": "daniguardiola-me"
+    },
+    {
+      "name": "electrumjs: an ElectrumX client for Node.js, the browser and React Native",
+      "tags": [
+        "js",
+        "typescript",
+        "crypto"
+      ],
+      "key": "electrumjs"
+    }
+  ]
+}
