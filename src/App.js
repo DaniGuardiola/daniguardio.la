@@ -1,52 +1,19 @@
 /* eslint-env browser */
-import React from 'react'
 import './App.css'
-import { BrowserRouter as Router, NavLink } from 'react-router-dom'
+import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import Content from './components/Content'
+import Header from './components/Header'
 
-function App () {
-  return (
-    <Router>
-      <div className={`portfolio view-about`}>
-        <div className='main-wrapper'>
-          <div className='header-wrapper'>
-            <header className='main-header'>
-              <span>Dani Guardiola</span>
-              <div className='options'>
-                <a className='github' href='https://github.com/DaniGuardiola'>github</a>
-                <a className='twitter' href='https://twitter.com/DaniMGuardiola'>twitter</a>
-                <a className='email' href='mailto:contact@daniguardiola.me'>email</a>
-              </div>
-            </header>
-            <div className='subheader'>
-              <span className='comment'>{'// '}</span>
-              <NavLink
-                className='projects'
-                to='/'
-                activeClassName='on'
-                isActive={(match, { pathname }) => {
-                  return pathname === '/' || pathname.startsWith('/projects')
-                }}
-                exact
-              ><span className='arrow'>> </span>projects</NavLink>
-              <NavLink
-                className='blog'
-                to='/blog'
-                activeClassName='on'
-              ><span className='arrow'>> </span>blog</NavLink>
-              <NavLink
-                className='about'
-                to='/about'
-                activeClassName='on'
-                exact
-              ><span className='arrow'>> </span>about me</NavLink>
-            </div>
-          </div>
-          <Content />
-        </div>
+const App = () => (
+  <Router>
+    <div className={`portfolio`}>
+      <div className='main-wrapper'>
+        <Header />
+        <Content />
       </div>
-    </Router>
-  )
-}
+    </div>
+  </Router>
+)
 
 export default App

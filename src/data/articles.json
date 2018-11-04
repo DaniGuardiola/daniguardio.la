@@ -7,7 +7,7 @@
         "react",
         "web"
       ],
-      "key": "optimizing-the-load-time-of-my-website"
+      "id": "optimizing-the-load-time-of-my-website"
     }
   ],
   "projects": [
@@ -18,7 +18,7 @@
         "chrome",
         "fun"
       ],
-      "key": "agario-ninja"
+      "id": "agario-ninja"
     },
     {
       "name": "Building my personal website (yes, this one)",
@@ -27,7 +27,7 @@
         "react",
         "web"
       ],
-      "key": "daniguardiola-me"
+      "id": "daniguardiola-me"
     },
     {
       "name": "electrumjs: an ElectrumX client for Node.js, the browser and React Native",
@@ -36,7 +36,7 @@
         "typescript",
         "crypto"
       ],
-      "key": "electrumjs"
+      "id": "electrumjs"
     }
   ]
 }

@@ -1,41 +1,37 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './List.css'
 import DATA from '../data/articles.json'
 
-class List extends Component {
-  createItem (data) {
-    const { history, articlePrefix } = this.props
-    return <div className='item' key={data.key}>
+const Item = props => {
+  return (
+    <div className='item' id={props.id}>
       <div className='headline'>
         <span
           className='text'
-          onClick={() => history.push(`/${articlePrefix}/${data.key}`)}
-        >{data.name}</span>
+          onClick={props.onClick}
+        >{props.name}</span>
         <span className='tags'>
-          {data.tags.map(tag => <span key={tag}>#{tag}</span>)}
+          {props.tags.map(tag => <span key={tag}>#{tag}</span>)}
         </span>
       </div>
     </div>
-  }
+  )
+}
 
-  createItems (items) {
-    return items
-      .filter(item => !item.draft || window.DRAFTS_VISIBLE)
-      .map(article => this.createItem(article))
-  }
-
-  render () {
-    console.log(this.props.type)
-    const type = this.props.type === 'blog'
-      ? DATA.posts
-      : DATA.projects
-    console.log(type)
-    return (
-      <div className='list-content'>
-        {this.createItems(type)}
-      </div>
-    )
-  }
+function List (props) {
+  const { history, articlePrefix, type } = props
+  const itemsData = type === 'blog'
+    ? DATA.posts
+    : DATA.projects
+  const itemOnClick = id => history.push(`/${articlePrefix}/${id}`)
+  const items = itemsData
+    .filter(item => !item.draft || window.DRAFTS_VISIBLE)
+    .map(article => <Item key={article.id} {...{ ...article, onClick: () => itemOnClick(article.id) }} />)
+  return (
+    <div className='list-content'>
+      {items}
+    </div>
+  )
 }
 
 export default List

@@ -45,14 +45,16 @@ const marked = (data, opts = {}) => {
 
 const processFile = async (file, type, opts = {}) => {
   console.log(`- ${type}: ${file}`)
+  const name = opts.name || false
   const sourceData = await read(file)
   let data = sourceData
   let dest = file
   let dir
   switch (type) {
     case 'markdown':
-      data = marked(sourceData)
-      dest = dest.replace(/\.md$/, '.html')
+      const html = marked(sourceData)
+      data = JSON.stringify({ name, html })
+      dest = dest.replace(/\.md$/, '.json')
       break
     default:
       throw new Error(`Unknown type '${type}'`)
@@ -64,9 +66,11 @@ const processFile = async (file, type, opts = {}) => {
 }
 
 const clean = async () => {
-  await fs.remove(DEST_PATH)
-  await fs.remove(IMAGE_PATH)
-  await fs.remove(DATA_PATH)
+  await Promise.map([
+    DEST_PATH,
+    IMAGE_PATH,
+    DATA_PATH
+  ], dir => fs.remove(dir))
 }
 
 // file filters
@@ -76,11 +80,12 @@ const imageFilter = filename => IMAGE_EXTENSIONS
   .some(ext => filename.endsWith(`.${ext}`))
 
 // dirs
-const processDirArticle = async dir => {
+const processDirArticle = async (dir, data) => {
   console.log(`- article`)
   const article = await read(path.join(dir, 'article.md'))
-  const result = marked(article, { dir })
-  const dest = path.join(path.dirname(dir), `${path.basename(dir)}.html`)
+  const html = marked(article, { dir })
+  const dest = path.join(path.dirname(dir), `${path.basename(dir)}.json`)
+  const result = JSON.stringify({ ...data, html })
   await write(dest, result)
 }
 
@@ -88,7 +93,7 @@ const processDirData = async dir => {
   console.log(`- data`)
   const yamlData = await read(path.join(dir, 'data.yaml'))
   const data = yaml.safeLoad(yamlData)
-  data.key = path.basename(dir)
+  data.id = path.basename(dir)
   return data
 }
 
@@ -97,7 +102,9 @@ const processDir = async dir => {
   const files = (await fs.readdir(path.join(SOURCE_PATH, dir)))
     .map(f => path.join(dir, f))
 
-  await processDirArticle(dir)
+  const data = await processDirData(dir)
+
+  await processDirArticle(dir, data)
 
   const imageFiles = files.filter(imageFilter)
   await Promise.mapSeries(imageFiles, file => {
@@ -105,7 +112,7 @@ const processDir = async dir => {
     copy(file, path.join(IMAGE_PATH, file))
   })
 
-  return processDirData(dir)
+  return data
 }
 
 // "namespaces"
@@ -141,7 +148,7 @@ const run = async () => {
   const namespaceData = {}
   namespaces.forEach((key, i) => (namespaceData[key] = namespaceResult[i]))
   await write('articles.json', JSON.stringify(namespaceData, null, 2), DATA_PATH)
-  await write('404.json', JSON.stringify({ html: html404 }, null, 2), DATA_PATH)
+  await write('404.json', html404, DATA_PATH)
 }
 
 run()

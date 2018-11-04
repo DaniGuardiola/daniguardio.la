@@ -1,11 +1,19 @@
 import React from 'react'
+import DocumentTitle from 'react-document-title'
 import { Route, Switch } from 'react-router-dom'
 import List from './List'
 import Article from './Article'
 
-const Projects = props => <List type='projects' articlePrefix='projects' {...props} />
-const Blog = props => <List type='blog' articlePrefix='blog' {...props} />
-// const About = () => <ArticleComponent data='about' />
+const Projects = props => (<>
+  <DocumentTitle title='Dani Guardiola - Projects' />
+  <List type='projects' articlePrefix='projects' {...props} />
+</>)
+
+const Blog = props => (<>
+  <DocumentTitle title='Dani Guardiola - Blog' />
+  <List type='blog' articlePrefix='blog' {...props} />
+</>)
+
 const NotFound = () => <Article article='404' />
 
 function ProjectsArticle ({ match }) {
@@ -19,6 +27,7 @@ function BlogArticle ({ match }) {
 }
 
 const About = () => (<>
+  <DocumentTitle title='Dani Guardiola - About me' />
   <Article article='about-me' />
 </>)
 
