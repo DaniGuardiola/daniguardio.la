@@ -1,6 +1,7 @@
 import './Article.css'
 import React, { Suspense, Component } from 'react'
 import DocumentTitle from 'react-document-title'
+import Loader from './Loader'
 import 'highlight.js/styles/monokai-sublime.css'
 import { html as html404 } from '../data/404.json'
 import { unstable_createResource as createResource } from 'react-cache'
@@ -61,7 +62,7 @@ function Article ({ article }) {
       <ArticleErrorBoundary>
         <Suspense
           maxDuration={500}
-          fallback={<div className='article-loader' />}>
+          fallback={<Loader />}>
           <ArticleContent id={article} />
         </Suspense>
       </ArticleErrorBoundary>

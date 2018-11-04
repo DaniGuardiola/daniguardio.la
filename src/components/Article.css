@@ -8,12 +8,6 @@
 .article-wrapper .article-html {
   padding: 0 16%;
   font-size: 19px;
-  /* enable text selection */
-  -webkit-touch-callout: text;
-  -webkit-user-select: text;
-  -khtml-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
   user-select: text;
 }
 
@@ -84,4 +78,10 @@
   top: 0;
   left: 0;
   background: red;
+}
+
+@media (max-width: 768px) {
+  .article-wrapper .article-html {
+    padding: 0 16px;
+  }
 }

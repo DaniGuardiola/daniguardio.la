@@ -4,7 +4,7 @@
 >
 > Hosted in **daniguardiola.me** (right here :D)
 >
-> [Full article about my website](/project/daniguardiola-me)
+> [Full article about my website](./projects/daniguardiola-me)
 
 One of the best ways to significantly improve the user experience is making sure that the webpage is fast and responsive. With a good connection and a fast computer almost any website is fast, no matter how unoptimized it might be, but many **many** times the connection can be poor due to shitty ISPs or spotty mobile networks.
 

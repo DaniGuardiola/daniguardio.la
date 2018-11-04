@@ -53,6 +53,12 @@
         }
       }(window.location))
     </script>
+    <script>
+    function navigate(event, path) {
+      window.history.pushState(null, null, path + '#')
+      // event.preventDefault()
+    }
+    </script>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>

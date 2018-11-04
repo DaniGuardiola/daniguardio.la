@@ -54,7 +54,7 @@ The main advantage to having the content of the website in the repo itself is th
 
 Making the website load fast is critical for a good user experience. I wrote a blog post about how I did it:
 
-> [📝Optimizing the load time of my website](/b/optimizing-the-load-time-of-my-website)
+> [📝Optimizing the load time of my website](./blog/optimizing-the-load-time-of-my-website)
 
 ## To do ✔️
 

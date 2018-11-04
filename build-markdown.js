@@ -34,6 +34,19 @@ const marked = (data, opts = {}) => {
     return oImage(href, title, text)
   }
 
+  // links
+  renderer.link = (href, title, text) => {
+    const hrefCopy = href
+    let titleAttr = ''
+    let onclick = ''
+    if (title) titleAttr = ` title="${title.replace(/"/g, '\\"')}"`
+    if (href.startsWith('./')) {
+      href = '#'
+      onclick = ` onclick="navigate(event, '${hrefCopy.substring(1)}')"`
+    }
+    return `<a href="${href}"${titleAttr}${onclick}>${text}</a>`
+  }
+
   const options = {
     highlight: (code, lang) =>
       highlightjs.highlight(lang, code).value,
@@ -149,6 +162,8 @@ const run = async () => {
   namespaces.forEach((key, i) => (namespaceData[key] = namespaceResult[i]))
   await write('articles.json', JSON.stringify(namespaceData, null, 2), DATA_PATH)
   await write('404.json', html404, DATA_PATH)
+
+  console.log(`\n✓ Done :)\nData written to:\n${[DEST_PATH, DATA_PATH, IMAGE_PATH].join('\n')}`)
 }
 
 run()

@@ -14,7 +14,7 @@ Some tags with fun projects:
 
 > Note: the tags don't work yet. I'm working on it, I just made this website yesterday! 
 
-BTW! I made this website from scratch, [check the article I wrote about it](/project/daniguardiola-me) :)
+BTW! I made this website from scratch, [check the article I wrote about it](./projects/daniguardiola-me) :)
 
 [#js]: /projects#js
 [#typescript]: /projects#typescript

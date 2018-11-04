@@ -8,11 +8,11 @@
 
 ## TL;DR ⚡️
 
-I'm working on a Javascript module to interface with Electrum servers through TCP sockets and websockets. Electrum is lightweight bitcoin wallet software. The reason I started this project is that I need it for my React Native bitcoin wallet project, [⚙️Coinwallet](/project/coinwallet).
+I'm working on a Javascript module to interface with Electrum servers through TCP sockets and websockets. Electrum is lightweight bitcoin wallet software. The reason I started this project is that I need it for my React Native bitcoin wallet project, [⚙️Coinwallet](./projects/coinwallet).
 
 ## About 📃
 
-When I was just getting started on my [⚙️lightweight bitcoin wallet project](/project/coinwallet), one of the main challenges remained the connection and communication with the Electrum servers.
+When I was just getting started on my [⚙️lightweight bitcoin wallet project](./projects/coinwallet), one of the main challenges remained the connection and communication with the Electrum servers.
 
 Electrum is a lightweight bitcoin (and many other cryptocurrencies nowadays) wallet software that involves a client (desktop and Android apps) and a server that provides it with the requested data from the blockchain. Both the [client](https://github.com/spesmilo/electrum) and the [server](https://github.com/kyuupichan/electrumx) are opensource.
 
@@ -74,9 +74,9 @@ The main issue with this solution is that new servers have to be added, and all 
 
 ElectrumX is [open-source and actively maintained on Github](https://github.com/kyuupichan/electrumx/), so it doesn't hurt to consider this option. It is the most straightforward way to get good support for ElectrumX on React Native applications, but it involves learning about ElectrumX's basecode and creating an implementation with tests, documentation and all that, which is not completely trivial.
 
-To explore this option, [I created an issue](https://github.com/kyuupichan/electrumx/issues/499) asking the maintainer about it, and I got a positive answer: the PR will be accepted if everything (tests, quality, etc) is in order. I also did [some preliminary research](https://gitlab.com/DaniGuardiola/electrum-websocket-demo) and my plan was to delegate the task to a Python developer instead of tackling it myself. Python was the first programming language I learned but it's been a while since I last used it, so coding this myself would have involved re-learning it. However, in the end I ended up doing just that, and working on the [⚙️WePlayBot](/project/weplaybot) project was really helpful, as it involved a lot of Python programming. The work on the ElectrumX repo is not really relevant to `electrumjs`, so I wrote a separate blog post about it:
+To explore this option, [I created an issue](https://github.com/kyuupichan/electrumx/issues/499) asking the maintainer about it, and I got a positive answer: the PR will be accepted if everything (tests, quality, etc) is in order. I also did [some preliminary research](https://gitlab.com/DaniGuardiola/electrum-websocket-demo) and my plan was to delegate the task to a Python developer instead of tackling it myself. Python was the first programming language I learned but it's been a while since I last used it, so coding this myself would have involved re-learning it. However, in the end I ended up doing just that, and working on the [⚙️WePlayBot](./projects/weplaybot) project was really helpful, as it involved a lot of Python programming. The work on the ElectrumX repo is not really relevant to `electrumjs`, so I wrote a separate blog post about it:
 
-> [📝Adding websocket support to ElectrumX servers](/b/adding-websocket-support-to-electrumx-servers)
+> [📝Adding websocket support to ElectrumX servers](./blog/adding-websocket-support-to-electrumx-servers)
 
 ## Trying not to reinvent the wheel 🔄
 

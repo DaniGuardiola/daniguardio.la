@@ -4,13 +4,15 @@
 
 .list-content .item .headline {
   display: flex;
+  align-items: center;
   width: 100%;
-  height: 48px;
-  line-height: 48px;
+  min-height: 24px;
+  line-height: 24px;
   white-space: nowrap;
   font-family: "Roboto Mono", monospace;
   font-size: 16px;
   cursor: pointer;
+  margin: 16px 0;
 }
 
 .list-content .item .headline .text:hover {
@@ -19,6 +21,8 @@
 
 .list-content .item .headline .text {
   flex: 1;
+  max-width: 600px;
+  white-space: normal;
 }
 
 .list-content .item .headline .tags {
@@ -26,6 +30,7 @@
   font-style: italic;
   font-weight: bold;
   font-size: 14px;
+  max-width: 25%;
 }
 
 .list-content .item .headline .tags span {
@@ -44,4 +49,15 @@
 
 .list-content .item.on section {
   height: initial;
+}
+
+@media (max-width: 768px) {
+  .list-content .item .headline {
+    height: auto;
+    white-space: normal;
+  }
+
+  .list-content .item .headline .tags {
+    display: none;
+  }
 }

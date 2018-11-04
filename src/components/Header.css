@@ -1,5 +1,6 @@
 .header-wrapper {
   border-bottom: 2px solid #0000001a;
+  background-color: #f7f7f7;
 }
 
 .main-header {
@@ -8,8 +9,8 @@
 }
 
 .main-header span {
-  padding-left: 16px;
-  padding-top: 16px;
+  padding: 16px;
+  padding-bottom: 0;
   white-space: nowrap;
   line-height: 42px;
   margin: 0;
@@ -47,6 +48,7 @@
   font-size: 22px;
   font-family: "Roboto Mono", monospace;
   white-space: nowrap;
+  overflow-x: auto;
 }
 
 .subheader>a {
@@ -71,4 +73,29 @@
 
 .subheader a:not(.on) .arrow {
   display: none;
+}
+
+@media (max-width: 460px) {
+  .subheader {
+    font-size: 16px;
+    text-align: center;
+    padding: 8px 16px;
+  }
+
+  .subheader>a {
+    margin-right: 16px;
+  }
+
+  .main-header span {
+    font-size: 40px;
+    text-align: center;
+    padding: 8px;
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 570px) {
+  .contact-links {
+    display: none;
+  }
 }
