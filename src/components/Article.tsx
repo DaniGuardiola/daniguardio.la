@@ -88,14 +88,22 @@ export default function Article ({
 
   useLayoutEffect(() => {
     // until I find a better way, I'm gonna have to stick with this :(
-    setTimeout(() => {
+
+    const updateReadingTime = () => {
       if (wrapperRef.current?.textContent) {
         const { text } = computeReadingTime(wrapperRef.current.textContent, {
           wordsPerMinute: 250
         })
         setReadingTime(text)
       }
-    }, 200)
+    }
+
+    setTimeout(updateReadingTime, 200)
+    setTimeout(updateReadingTime, 400)
+    setTimeout(updateReadingTime, 600)
+    setTimeout(updateReadingTime, 800)
+    setTimeout(updateReadingTime, 1000)
+    setTimeout(updateReadingTime, 2000)
   }, [MDXDocument])
 
   return (
