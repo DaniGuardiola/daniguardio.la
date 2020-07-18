@@ -1,0 +1,304 @@
+Markdown is such a beautiful thing. With a very easy to use and (most of the time) self-explanatory syntax, Markdown has been an incredibly useful tool to me through the years. It's a great way to write a wiki, documentation or rich text of any kind. Even the source looks pretty good most of the time!
+
+In fact, that's why this article is written with Markdown. When I built [this website](/projects/daniguardiola-me), I wanted something easy to maintain and effective to manage all my blogging needs. Markdown ticks most of the boxes you'd usually have when writing an article. You can do headers, images, links, `code`, _bold text_, **italic text**, **_bold and italic text_**...
+
+It is great, and definitely much better than manually typing the HTML structure that you're actually seeing right now. However, using markdown is usually a compromise, because there's a limit to what it can do. You can't add any custom elements or advanced formats... or YouTube videos, for instance.
+
+!!typewriter -!left You can't even do cool stuff like this!
+
+There's tons of solutions out there that have custom syntax for advanced usages, but my favorite is [MDX](https://mdxjs.com/) because it allows you to write any JSX ("React") code directly into the article without any special Markdown syntax. It just works.
+
+This, however, also comes with a downside: the simplicity of markdown can be lost in the process. The custom Markdown implementations and plugins are really cool because they maintain the same minimalistic style of syntax, while writing React code in a Markdown article, although useful, can also become cumbersome to both write and maintain. That's why I implemented what I've called Markdown "shortcodes".
+
+> Note: MDX recently introduced a feature called "shortcodes":
+>
+> "[A shortcode] allows you to expose components to all of your documents in your app or website. This is a useful feature for common components like YouTube embeds, Twitter cards, or anything else frequently used in your documents."
+>
+> When I first came up with this, I didn't know this existed. The name is the same and the concept is similar, but the format and execution is different. Keep that in mind.
+>
+> [Here's a blog post about it by the MDX team](https://www.mdxjs.cn/blog/shortcodes).
+
+## Markdown shortcodes
+
+Shortcodes allow me to type something like:
+
+```markdown
+!!youtube dQw4w9WgXcQ
+```
+
+To get something that looks like this:
+
+!!youtube dQw4w9WgXcQ
+
+The animated "typewriter" text above is actually also a shortcode!
+
+```markdown
+!!typewriter Click-ity clack!
+```
+
+Live demo:
+
+!!typewriter Click-ity clack!
+
+Some shortcodes have parameters:
+
+```markdown
+!!typewriter -!left Click-ity clack!
+```
+
+!!typewriter -!left Click-ity clack!
+
+The possibilities are really infinite because each "shortcode" is nothing more than a mix of detecting which lines have shortcodes in the Markdown document, processing them to extract the parameters and passing those to a React component.
+
+## Implementation
+
+Here's a greatly simplified version of my `<Article>` component:
+
+```typescript
+// Article.ts
+import React, { ElementType, useState, useEffect } from 'react'
+import mdxComponents from './mdx-components'
+
+export default function Article ({
+  MDXDocument
+}: {
+  MDXDocument: ElementType
+}) {
+  const [mdxDocument, setMdxDocument] = useState(
+    <MDXDocument components={mdxComponents} />
+  )
+
+  useEffect(() => {
+    setMdxDocument(<MDXDocument components={mdxComponents} />)
+  }, [MDXDocument])
+
+  return <div>{mdxDocument}</div>
+}
+```
+
+Let's break it down.
+
+I load my articles dinamically with [code-splitting](https://reactjs.org/docs/code-splitting.html) and pass them to the `<Article>` component which handles the presentation. That's why it receives a prop named `MDXDocument`, which is the rendered MDX component that contains my article.
+
+```typescript
+export default function Article ({
+  MDXDocument
+}: {
+  MDXDocument: ElementType
+}) {
+  // ...
+}
+```
+
+The MDXDocument component is then stored in the `mdxDocument` state, and updated inside the `useEffect` hook whenever it changes.
+
+```typescript
+const [mdxDocument, setMdxDocument] = useState(
+  <MDXDocument components={mdxComponents} />
+)
+
+useEffect(() => {
+  setMdxDocument(<MDXDocument components={mdxComponents} />)
+}, [MDXDocument])
+```
+
+Finally, the document is returned from the component with a wrapper element (`<div>`).
+
+```typescript
+return <div>{mdxDocument}</div>
+```
+
+So far, this is pretty standard MDX usage. The interesting part is the `components` argument that we pass to the MDX component:
+
+```typescript
+<MDXDocument components={mdxComponents} />
+```
+
+The `mdxComponents` variable is being imported from the `mdx-components.ts` module, which looks like this (again, greatly simplified):
+
+```typescript
+// mdx-components.ts
+import React from 'react'
+import { Components } from '@mdx-js/react'
+
+import TypewriterText from 'utils/TypewriterText'
+
+const shortcodeHandlers = {
+  youtube: (content: string) => {
+    const videoId = content.split(' ')[1]
+    return <iframe src={`https://www.youtube.com/embed/${videoId}`} />
+  },
+  typewriter: (content: string) => {
+    const parts = content.split(' ')
+    parts.shift()
+
+    let position = 'center' // default
+
+    if (parts[0].startsWith('-!')) {
+      const option = parts.shift()
+
+      switch (option?.substring(2)) {
+        case 'center':
+          position = 'center'
+          break
+
+        case 'left':
+          position = 'left'
+          break
+
+        case 'right':
+          position = 'right'
+          break
+      }
+    }
+
+    const text = parts.join(' ').trim()
+    return <TypewriterText text={text} position={position} />
+  }
+}
+
+const mdxComponents: Components = {
+  p: ({ children, ...props }: React.HTMLProps<HTMLParagraphElement>) => {
+    if (typeof children === 'string' && children.startsWith('!!')) {
+      const shortcode = children.split(' ')[0].substring(2)
+      const handler = shortcodeHandlers[shortcode]
+      if (handler) return handler(children)
+    }
+
+    return <p {...props}>{children}</p>
+  }
+}
+
+export default mdxComponents
+```
+
+This module exports the `mdxComponents` object, which has a bunch of different components that MDX maps to different Markdown elements. This is the place, for example, where [I handle links to work well with React Router](mdx-and-react-router). Shortcodes are normal, unformatted blocks of text, or in other words: paragraphs. MDX renders paragraphs as `<p>` elements, so we are interested in customizing those.
+
+```typescript
+const mdxComponents: Components = {
+  p: ({ children, ...props }: React.HTMLProps<HTMLParagraphElement>) => {
+    // ...
+  }
+}
+
+export default mdxComponents
+```
+
+The component, like any other component, will receive children and props. The children in this case is the text, and shortcodes always start with `!!`, so if the paragraph doesn't start with that, we can just render a normal `<p>` and pass on the props.
+
+```typescript
+const mdxComponents: Components = {
+  p: ({ children, ...props }: React.HTMLProps<HTMLParagraphElement>) => {
+    if (typeof children === 'string' && children.startsWith('!!')) {
+      // ...
+    }
+
+    return <p {...props}>{children}</p>
+  }
+}
+```
+
+If it _does_ start with `!!`, however, we want to extract the shortcode's name and look for a handler. If a handler is found, then the text is passed into it and the result is returned in place of the `<p>` element.
+
+```typescript
+const shortcode = children.split(' ')[0].substring(2)
+const handler = shortcodeHandlers[shortcode]
+if (handler) return handler(children)
+```
+
+Handlers are nothing more than a set of functions that take the full text of the shortcode and return the appropiate element for it.
+
+```typescript
+const shortcodeHandlers = {
+  youtube: (content: string) => {
+    // ...
+    return <>/* ... */</>
+  },
+  typewriter: (content: string) => {
+    // ...
+    return <>/* ... */</>
+  }
+}
+```
+
+The YouTube handler is simple, it just extracts the video id and creates an `<iframe>` element, which is the standard way to embed YouTube videos.
+
+```typescript
+const videoId = content.split(' ')[1]
+return <iframe src={`https://www.youtube.com/embed/${videoId}`} />
+```
+
+The typewritter effect is a bit more complex, as it has a few options that change the position of the text. Also, it makes use of my custom [`<TypewriterText>`](/blog/a-typewriter-effect-with-react) component.
+
+```typescript
+const parts = content.split(' ')
+parts.shift()
+
+let position = 'center' // default
+
+if (parts[0].startsWith('-!')) {
+  const option = parts.shift()
+
+  switch (option?.substring(2)) {
+    case 'center':
+      position = 'center'
+      break
+
+    case 'left':
+      position = 'left'
+      break
+
+    case 'right':
+      position = 'right'
+      break
+  }
+}
+
+const text = parts.join(' ').trim()
+
+// note that the position argument doesn't really exist in
+// TypewriterText, this is just a simplified example
+return <TypewriterText text={text} position={position} />
+```
+
+These are very simple examples of what can be achieved with shortcodes but in the future, as I write more and more articles, I'm sure they will come in handy. I just need to write a new handler whenever I need something new!
+
+## Examples
+
+Here's a few examples of shortcodes that I've created. I'm gonna try to keep this section updated as I create more.
+
+### YouTube videos
+
+```markdown
+!!youtube dQw4w9WgXcQ
+```
+
+!!youtube dQw4w9WgXcQ
+
+### Typewriter effect
+
+> The animation occurs when the article loads, so I mostly use this effect near the top of the article so that it is visible when it happens.
+
+```markdown
+!!typewriter Click-ity clack!
+```
+
+!!typewriter Click-ity clack!
+
+### Related articles and projects
+
+- [**daniguardiola.me:** my personal website (yes, this one)](/project/daniguardiola-me)
+
+<!--
+- [MDX and React Router](/blog/mdx-and-react-router)
+- [A typewriter effect with React](/blog/a-typewriter-effect-with-react)
+-->
+
+<!--
+
+TODO:
+
+- Link sources when relevant
+- Add more shortcode examples
+
+-->

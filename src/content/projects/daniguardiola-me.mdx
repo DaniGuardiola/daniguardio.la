@@ -1,0 +1,84 @@
+> [Source on GitHub](https://github.com/DaniGuardiola/daniguardiola-me/)
+
+A place for my music, projects and blog. Built with React, MDX and a lot of love.
+
+## A little bit of history 📅
+
+I've created many websites since I was very young. I remember being a little kid, maybe 7 or 8 years old, and messing around with Microsoft Frontpage (an extinct [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) webpage editor) in my already-outdated Windows 98 machine. Around that time, someone gifted me a book on HTML. I remember looking at the generated code trying to understand the tag soup.
+
+Some years later I created a few different websites and blogs that I would abandon after a while. For example a spanish "comedy" blog that I updated with _high-profile_ contributions like... my cousin and some friends. We basically sh\*tposted before it was cool, at 12 years of age.
+
+Fast forward a few years: I had just turned 18 and I already had my first development job, so I decided to build an online portfolio. I bought the `daniguardiola.me` domain and built a simple single-page [portfolio](https://web.archive.org/web/20171221154558/http://daniguardiola.me:80/) based on a cool template I found... _Then I never ever updated it again other than to change my age._
+
+![Oh, I already had a typewriter animation in my website back then!](/projects/daniguardiola-me/old-website-2.gif)
+
+After some time I decided (again) that I needed a decent and up-to-date website so I started building one from scratch, using mainly vanilla Javascript, HTML and CSS with a few of the Polymer's Paper components (Material Design) here and there. I had a clear idea of what I wanted: some nice parallax and colorful menus.
+
+![Look at those ripples](/projects/daniguardiola-me/old-website.gif)
+
+I had a working demo in no time. However, I got really busy with my job and projects at the time and never finished it. I remember it was fun to build though.
+
+And that was my last attempt at a personal website until now.
+
+My personal webpage (this one) is now finished. It actually took me two different attempts... a year apart. But it's finally done!
+
+## Motivation 🎯
+
+I wanted a cool-ass website (but who doesn't?) for my random thoughts, projects, music, etc. Well-designed, fast and usable.
+
+## Design 📐
+
+The interface is as minimalistic as I could make it. It is cohesive, snappy and responsive.
+
+It has a few subtle details like the title typewriter effect, the collapsable header (on scroll) and the section selection animation.
+
+I wanted the aesthetics to be clean and a bit geeky, hence the monospace typography of the section links and article lists, and the typewriter effect.
+
+For improved readability, the article font is a "slab" variant, and I've also fine-tuned other details like the font weight or the article width.
+
+It also works for all screen sizes, every layout has been adapted for the best experience.
+
+## Implementation 🔨
+
+The website has been implemented in React (with functional components and hooks) from scratch, with the help of `create-react-app` (boilerplate can be messy so thank you benevolent React Gods for this blessed tooling!).
+
+The first version I made used plain JavaScript and custom implementations of routing and lazy loading. When I revisited the project again a year later, the first thing I did was replace the routing with [`react-router-dom`](https://reactrouter.com/web/guides/quick-start) and the lazy loading stuff with [`React.lazy` and `Suspense`](https://reactjs.org/docs/code-splitting.html). I also converted the code to TypeScript and simplified (a lot!) the overall codebase.
+
+There is no pagination in any article list because I don't think I'll ever really need that. The lists of projects and blog posts are included in the source itself and are part of the main bundle.
+
+The articles are just markdown files. Originally they were requested in raw format, parsed and rendered directly on the browser using [marked](https://github.com/markedjs/marked). After the rewrite I switched to [MDX](https://mdxjs.com/), which pre-compiles the `.mdx` files into React code with code-splitting support. It also allows me to do fun things with the article content like custom rendering and what I call ["shortcodes"](/blog/markdown-shortcodes).
+
+All of the content (blog posts, project articles, etc) lives in the `content/` directory. This allows me to update the website by just pushing changes to that directory. My CD/CI takes care of the rest.
+
+## Related blog articles 📝
+
+I wrote a few in-depth articles about my website. Check them out!
+
+> Note: currently most of these articles are drafts, but I'll be publishing them in the upcoming weeks
+
+- [Markdown shortcodes: embedding anything into an article with MDX](/blog/markdown-shortcodes)
+
+<!--
+- [Optimizing the load time of my website](/blog/optimizing-the-load-time-of-my-website)
+- [A simple favicon animation](/blog/a-simple-favicon-animation)
+- [MDX and React Router](/blog/mdx-and-react-router)
+- [A typewriter effect in React](/blog/a-typewriter-effect-in-react)
+- [Invisible loading screens and nicer errors](/blog/invisible-loading-screens-and-nicer-errors)
+-->
+
+## To do ✔️
+
+There are still a few details that I need to take care of, including:
+
+- Making #tags work.
+- Adding some details to articles, like more shortcodes, anchor links and share buttons.
+- Adding dates to the blog article list.
+- Add an _archive_ section with a showcase of my old and obsolete projects.
+- Come up with a nicer design for my [lab](https://lab.daniguardiola.me).
+- Add a better default projects layout.
+- Add a music section for my upcoming musical projects.
+- Make some under-the-hood optimizations
+
+And of course, the most important thing: **fill it up with content**.
+
+That's all folks! Hope you enjoy your stay :)

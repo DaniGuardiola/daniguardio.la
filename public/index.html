@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;350;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto+Mono"
+      rel="stylesheet"
+    />
+    <link rel="preload" href="/img/dino.gif" as="image" />
+
+    <title>Dani Guardiola</title>
+    <meta name="description" content="Dani Guardiola's personal website." />
+
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <style>
+      html,
+      body,
+      #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      body {
+        will-change: background-color;
+        transition: background-color 0.3s;
+      }
+    </style>
+
+    <div
+      class="font_preload"
+      style="opacity: 0; position: fixed; top: -9999px; left: -9999px;"
+    >
+      <!-- This preloads all Roboto Slab and Roboto Mono variants -->
+      <span style="font-family: 'Roboto Slab', Arial, sans-serif;"
+        ><b></b><i></i><b><i></i></b
+      ></span>
+      <span style="font-family: 'Roboto Mono', Arial, sans-serif;"
+        ><b></b><i></i><b><i></i></b
+      ></span>
+    </div>
+
+    <!-- Favicon blinking cursor animation -->
+    <script>
+      const REL_VALUES = ['icon', 'shortcut icon']
+
+      function deleteFaviconTags () {
+        const elements = document.querySelectorAll(
+          REL_VALUES.map(value => `link[rel="${value}"]`).join(',')
+        )
+        elements.forEach(el => el.parentNode.removeChild(el))
+      }
+
+      function createFaviconTags (value) {
+        REL_VALUES.forEach(relValue => {
+          const element = document.createElement('link')
+          element.rel = relValue
+          element.href = `%PUBLIC_URL%/${value}.ico`
+          document.head.appendChild(element)
+        })
+      }
+
+      function replaceFaviconTags (value) {
+        deleteFaviconTags()
+        createFaviconTags(value)
+      }
+
+      function animation (on = true, start = false) {
+        const value = on ? 'favicon' : 'favicon_off'
+        if (document.hasFocus()) !start && replaceFaviconTags(value)
+        else replaceFaviconTags('favicon')
+        setTimeout(() => animation(!on), 700)
+      }
+
+      animation(true, true)
+    </script>
+  </body>
+</html>

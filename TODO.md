@@ -1,0 +1,35 @@
+# TODO
+
+- !! Tags
+  - Add tags to article view
+  - Tag search
+    - tag filter button
+    - tag filter
+    - filtered List
+- Scroll / header stuff
+  - Stop header cursor when window not in focus
+- Responsive stuff
+  - Responsive blinking cursor in header title
+- Articles
+  - **Improve overall article styling**
+  - Anchor links on article headings
+  - Copy button for code blocks - https://www.npmjs.com/package/copy-text-to-clipboard
+  - Custom (trimmed-down) Prismjs
+  - Nicer prism theme
+  - Fullscreen button for code blocks
+  - Image viewer on click / tap
+  - Share buttons
+  - Date
+  - Next / prev articles link
+  - Fix timeout leakage in TypewriterText
+  - MDX loader with react-app-rewired and customize-cra - https://github.com/facebook/create-react-app/compare/master...jamesknelson:2.1.1-mdx#diff-f9867c1e09ced1328f2ccdac4afac4a5
+  - Hide recommended videos in YouTube shortcodes
+  - Autoprefix images in articles
+  - Support for webp with \<picture /> element
+  - Support for video
+- Lists
+  - Blog article date to the left if it fits
+  - Article date mobile?
+  - Small right padding for tags? (it cuts out bc of the cursive)
+- **Vertically center Trouble component**
+- Use refs instead of states in TypewriterText
