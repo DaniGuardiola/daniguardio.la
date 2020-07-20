@@ -78,7 +78,7 @@ So like, just... don't.
 
 ### Method #2: ReadStream
 
-> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L55)
+> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L56)
 
 From now on, we're only gonna work with streams. The most straightforward way to get a stream for a file is to use the [`fs.createReadStream()`](https://nodejs.org/docs/latest/api/fs.html#fs_fs_createreadstream_path_options) method. This returns a [`fs.ReadStream`](https://nodejs.org/docs/latest/api/fs.html#fs_class_fs_readstream) instance, which is a readable stream.
 
@@ -195,7 +195,7 @@ Memory usage is also drastically lower than method #1, as only one chunk is load
 
 ### Method #3: readline
 
-> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L88)
+> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L89)
 
 Method #2 works just fine, but I like to look for existing libraries in my projects to maintain a high level of abstraction and avoid maintaining additional code. Sometimes they're worth it and sometimes they're not. Finding one that can take care of the line-by-line stream would be nice.
 
@@ -244,7 +244,7 @@ One thing I noticed is that the `readline` API seems more focused on user intera
 
 ### Method #4: line-reader
 
-> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L116)
+> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L117)
 
 Another test I did was with the [`line-reader`](https://www.npmjs.com/package/line-reader) third-party npm module. This module can also take a `ReadStream` and has a straightforward API:
 
