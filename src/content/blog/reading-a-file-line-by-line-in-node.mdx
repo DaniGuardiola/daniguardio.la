@@ -26,7 +26,7 @@ You can check the full source code in the [`password_checkers.js`](https://githu
 
 ### Method #1: loading the whole file 💀
 
-> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L39)
+> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L37)
 
 Self-explanatory. This is what you're not supposed to do. Just load the whole file with [`fs.readFile()`](https://nodejs.org/docs/latest/api/fs.html#fs_fspromises_readfile_path_options), do a [`.split(\n)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split) and loop every password from the array, which is now fully in memory.
 
@@ -38,21 +38,21 @@ The only optimization this implementation has is that it will stop comparing pas
 
 #### Benchmarks
 
-**Password in line 100:** `taylor`
+**Password at line 100:** `taylor`
 
 ```
 Time spent: 633.99ms
 Memory used: 219.20MB
 ```
 
-**Password in line 2594727 (halfway):** `gint3333`
+**Password at line 2594727 (halfway):** `gint3333`
 
 ```
 Time spent: 702.419ms
 Memory used: 219.20MB
 ```
 
-**Password in line 5189454 (last one):** `!!!!!!55`
+**Password at line 5189454 (last one):** `!!!!!!55`
 
 ```
 Time spent: 728.916ms
@@ -77,6 +77,8 @@ So like, just... don't.
 > Having all passwords loaded into memory would very likely result in a faster lookup than loading them from the filesystem each time (especially with old hark disk drives).
 
 ### Method #2: ReadStream
+
+> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L55)
 
 From now on, we're only gonna work with streams. The most straightforward way to get a stream for a file is to use the [`fs.createReadStream()`](https://nodejs.org/docs/latest/api/fs.html#fs_fs_createreadstream_path_options) method. This returns a [`fs.ReadStream`](https://nodejs.org/docs/latest/api/fs.html#fs_class_fs_readstream) instance, which is a readable stream.
 
@@ -155,21 +157,21 @@ readStream.on('end', () => {
 
 #### Benchmarks
 
-**Password in line 100:** `taylor`
+**Password at line 100:** `taylor`
 
 ```
 Time spent: 2.291ms
 Memory used: 3.20MB
 ```
 
-**Password in line 2594727 (halfway):** `gint3333`
+**Password at line 2594727 (halfway):** `gint3333`
 
 ```
 Time spent: 176.223ms
 Memory used: 3.88MB
 ```
 
-**Password in line 5189454 (last one):** `!!!!!!55`
+**Password at line 5189454 (last one):** `!!!!!!55`
 
 ```
 Time spent: 338.151ms
@@ -193,6 +195,8 @@ Memory usage is also drastically lower than method #1, as only one chunk is load
 
 ### Method #3: readline
 
+> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L88)
+
 Method #2 works just fine, but I like to look for existing libraries in my projects to maintain a high level of abstraction and avoid maintaining additional code. Sometimes they're worth it and sometimes they're not. Finding one that can take care of the line-by-line stream would be nice.
 
 Another thing I try to do is to always look for "native" libs from the language or runtime first, be it the standard library from Python or the APIs from the Node.js runtime. It greatly simplifies the codebase and guarantees a very good level of support.
@@ -203,21 +207,21 @@ In the callback, we compare the lines with the user password and close the strea
 
 #### Benchmarks
 
-**Password in line 100:** `taylor`
+**Password at line 100:** `taylor`
 
 ```
 Time spent: 6.021ms
 Memory used: 3.60MB
 ```
 
-**Password in line 2594727 (halfway):** `gint3333`
+**Password at line 2594727 (halfway):** `gint3333`
 
 ```
 Time spent: 252.007ms
 Memory used: 6.99MB
 ```
 
-**Password in line 5189454 (last one):** `!!!!!!55`
+**Password at line 5189454 (last one):** `!!!!!!55`
 
 ```
 > Found (unsafe 🚫)
@@ -240,6 +244,8 @@ One thing I noticed is that the `readline` API seems more focused on user intera
 
 ### Method #4: line-reader
 
+> [Source code](https://github.com/DaniGuardiola/node-line-by-line/blob/master/password_checkers.js#L116)
+
 Another test I did was with the [`line-reader`](https://www.npmjs.com/package/line-reader) third-party npm module. This module can also take a `ReadStream` and has a straightforward API:
 
 ```javascript
@@ -251,21 +257,21 @@ Beautiful. One problem though...
 
 #### Benchmarks
 
-**Password in line 100:** `taylor`
+**Password at line 100:** `taylor`
 
 ```
 Time spent: 3.211ms
 Memory used: 3.14MB
 ```
 
-**Password in line 2594727 (halfway):** `gint3333`
+**Password at line 2594727 (halfway):** `gint3333`
 
 ```
 Time spent: 2.942s
 Memory used: 16.07MB
 ```
 
-**Password in line 5189454 (last one):** `!!!!!!55`
+**Password at line 5189454 (last one):** `!!!!!!55`
 
 ```
 Time spent: 5.801s
@@ -289,7 +295,7 @@ I don't really know what to make of it. I've looked around the source and I have
 
 Now that we have our contenders, let's do some graphs. I made a script that runs the same password through each of the methods and prints a simple bar chart in the terminal with the results. The graphs have colors that I cannot show in this article, but feel free to run the tests yourself by cloning the repo and running the `run-all.sh` script.
 
-### Password in line 100
+### Password at line 100
 
 ```
 Time comparison
@@ -328,7 +334,7 @@ Memory usage comparison
 
 No surprises here. All of them are pretty even except method #1, which is very slow and very memory-consuming.
 
-### Password in line 2594727 (halfway)
+### Password at line 2594727 (halfway)
 
 ```
 Time comparison
@@ -369,7 +375,7 @@ Memory usage stays more or less the same, but here `line-read` starts acting up,
 
 Method #2 is a clear winner in both categories.
 
-### Password in line 5189454 (last one)
+### Password at line 5189454 (last one)
 
 ```
 Time comparison
