@@ -16,17 +16,17 @@ A few years ago, an online game named [Agar.io](https://agar.io) got insanely po
 
 ![A satisfying gameplay of Agar.io](/projects/agario-slitherio-ninja/agario_demo.webp)
 
-It wass loads of fun, but I had an issue when playing on my laptop: the game is controlled with the mouse, which is a nightmare if all you have is a shitty trackpad. Playing like that was not enjoyable at all. To fix this, I came up with the idea of adding keyboard controls (WASD) to it.
+It was loads of fun, but I had an issue when playing on my laptop: the game is controlled with the mouse, which is a nightmare if all you have is a shitty trackpad. Playing like that was not enjoyable at all. To fix this, I came up with the idea of adding keyboard controls (WASD) to it.
 
 To make it even more interesting, I told a friend about my idea and we made a little competition to see who implemented it first. I don't remember who won but we both were able to get working prototypes in under an hour. It was relatively simple, we just created artificial mouse events whenever the player pressed the keys. For example, if the user presses the right button, a mouse event is generated at the middle right of the screen.
 
-The prototype worked but it was very buggy. Multiple simultaneous key presses didn't work (like up and left), the blob would sometimes keep going indefinitely after releasing all keys instead of stopping, shooting mass and splitting didn't work properly...
+The prototype worked but it was very buggy. Multiple simultaneous keypresses didn't work (like up and left), the blob would sometimes keep going indefinitely after releasing all keys instead of stopping, shooting mass and splitting didn't work properly...
 
 ## Level up! 🍄
 
-After turning my code into a Chrome extension, I kept fine-tuning everything and polishing every little thing. It worked decently, but it was too simple, so I added a few more details, including an on/off switch, keyboard shortcuts for settings like dark theme, the ability to shoot mass and split with keys, and a few other minor things.
+After turning my code into a Chrome extension, I kept fine-tuning everything and polishing every little thing. It worked decently, but it was too simple, so I added a few more details, including an on/off switch, keyboard shortcuts for settings like toggling the dark theme, the ability to shoot mass / split with keys, and a few other minor things.
 
-When I was done, I tested it for a while and came up with another idea. Shooting mass and splitting normally happens in the direction of the mouse. When playing on keyboard, it happened in the direction you were currently going, and if you were stopped it was pretty much random. That was a problem (besides the randomness), as it was very limited. You could only shoot in eight different directions (up/left, up, up/right, right, right/bottom, etc). It was just not precise enough.
+When I was done, I tested it for a while and came up with another idea. Shooting mass and splitting normally happens in the direction of the mouse. When playing with a keyboard, it happened in the direction you were currently going, and if you were stopped it was pretty much random. That was a problem (besides the randomness), as it was very limited. You could only shoot in eight different directions (up/left, up, up/right, right, right/bottom, etc). It was just not precise enough.
 
 When playing without a mouse, there is no alternative, but what about playing with **both** a keyboard and a mouse? This would allow you to move with the keys and aim with the mouse to shoot or split. So I coded it with a cool scope image as the cursor and it turned out to be pretty useful and fun.
 
@@ -38,13 +38,13 @@ I asked a very talented friend, [Michael Cook](https://cookicons.co/), for a log
 
 ![The logo](/projects/agario-slitherio-ninja/logo.png)
 
-With everything done, I published it to the Chrome webstore and forgot about it. After some months, the user base grew to a surprising amount, which was a really nice surprise.
+With everything done, I published it to the Chrome web store and forgot about it. After some months, the user base grew to a surprising amount, which was a very nice surprise.
 
 This project was a textbook example of the [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle) to me. It was made as a fun way to kill time, taking barely an afternoon, and it ended up being one of my biggest sources of passive income for a while.
 
 ## The tragic end 🙁
 
-After a while, the Agar.io developers pushed an update that broke my extension. I didn't have time to maintain it so it stayed like that, and I noticed when it was too late anyway. The extension got removed by the Chrome webstore admins, which is, of course, a bummer. This also means that I don't have a way to capture images of the mod in action for this article.
+After a while, the Agar.io developers pushed an update that broke my extension. I didn't have time to maintain it so it stayed like that, and I noticed when it was too late anyway. The extension got removed by the Chrome web store admins, which is, of course, a bummer. This also means that I don't have a way to capture images of the mod in action for this article.
 
 Nevertheless, it was a really fun project that was useful to many other people for a while, so I'm happy that I did it. Who knows, maybe someday I'll be bored enough to fix it and re-publish a working version again...
 
@@ -58,7 +58,7 @@ The developers of the game decided at some point to add some share buttons at th
 
 ![Slither.io Ninja toggle](/projects/agario-slitherio-ninja/iframe.png)
 
-When I added the toggle, I set the `z-index` CSS property at 500 to make sure it was on top of other content. Now, the sharing buttons are contained in an `iframe` element that overlaps with my toggle. You can't see it in the picture, but the container is actually much wider than it seems. Here's the funny thing... Guess what the `z-index` value of the iframe is.
+When I added the toggle, I set the `z-index` CSS property at 500 to make sure it was on top of other content. Now, the sharing buttons are contained in an `iframe` element that overlaps with my toggle. You can't see it in the picture, but the container is much wider than it seems. Here's the funny thing... Guess what the `z-index` value of the iframe is.
 
 Yup, **9999999**.
 

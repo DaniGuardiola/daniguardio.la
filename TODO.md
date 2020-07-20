@@ -27,9 +27,13 @@
   - Autoprefix images in articles
   - Support for webp with \<picture /> element
   - Support for video
+  - Main image support
 - Lists
   - Blog article date to the left if it fits
   - Article date mobile?
   - Small right padding for tags? (it cuts out bc of the cursive)
 - **Vertically center Trouble component**
 - Use refs instead of states in TypewriterText
+- Helmet stuff
+- SEO stuff
+- Social media previews stuff

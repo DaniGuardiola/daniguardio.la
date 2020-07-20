@@ -1,4 +1,4 @@
-Markdown is such a beautiful thing. With a very easy to use and (most of the time) self-explanatory syntax, Markdown has been an incredibly useful tool to me through the years. It's a great way to write a wiki, documentation or rich text of any kind. Even the source looks pretty good most of the time!
+Markdown is such a beautiful thing. With a very easy to use and (most of the time) self-explanatory syntax, Markdown has been an incredibly useful tool to me through the years. It's a great way to write a wiki, documentation, or rich text of any kind. Even the source looks pretty good most of the time!
 
 In fact, that's why this article is written with Markdown. When I built [this website](/projects/daniguardiola-me), I wanted something easy to maintain and effective to manage all my blogging needs. Markdown ticks most of the boxes you'd usually have when writing an article. You can do headers, images, links, `code`, _bold text_, **italic text**, **_bold and italic text_**...
 
@@ -6,9 +6,9 @@ It is great, and definitely much better than manually typing the HTML structure 
 
 !!typewriter -!left You can't even do cool stuff like this!
 
-There's tons of solutions out there that have custom syntax for advanced usages, but my favorite is [MDX](https://mdxjs.com/) because it allows you to write any JSX ("React") code directly into the article without any special Markdown syntax. It just works.
+There are tons of solutions out there that have custom syntax for advanced usages, but my favorite is [MDX](https://mdxjs.com/) because it allows you to write any JSX ("React") code directly into the article without any special Markdown syntax. It just works.
 
-This, however, also comes with a downside: the simplicity of markdown can be lost in the process. The custom Markdown implementations and plugins are really cool because they maintain the same minimalistic style of syntax, while writing React code in a Markdown article, although useful, can also become cumbersome to both write and maintain. That's why I implemented what I've called Markdown "shortcodes".
+This, however, also comes with a downside: the simplicity of markdown can be lost in the process. The custom Markdown implementations and plugins are really cool because they maintain the same minimalistic style of syntax while writing React code in a Markdown article, although useful, can also become cumbersome to both write and maintain. That's why I implemented what I've called Markdown "shortcodes".
 
 > Note: MDX recently introduced a feature called "shortcodes":
 >
@@ -33,22 +33,22 @@ To get something that looks like this:
 The animated "typewriter" text above is actually also a shortcode!
 
 ```markdown
-!!typewriter Click-ity clack!
+!!typewriter Clickity clack!
 ```
 
 Live demo:
 
-!!typewriter Click-ity clack!
+!!typewriter Clickity clack!
 
 Some shortcodes have parameters:
 
 ```markdown
-!!typewriter -!left Click-ity clack!
+!!typewriter -!left Clickity clack!
 ```
 
 !!typewriter -!left Click-ity clack!
 
-The possibilities are really infinite because each "shortcode" is nothing more than a mix of detecting which lines have shortcodes in the Markdown document, processing them to extract the parameters and passing those to a React component.
+The possibilities are infinite because each "shortcode" implementation is nothing more than a mix of detecting which lines have shortcodes in the Markdown document, processing them to extract the parameters and passing those to a React component.
 
 ## Implementation
 
@@ -78,7 +78,7 @@ export default function Article ({
 
 Let's break it down.
 
-I load my articles dinamically with [code-splitting](https://reactjs.org/docs/code-splitting.html) and pass them to the `<Article>` component which handles the presentation. That's why it receives a prop named `MDXDocument`, which is the rendered MDX component that contains my article.
+I load my articles dynamically with [code-splitting](https://reactjs.org/docs/code-splitting.html) and pass them to the `<Article>` component which handles the presentation. That's why it receives a prop named `MDXDocument`, which is the rendered MDX component that contains my article.
 
 ```typescript
 export default function Article ({
@@ -206,7 +206,7 @@ const handler = shortcodeHandlers[shortcode]
 if (handler) return handler(children)
 ```
 
-Handlers are nothing more than a set of functions that take the full text of the shortcode and return the appropiate element for it.
+Handlers are nothing more than a set of functions that take the full text of the shortcode and return the appropriate element for it.
 
 ```typescript
 const shortcodeHandlers = {
@@ -228,7 +228,7 @@ const videoId = content.split(' ')[1]
 return <iframe src={`https://www.youtube.com/embed/${videoId}`} />
 ```
 
-The typewritter effect is a bit more complex, as it has a few options that change the position of the text. Also, it makes use of my custom [`<TypewriterText>`](/blog/a-typewriter-effect-with-react) component.
+The typewriter effect is a bit more complex, as it has a few options that change the position of the text. Also, it makes use of my custom [`<TypewriterText>`](/blog/a-typewriter-effect-with-react) component.
 
 ```typescript
 const parts = content.split(' ')
@@ -280,10 +280,10 @@ Here's a few examples of shortcodes that I've created. I'm gonna try to keep thi
 > The animation occurs when the article loads, so I mostly use this effect near the top of the article so that it is visible when it happens.
 
 ```markdown
-!!typewriter Click-ity clack!
+!!typewriter Clickity clack!
 ```
 
-!!typewriter Click-ity clack!
+!!typewriter Clickity clack!
 
 ### Related articles and projects
 
