@@ -1,0 +1,454 @@
+> [github.com/DaniGuardiola/node-line-by-line](https://github.com/DaniGuardiola/node-line-by-line)
+
+This is a small experiment with reading files line-by-line in Node.js (JavaScript), in which I compare the speed and memory footprint of different approaches.
+
+The original purpose of this experiment was completing a simple technical test requested by a company for a software engineering position, but I got carried away and ended up expanding the scope of the project a lot.
+
+## Goal
+
+The goal was to check if a user-provided password is included in a [list of most used passwords](https://github.com/danielmiessler/SecLists/blob/master/Passwords/xato-net-10-million-passwords.txt). The file with the passwords is 46.1 MB big, which obviously makes it difficult to process synchronously. Even the original test challenge pointed to the right solution: streams.
+
+Streams allow loading data to memory in chunks, instead of having to load the whole file before working with it. This means that the memory footprint of the operation will be roughly the size of the currently loaded chunk, instead of the entire file.
+
+Now, the chunk size, at least in the case of Node.js, is fixed. That means that every chunk is the same size, no matter the content. The file content, however, is not organized as evenly, as every password is on a different line (utf8 encoding, newlines are the `\n` character). This means that what we really need is not to read chunk by chunk, but line by line, but streams don't support that natively.
+
+The original challenge only required one solution. I have personally solved this problem before in Python, working with raw TCP connections that sent and received data with custom delimiters (if I remember correctly, TLS transports don't support EOF which complicates things... good times), so my initial intentions were to just send a solution and go about my day, but I wasn't satisfied after I finished, so I ended up spending my Sunday afternoon working on this.
+
+Here's 4 different ways to read a big file in Node.js line-by-line.
+
+## Methods
+
+I am gonna explain these methods in an order that makes it easier to understand, but the original order in which I coded them was actually different (#2, #3, #1 then #4 if you must know).
+
+You can check the full source code in the [`password_checkers.js`](password_checkers.js) file.
+
+All benchmarks are calculated with a fast consumer-grade CPU (Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz) and a solid-state drive. The comparison part of the tests is exactly the same and the read stream is obtained in the exact same way as well. All tests have the same format: an asynchronous function that accepts a user password and a stream chunk size, and (asynchronously) returns whether there's been a match or not (a boolean value).
+
+### Method #1: loading the whole file 💀
+
+Self-explanatory. This is what you're not supposed to do. Just load the whole file with [`fs.readFile()`](https://nodejs.org/docs/latest/api/fs.html#fs_fspromises_readfile_path_options), do a [`.split(\n)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split) and loop every password from the array, which is now fully in memory.
+
+Besides the big memory footprint, this also has the disadvantage of having to process the whole file, loading it into memory byte-per-byte and then looking for the `\n` character byte-per-byte. That's already two loops, and it also means that you have both the full file text in a single string and the same content but split into multiple string of an array.
+
+All that memory and time spent, when the password could match the very first line of the file.
+
+The only optimization this implementation has is that it will stop comparing passwords instantly as soon as there's a match.
+
+#### Benchmarks
+
+**Password in the line 100:** `taylor`
+
+```
+Time spent: 633.99ms
+Memory used: 219.20MB
+```
+
+**Password in the line 2594727 (halfway):** `gint3333`
+
+```
+Time spent: 702.419ms
+Memory used: 219.20MB
+```
+
+**Password in the line 5189454 (last one):** `!!!!!!55`
+
+```
+Time spent: 728.916ms
+Memory used: 219.20MB
+```
+
+**Password that doesn't match:** `webjfhvbyuiswhjkej`
+
+```
+Time spent: 710.296ms
+Memory used: 219.20MB
+```
+
+#### Conclusion
+
+As you can see, `219.20MB` are loaded into memory every single time. It's not super slow, and stopping the comparisons after a match does shave a few milliseconds when the password is matched early, but as we will see it's not fast compared to other methods.
+
+So like, just... don't.
+
+> Note: when memory is not critical, a variation of this method could actually be a serious contender for speed. The time-expensive task here is loading the file into memory and processing it to split it. In a service scenario this would be an acceptable setup time, and the memory consumption could be a good trade-off. Having all passwords loaded into memory would very likely result in a faster lookup than loading them from the filesystem each time (specially with old hark disk drives).
+
+### Method #2: ReadStream
+
+From now on, we're only gonna work with streams. The most straightforward way to get a stream for a file is to use the [`fs.createReadStream()`](https://nodejs.org/docs/latest/api/fs.html#fs_fs_createreadstream_path_options) method. This return a [`fs.ReadStream`](https://nodejs.org/docs/latest/api/fs.html#fs_class_fs_readstream) instance, which is a readable stream.
+
+Then we listen for each chunk with `readStream.on(data, callback)`. Inside the callback, we can split by the `\n` character to obtain the passwords from the current fragment of the file. This comes with a catch, though. Imagine this list:
+
+```
+clay pot
+lotion
+truck
+twister
+paint brush
+washing machine
+candle
+keyboard
+soy sauce packet
+playing card
+eye liner
+sandal
+```
+
+A file containing this list as text could have a size of, for example, 130 bytes. Now image that our chunk size is around 42 bytes. The first chunk of the stream could look like this:
+
+```
+clay pot
+lotion
+truck
+twister
+paint br
+```
+
+And the second one:
+
+```
+ush
+washing machine
+candle
+keyboard
+soy sau
+```
+
+See the problem? The last line could not fit the chunk in its entirety. There's an easy solution for this:
+
+```javascript
+// this is simplified! check the source code for the full thing
+let previousLastLine = ''
+readStream.on('data', data => {
+  // get the lines from the chunk
+  const currentPwds = data.split('\n')
+  // add the last line of the previous chunk
+  currentPwds[0] = previousLastLine + currentPwds[0]
+  // remove the last line from the current chunk and store it in previousLastLine
+  previousLastLine = currentPwds.splice(-1)[0] || ''
+  // check this chunks' passwords
+  currentPwds.some(checkFn)
+})
+```
+
+This is fine because if a chunk actually ends in a newline character (if the last line is not a fragment of a password), splitting it will cause the last element to be an empty string, so when we add it to the next chunk it won't have any effect in the next element:
+
+```javascript
+'line 1\nline 2\nline 3\n'.split('\n')
+// > ['line 1', 'line 2', 'line 3', '']
+
+'' + 'some text'
+// > 'some text'
+```
+
+The last detail would be to make sure that we're checking the last line of the last chunk when there's no more chunks to process:
+
+```javascript
+readStream.on('end', () => {
+  checkFn(previousLastLine)
+  // ...
+})
+```
+
+#### Benchmarks
+
+**Password in the line 100:** `taylor`
+
+```
+Time spent: 2.291ms
+Memory used: 3.20MB
+```
+
+**Password in the line 2594727 (halfway):** `gint3333`
+
+```
+Time spent: 176.223ms
+Memory used: 3.88MB
+```
+
+**Password in the line 5189454 (last one):** `!!!!!!55`
+
+```
+Time spent: 338.151ms
+Memory used: 4.91MB
+```
+
+**Password that doesn't match:** `webjfhvbyuiswhjkej`
+
+```
+Time spent: 310.896ms
+Memory used: 5.56MB
+```
+
+#### Conclusion
+
+This method is fast and memory-efficient.
+
+Time is linearly proportional to the place of the password in the list, which means that the closer to the top it is, the faster it will be done. This is thanks to the stream, which allows us to progressively process the file and immediately stop once a match is found. The worst time with this method is still about double the best time of method #1 (310.896ms < 633.99ms).
+
+Memory usage is also drastically lower than method #1, as only one chunk is loaded at a time. We reduced it from ~200 MB to ~5 MB. 😎
+
+### Method #3: readline
+
+Method #2 works just fine, but I like to look for existing libraries in my projects to maintain a high level of abstraction and avoid maintaining additional code. Sometimes they're worth it and sometimes they're not. Finding one that can take care of the line-by-line stream would be nice.
+
+Another thing I try to do is always looks for "native" libs from the language or runtime first. Be it the standard library from Python or the APIs from the Node.js runtime. It simplifies the codebase and guarantees a very good level of support.
+
+So I found the Node.js ['readline'](https://nodejs.org/api/readline.html) API and implemented it. You pass it a `ReadStream` (like the one we created for method #2) and it provides you with a `line` event that you can listen on with `.on('line', callback)`.
+
+In the callback, we compare the lines with the user password and close the streams (readline and ReadStream) once we're done. Simple.
+
+#### Benchmarks
+
+**Password in the line 100:** `taylor`
+
+```
+Time spent: 6.021ms
+Memory used: 3.60MB
+```
+
+**Password in the line 2594727 (halfway):** `gint3333`
+
+```
+Time spent: 252.007ms
+Memory used: 6.99MB
+```
+
+**Password in the line 5189454 (last one):** `!!!!!!55`
+
+```
+> Found (unsafe 🚫)
+Time spent: 493.975ms
+Memory used: 5.35MB
+```
+
+**Password that doesn't match:** `webjfhvbyuiswhjkej`
+
+```
+Time spent: 483.533ms
+Memory used: 5.11MB
+```
+
+#### Conclusion
+
+This method is still far more efficient in both compute time and memory usage than method #1, but seems a bit slower and memory-hungrier than method #2. It's more abstract and easier to implement too, and that could be a good trade-off, specially considering how relatively small the difference is.
+
+One thing I noticed is that the `readline` API seems more focused on user interaction than data processing, but that shouldn't stop us from using it this way if it fits our purpose.
+
+### Method #4: line-reader
+
+Another test I did was with the [`line-reader`](https://www.npmjs.com/package/line-reader) third-party npm module. This module can also take a `ReadStream` and has a straightforward API:
+
+```javascript
+// this is simplified! check the source code for the full thing
+lineReader.eachLine(readStream, checkFn)
+```
+
+Beautiful. One problem though...
+
+#### Benchmarks
+
+**Password in the line 100:** `taylor`
+
+```
+Time spent: 3.211ms
+Memory used: 3.14MB
+```
+
+**Password in the line 2594727 (halfway):** `gint3333`
+
+```
+Time spent: 2.942s
+Memory used: 16.07MB
+```
+
+**Password in the line 5189454 (last one):** `!!!!!!55`
+
+```
+Time spent: 5.801s
+Memory used: 8.54MB
+```
+
+**Password that doesn't match:** `webjfhvbyuiswhjkej`
+
+```
+Time spent: 6.049s
+Memory used: 10.19MB
+```
+
+#### Conclusions
+
+The first test is really good, even better than method #3. However, things go downhill from there. Memory usage is great. Time... Not so much.
+
+I don't really know what to make of it. I've looked around the source and I haven't seen any obvious bottleneck. The only thing that stood out to me was that instead of consuming the stream via events (`.on('data', callback)`), the library is _pausing_ the stream (causing it to not emit 'data' events) and consuming it via the `.read()` method. I don't know if that could be causing the issue, but I know one thing: 6 full seconds is NOT acceptable. Even method #1 is like 10 times better.
+
+## Comparisons
+
+Now that we have our contenders, let's do some graphs. I made a script that runs the same password through each of the methods and prints a simple bar chart in the terminal with the results. The graphs have colors that I cannot show in this article, but feel free to run the tests yourself by cloning the repo and running the `run-all.sh` script.
+
+### Password in the line 100
+
+```
+Time comparison
+===============
+
+
+#1 █████████████████████████████████████████████████████████████████████████████████████
+#2 ▍
+#3 ▉
+#4 ▌
+
+◺ 0.00                                                                          651.95 ◿
+
+█ - #1 651.95
+█ - #2   2.26
+█ - #3   6.27
+█ - #4   3.31
+
+
+Memory usage comparison
+=======================
+
+
+#1 █████████████████████████████████████████████████████████████████████████████████████
+#2 █▎
+#3 █▌
+#4 █▎
+
+◺ 0.00                                                                          219.20 ◿
+
+█ - #1 219.20
+█ - #2   3.19
+█ - #3   3.59
+█ - #4   3.14
+```
+
+No surprises here. All of them are pretty even except method #1, which is very slow and very memory-consuming.
+
+### Password in the line 2594727 (halfway)
+
+```
+Time comparison
+===============
+
+
+#1 ███████████████████▎
+#2 ████▉
+#3 ███████▎
+#4 █████████████████████████████████████████████████████████████████████████████████████
+
+◺ 0.00                                                                      3018.00 ◿
+
+█ - #1  681.79
+█ - #2  170.78
+█ - #3  254.45
+█ - #4 3018.00
+
+
+Memory usage comparison
+=======================
+
+
+#1 █████████████████████████████████████████████████████████████████████████████████████
+#2 █▋
+#3 ██▊
+#4 ████▎
+
+◺ 0.00                                                                       219.20 ◿
+
+█ - #1 219.20
+█ - #2   3.88
+█ - #3   6.99
+█ - #4  10.90
+```
+
+Memory usage stays more or less the same, but here `line-read` starts acting up, taking already more than thrice the time than method #1.
+
+Method #2 is a clear winner in both categories.
+
+### Password in the line 5189454 (last one)
+
+```
+Time comparison
+===============
+
+
+#1 ██████████▍
+#2 ████▉
+#3 ███████▎
+#4 █████████████████████████████████████████████████████████████████████████████████████
+
+◺ 0.00                                                                         5938.00 ◿
+
+█ - #1  720.14
+█ - #2  332.20
+█ - #3  501.26
+█ - #4 5938.00
+
+
+Memory usage comparison
+=======================
+
+
+#1 █████████████████████████████████████████████████████████████████████████████████████
+#2 ███▌
+#3 ██
+#4 ████▏
+
+◺ 0.00                                                                          219.20 ◿
+
+█ - #1 219.20
+█ - #2   8.86
+█ - #3   5.10
+█ - #4  10.36
+```
+
+Not much of a difference. Memory consumption varies in each run, but besides method #1 they remain very similar to each other. Method #2 continues being the fastest and `read-line` keeps slowing down.
+
+# Password that doesn't match
+
+```
+Time comparison
+===============
+
+
+#1 █████████▋
+#2 ████▏
+#3 ██████▊
+#4 █████████████████████████████████████████████████████████████████████████████████████
+
+◺ 0.00                                                                         6476.00 ◿
+
+█ - #1  726.77
+█ - #2  309.14
+█ - #3  507.32
+█ - #4 6476.00
+
+
+Memory usage comparison
+=======================
+
+
+#1 █████████████████████████████████████████████████████████████████████████████████████
+#2 ██
+#3 ██
+#4 ██████▉
+
+◺ 0.00                                                                          219.20 ◿
+
+█ - #1 219.20
+█ - #2   4.91
+█ - #3   5.11
+█ - #4  17.45
+```
+
+Memory stays about the same, method #2 is the fastest once again, and method #4... well...
+
+## Conclusion
+
+Stick to method #2 or #3. Method #3 is more convenient and method #2 is slightly faster, but both are good options.
+
+These tests would be more accurate if they were run multiple times to get averages, but I feel that this is good enough. Specially considering I really could just have settled with sending the method #2 solution to the problem I was originally presented, which would've taken me about 20 minutes. But I have no regrets, this was fun. Yes, I have a weird definition of fun. Peace out!
+
+---
+
+Try the experiment yourself! Clone the repo and follow the instructions: [github.com/DaniGuardiola/node-line-by-line](https://github.com/DaniGuardiola/node-line-by-line)
