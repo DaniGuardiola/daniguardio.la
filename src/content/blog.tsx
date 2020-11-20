@@ -23,6 +23,12 @@ export const BLOG: IListItem[] = [
     )
   },
   {
+    key: 'ingenieria-inversa-de-andar-por-casa',
+    title: 'Ingeniería inversa de andar por casa (charla)',
+    tags: ['reverse-engineering', 'js', 'web', 'programming'],
+    Content: lazy(() => importMDX('./blog/ingenieria-inversa-de-andar-por-casa.mdx'))
+  },
+  {
     key: 'reading-a-file-line-by-line-in-node',
     title: 'Reading a file line-by-line in node',
     tags: ['nodejs', 'js', 'back-end', 'programming'],
