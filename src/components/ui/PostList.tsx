@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
-import { PostList as PostListType } from 'lib/posts'
+import { PostList as PostListType } from 'lib/post-types'
 import { format, getYear } from 'date-fns'
 
 export default function PostList ({

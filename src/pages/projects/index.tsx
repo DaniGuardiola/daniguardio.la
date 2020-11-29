@@ -1,9 +1,9 @@
-import { PostList as PostListType, getPostList } from 'lib/posts'
-
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Layout from 'components/layout/Layout'
-import PostList from 'components/ui/PostList'
+// import PostList from 'components/ui/PostList'
+import { PostList as PostListType } from 'lib/post-types'
+import { getPostList } from 'lib/posts'
 
 export default function Projects ({ posts }: { posts: PostListType }) {
   return (

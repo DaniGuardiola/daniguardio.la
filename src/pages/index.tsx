@@ -1,9 +1,10 @@
-import { PostList as PostListType, getPostList } from 'lib/posts'
+import { getPostList } from 'lib/posts'
 
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Layout from 'components/layout/Layout'
 import PostList from 'components/ui/PostList'
+import { PostList as PostListType } from 'lib/post-types'
 
 const emptyChar = '‎' // this is an empty character, prevents height changes
 
