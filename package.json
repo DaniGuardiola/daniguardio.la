@@ -8,8 +8,40 @@
     "start": "next start"
   },
   "dependencies": {
+    "@jsdevtools/rehype-url-inspector": "^2.0.2",
+    "@tailwindcss/typography": "^0.3.1",
+    "bluebird": "^3.7.2",
+    "classnames": "^2.2.6",
+    "date-fns": "^2.16.1",
+    "lodash": "^4.17.20",
     "next": "10.0.2",
+    "next-google-fonts": "^1.2.1",
+    "next-mdx-remote": "^1.0.0",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-twitter-widgets": "^1.9.5",
+    "rehype-slug": "^4.0.1",
+    "styled-jsx": "^3.3.2",
+    "use-window-focus": "^1.2.0"
+  },
+  "devDependencies": {
+    "@jsdevtools/rehype-toc": "^3.0.2",
+    "@types/bluebird": "^3.5.33",
+    "@types/classnames": "^2.2.11",
+    "@types/html-to-text": "^5.1.2",
+    "@types/lodash": "^4.14.165",
+    "@types/node": "^14.14.9",
+    "@types/react": "^17.0.0",
+    "@types/styled-jsx": "^2.2.8",
+    "autoprefixer": "^10.0.2",
+    "gray-matter": "^4.0.2",
+    "postcss": "^8.1.8",
+    "reading-time": "^1.2.1",
+    "rehype-accessible-emojis": "^0.3.2",
+    "rehype-autolink-headings": "^5.0.1",
+    "rehype-highlight": "^4.0.0",
+    "styled-jsx-plugin-postcss": "^3.0.2",
+    "tailwindcss": "^2.0.1",
+    "typescript": "^4.1.2"
   }
 }

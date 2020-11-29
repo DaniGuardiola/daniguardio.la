@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  @variants responsive {
+    .container-lg {
+      max-width: 1024px;
+    }
+  }
+}
+
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+/* fancy scrollbars */
+body::-webkit-scrollbar,
+.nice-scrollbar::-webkit-scrollbar,
+.nice-scrollbar *::-webkit-scrollbar {
+  border-radius: 8px;
+  width: 10px;
+  height: 6px;
+  background-color: #f5f5f5;
+}
+
+body::-webkit-scrollbar-track,
+.nice-scrollbar::-webkit-scrollbar-track,
+.nice-scrollbar *::-webkit-scrollbar-track {
+  background-color: #e8e8e8;
+  border-radius: 8px;
+}
+
+body::-webkit-scrollbar-thumb,
+.nice-scrollbar::-webkit-scrollbar-thumb,
+.nice-scrollbar *::-webkit-scrollbar-thumb {
+  background-color: #8c8c8c;
+  border-radius: 8px;
+}

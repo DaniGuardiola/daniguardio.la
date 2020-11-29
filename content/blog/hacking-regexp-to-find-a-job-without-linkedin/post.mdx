@@ -1,0 +1,264 @@
+---
+title: Hacking RegExp to find a job without LinkedIn
+description: |-
+  How to avoid LinkedIn when looking for a job by exploiting weak RegExp validation.
+date: 2020-01-15
+tags:
+  - reverse-engineering
+  - fun
+  - hacking
+---
+
+# Why I hate LinkedIn
+
+I despise LinkedIn. I just find it so incredibly annoying.
+
+<Tweet
+  id='1286579070717878273'
+  placeholder="I don't like LinkedIn."
+  userId='daniguardiolame'
+  userName='Dani Guardiola'
+  date='2020-07-24'
+/>
+
+Its interface is ugly, slow, and confusing. However, that is not my main issue with it.
+
+The thing that keeps me away from it is the culture. I don't intend to over-generalize, but I've met enough people that fit into this culture to at least be sure it exists.
+
+I'm talking about the profound superficiality of the platform. The lies and the exaggerations. The last time I used it (long ago), it was just so full of buzzwords, "experts" and "knowledge" that I got dizzy. I didn't even know what was real anymore.
+
+<Tweet
+  id='1286579072106205189'
+  placeholder='Too many lies, too much professionally disguised incompetence.'
+  userId='daniguardiolame'
+  userName='Dani Guardiola'
+  date='2020-07-24'
+  disableConversation={true}
+/>
+
+Don't get me wrong. I know people are trying their best. I am aware that for many people this is sort of a mandatory thing. You need a good profile to get recruiters to call you. Endorsements, shallow posts, meaningless titles... Yeah, I get it.
+
+But, at the same time, being a guy that's interested in _actually_ learning his stuff, and -as sort of a direct consequence of this- knowing how little I know about things, I just can't bring myself to enjoy a platform full of "blockchain experts" that can barely spell "hash". And this is an actual, IRL example.
+
+I wouldn't dare to call myself a Blockchain expert and I've been learning and working full-time on blockchain technology for the past two and a half years. I spent most of this time designing a custom blockchain platform for the military, and leading a development team to make it a reality.
+
+**And I still don't know the first thing about blockchain.**
+
+<Tweet
+  id='1286650256424402946'
+  placeholder={
+    'Yeah... I\'ve met a few LinkedIn "blockchain experts" in real life and they are barely able to grasp the concept of a hash.'
+  }
+  userId='daniguardiolame'
+  userName='Dani Guardiola'
+  date='2020-07-24'
+/>
+
+So it shouldn't be surprising that I cringe hard when I see some middle-management dude (that hasn't used anything other than Microsoft Powerpoint for years) proudly add the "blockchain expert" title to his LinkedIn profile after attending a (most likely misinformed) 4-hour business-oriented blockchain course.
+
+# No LinkedIn? No job!
+
+At some point in the past, due to this aversion of mine, I ended up completely deleting my LinkedIn profile. It wasn't up-to-date anyway. My official title on it was "senior lemon eater", which I copied from someone else.
+
+So whenever I wanted to look for a job, my strategy didn't involve LinkedIn at all. I just relied on the good ol' résumé, a simple PDF file with all relevant stuff on it.
+
+This worked great for the most part... Until I tried to create a profile on a recruiting platform.
+
+The process involved filling up your profile data, including social profiles, a portfolio URL, and more. All of it optional. One of these fields was for a LinkedIn profile which I left empty. But then I tried to submit my CV and... well... there was no place in which I could submit it. And this was a problem.
+
+![A form to submit links to professional profiles on a recruitment platform](profile-links-1.png)
+
+Turns out that recruiters in this platform rely on LinkedIn profiles to find out basic career information about potential candidates. But I had no LinkedIn, nor any intention to have one. I had already occupied the "personal site" slot with my, you know, personal site.
+
+When I got in touch with support people of this platform, I got told to just put a link to my CV in the LinkedIn field. This didn't work because the field was being validated so that only LinkedIn URLs can be entered.
+
+![The LinkedIn field with a red outline because of an invalid value](profile-links-2.png)
+
+# Hacking into the RegExp
+
+Now, the validation was happening server-side, so I didn't have access to the validation code, but I knew it was most likely a RegExp pattern.
+
+> "RegExp" or "regex" are abbreviations for ["regular expression"](https://en.wikipedia.org/wiki/Regular_expression), which is a way of defining search patterns for strings. In this case, it is being used to "search" for a LinkedIn URL. If the search is not successful, then the value is deemed invalid. This is a widely used validation technique for text-based input.
+
+So I started trying to break it with non-LinkedIn URLs directly on the page. These are some of the URLs that I tried:
+
+- `https://someurl.com#linkedin.com/`
+- `https://someurl.com?.linkedin.com/`
+- `https://linkedin.com.someurl.com/`
+
+These three URLs are attempts at fooling the validation by creating a LinkedIn-like URL that actually points to the `someurl.com` domain. In the first two, I was trying to use "escaping" characters such as `?` (used for query parameters) and `#` (used for anchor links). In the last one, I was trying to use a subdomain in hope that the `/` character was not being matched.
+
+However, none of these worked.
+
+## Replicating the RegExp
+
+My next step was to come up with my own RegExp to try and recreate theirs. I headed to [regex101](https://regex101.com/), my favorite RegExp tool, and wrote a simple LinkedIn URL pattern:
+
+![The first RegExp pattern I came up with](profile-links-3.png)
+
+```
+^https?:\/\/linkedin\.com\/.*$
+```
+
+This pattern allows for any kind of subpath of LinkedIn URLs. It seems pretty much impossible to exploit. The pattern forces the string to start with `https://linkedin.com/` (or `http://...`) literally, with no other option.
+
+However, while testing some values on the original page, I noticed that it also allowed subdomains such as `example.linkedin.com` or even `example.sub-domain.linkedin.com`. So I modified my RegExp pattern to support this:
+
+![RegExp pattern with subdomain support](profile-links-4.png)
+
+```
+^https?:\/\/[-a-z0-9.]*linkedin\.com\/.*$
+```
+
+The addition is `[-a-z0-9.]*`, which matches subdomains:
+
+- `[<characters>]` means "match any of these characters"
+  - `-`, `a-z` and `0-9` match letters, numbers, and hyphens, which are the allowed characters for subdomains.
+  - `.` matches the dot character, which is the separator for the sub-domain segments.
+- `*` means "match between 0 and infinite times".
+
+This makes things more interesting. I started playing with it and quickly found a vulnerability.
+
+## The dot
+
+The `.` character is a must if you want to match a subdomain. If you wanted to support just a single segment (i.e. `subdomain.example.com` and not `sub.dom.ain.example.com`), you could do something like this (shortened for brevity):
+
+```
+[-a-z0-9]\.linkedin\.com
+```
+
+In this case, because the `.` character is matched literally (`\.`) along with the rest of the `linkedin.com` domain, and because the "escaping" characters mentioned above are not valid in the subdomain query, there seems to not be any exploit.
+
+Of course, this RegExp would **only** allow URLs with a subdomain, so it doesn't make sense anyway. You could do the dot optional with something like `\.?`, but then you are losing the guarantee that it'll be matched exactly and literally at that position, so you might as well just include the dot inside the square brackets and match it along with the rest of the characters. This also allows for multiple-segment subdomains. So you can feed two birds with one scone.
+
+That's a win! Right?
+
+Well, no.
+
+## The exploit
+
+Because you are not matching the dot character literally in front of the domain anymore, it could be present... Or not.
+
+So you can just enter any arbitrary string of characters and, as long as they are included inside the square brackets, there will be a match. That means that a URL such as `https://asdflinkedin.com/` is matched.
+
+![RegExp pattern matching a non-LinkedIn URL](profile-links-5.png)
+
+Of course, there was no guarantee that the actual validation RegExp is similar to mine, but I had to try...
+
+![Entering a non-LinkedIn URL in the form](profile-links-6.png)
+
+I clicked "save" and...
+
+![It worked](profile-links-7.png)
+
+Nice! It works!
+
+## The payload
+
+I have a way to set a non-LinkedIn URL. The domain, however, must end with `linkedin.com`. I was hosting my CV on Google Drive, which meant that the URL looked like this: `https://docs.google.com/document/...`.
+
+So how can I point to this document?
+
+Easy. I bought the `notmylinkedin.com` domain, configured it to redirect to my CV, and submitted it on the recruitment platform. Done!
+
+Now every time a recruiter wants to see my "LinkedIn", they are gracefully redirected to my CV. This is also fun because Google Docs shows how many people are currently reading the document, and I could see the recruiters come and go.
+
+# Hacking (again) into the RegExp
+
+A while after the first hack, still on my job hunt, I was presented with an application form that was forcing me to submit a LinkedIn profile. Of course, I tried to submit my domain, `notmylinkedin.com`.
+
+![Trying to submit my domain](form-1.png)
+
+However, it was not letting me. This was the error message I was getting:
+
+![Error message](form-2.png)
+
+Oh, look at that! It is telling me the RegExp used for validation. Well, that's convenient.
+
+The first thing I did was copy it into regex101 so that I could play with it.
+
+![Regex101](form-3.png)
+
+```
+^https?:\/\/(.*\.)?linkedin\.com
+```
+
+Now, this expression fixes the dot vulnerability that the previous one had. To match potential subdomains, it uses the following expression:
+
+```
+(.*\.)?
+```
+
+- `(<anything>)?` is an optional capture group, which means that it can either match everything inside, or nothing.
+- `.*` means "match any character, from 0 to infinite times"
+- `\.` means "match the dot character"
+
+This pattern matches anything with the shape `<literally any character>.`. In this way, it makes sure that, if there is any kind of match before the domain, it ends with a dot. This clearly separates the subdomain from the domain, effectively preventing the previous hack.
+
+![Matching a subdomain](form-4.png)
+
+However, because it uses `.*`, it is matching **any** character. The previous one was limited to letters (`a-z`), numbers (`0-9`), hyphen (`-`) and dot (`.`), but this one matches any character.
+
+> Note: a dot inside square brackets (`[.]`) matches the dot character, while when used elsewhere in the regular expression it matches any character.
+
+If we can use any character, then maybe we can use one of the "escaping" characters I had attempted in the previous hack.
+
+![Matching with escaping character](form-5.png)
+
+Bingo! Using the `?` character worked with this pattern. This is what the address looks like if you enter it in a browser:
+
+!["Escaped" address in a browser](form-6.png)
+
+This trick works because the `?` character separates a URL's domain and pathname from the query parameters, so everything after the question mark is interpreted as such by the browser. Also, my domain redirection will ignore it.
+
+> Update: digging a bit deeper, I realized that the `?` character is not even necessary, because the slash is already separating the domain from the pathname, so something like `notmylinkedin.com/.linkedin.com` works too.
+
+Finally, I submitted it... and it worked!
+
+![Success message](form-7.png)
+
+> By the way, this pattern is also only matching up until `linkedin.com`, which means that we could probably also exploit it by using a URL like `linkedin.com.example.com`. I haven't tried, though.
+
+# The secure RegExp
+
+The first validation was protected against arbitrary characters in the subdomain, but didn't handle the dot correctly.
+
+The second validation handled the dot correctly but allowed arbitrary characters in the subdomain.
+
+Honestly, that is hilarious. It's also pretty harmless, as you can't really do much harm. However, under different circumstances, it could become a serious security problem.
+
+So, how do you protect against both exploits?
+
+Well, we've seen the two separate techniques:
+
+- Matching only allowed subdomain characters
+
+  ```
+  [-a-z0-9.]
+  ```
+
+- Matching the dot literally before the domain
+
+  ```
+  (\.)?linkedin\.com
+  ```
+
+We can just combine them:
+
+```
+([-a-z0-9.]*\.)?linkedin\.com
+```
+
+The full pattern would be like this:
+
+```
+^https?:\/\/([-a-z0-9.]*\.)?linkedin\.com\/.*$
+```
+
+This pattern, by the way, also protects against another (briefly mentioned above) potential attack, which would be using a URL such as `linkedin.com.mydomain.com`, because we're literally matching the slash (`/`) character at the end so that it doesn't allow any other character such as a dot.
+
+---
+
+I'm not 100% sure that this RegExp is not vulnerable, but at least it is protected against the three attacks that I have mentioned.
+
+If you still break it somehow, please do let me know!
