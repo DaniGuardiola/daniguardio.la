@@ -1,4 +1,4 @@
-import { BlogPostMetadata, PostData, getPostData, getPostIds } from 'lib/posts'
+import { getPostData, getPostIds } from 'lib/posts'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
 import Layout from 'components/layout/Layout'
@@ -10,6 +10,7 @@ import { format } from 'date-fns'
 import hydrate from 'next-mdx-remote/hydrate'
 import mdxComponents from 'components/mdx/mdx-components'
 import useScroll from 'lib/use-scroll'
+import { BlogPostMetadata, PostData } from 'lib/post-types'
 
 function BlogHeader ({
   metadata: {
