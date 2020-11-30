@@ -1,4 +1,4 @@
-import { getPostList } from 'lib/posts'
+// import { getPostList } from 'lib/posts'
 
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
@@ -33,8 +33,9 @@ export default function Blog ({ posts }: { posts: PostListType }) {
 Blog.Layout = Layout
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = await getPostList('blog')
+  // const posts = await getPostList('blog')
   return {
-    props: { posts }
+    // props: { posts }
+    props: { posts: [] }
   }
 }
