@@ -67,3 +67,4 @@
 - a11y
 - RSS
 - next/image
+- next font optimization
