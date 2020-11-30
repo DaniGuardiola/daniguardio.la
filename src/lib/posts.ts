@@ -206,7 +206,8 @@ function renderMDX (content: string, metadata: BlogPostMetadata) {
 // ------
 
 export async function getPostIds (category: Category) {
-  const postsDir = path.join(process.cwd(), 'content', category)
+  const postsDir = getPostsDir(category)
+  await fs.mkdir(postsDir, { recursive: true })
   return await fs.readdir(postsDir)
 }
 
