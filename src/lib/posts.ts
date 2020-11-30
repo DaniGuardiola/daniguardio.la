@@ -6,7 +6,6 @@ import { Promise } from 'bluebird'
 import { Source } from 'next-mdx-remote/hydrate'
 import { compareDesc } from 'date-fns'
 import computeReadingTime from 'reading-time'
-import fs from 'fs/promises'
 import matter from 'gray-matter'
 import mdxComponents from 'components/mdx/mdx-components'
 import path from 'path'
@@ -16,6 +15,8 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import renderToString from 'next-mdx-remote/render-to-string'
+
+const fs = require('fs')
 
 // file paths
 // ----------
