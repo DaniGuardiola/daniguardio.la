@@ -1,4 +1,4 @@
-// import { getPostData, getPostIds } from 'lib/posts'
+import { getPostData, getPostIds } from 'lib/posts'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
 import Layout from 'components/layout/Layout'
@@ -92,31 +92,15 @@ export default function BlogPost ({ source, metadata }: PostData) {
 BlogPost.Layout = Layout
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const ids = await getPostIds('blog')
+  const ids = await getPostIds('blog')
   return {
-    // paths: ids.map(id => ({ params: { id } })),
-    paths: [],
+    paths: ids.map(id => ({ params: { id } })),
     fallback: false
   }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
   const { id } = params
-  const fakeMetadata: BlogPostMetadata = {
-    id: 'test',
-    title: 'test',
-    description: 'test',
-    url: 'test',
-    tags: [],
-    timestamp: 0,
-    readingTime: {
-      text: 'test',
-      time: 0,
-      words: 0,
-      minutes: 0
-    }
-  }
-  // const props = await getPostData('blog', id)
-  // return { props }
-  return { props: { metadata: fakeMetadata } }
+  const props = await getPostData('blog', id)
+  return { props }
 }
