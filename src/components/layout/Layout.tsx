@@ -5,7 +5,7 @@ import useScroll from 'lib/use-scroll'
 
 export default function Layout ({ children }: PropsWithChildren<{}>) {
   const [lastScrollDirection, scrolled] = process.browser
-    ? useScroll(window, 100)
+    ? useScroll(window, 300)
     : ['up', false]
   return (
     <>

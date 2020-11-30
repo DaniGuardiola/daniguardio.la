@@ -65,3 +65,5 @@
 - investigate router SSR etc
 - scroll header link into view when clicked
 - a11y
+- RSS
+- next/image

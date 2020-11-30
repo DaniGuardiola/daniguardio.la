@@ -23,15 +23,15 @@ function BlogHeader ({
 }) {
   return (
     <div className='pb-16 text-white bg-green-900 select-text'>
-      <div className='container p-8 mx-auto lg:container-lg'>
-        <h1 className='text-xl sm:text-3xl'>{title}</h1>
-        <p className='mt-1 mb-3 text-lg italic font-light'>{description}</p>
-        <p className='mt-2 font-mono text-sm sm:hidden'>
+      <div className='container px-8 pt-10 pb-8 mx-auto lg:container-lg'>
+        <p className='mb-2 font-mono text-sm sm:hidden'>
           {format(timestamp, 'MMM d, y')} · {readingTime}
         </p>
-        <p className='hidden mt-1 font-mono sm:block'>
+        <p className='hidden mb-1 font-mono sm:block'>
           {format(timestamp, "Lo 'of' MMMM, y")} · {readingTime}
         </p>
+        <h1 className='text-xl sm:text-3xl'>{title}</h1>
+        <p className='mt-1 text-lg italic font-light'>{description}</p>
       </div>
     </div>
   )

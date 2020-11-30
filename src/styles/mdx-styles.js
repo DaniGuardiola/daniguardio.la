@@ -80,6 +80,10 @@ module.exports = theme => ({
       [h(' > a')]: {
         color: theme('colors.gray.900'),
         position: 'relative'
+      },
+      img: {
+        marginLeft: 'auto',
+        marginRight: 'auto'
       }
     }
   },
