@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Header from './Header'
 import { PropsWithChildren } from 'react'
 import useScroll from 'lib/use-scroll'
+import GoogleFonts from 'next-google-fonts'
 
 export default function Layout ({ children }: PropsWithChildren<{}>) {
   const [lastScrollDirection, scrolled] = process.browser
@@ -17,6 +18,8 @@ export default function Layout ({ children }: PropsWithChildren<{}>) {
         ></meta>
         <link key='favicon' rel='icon' href='favicon.ico' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <GoogleFonts href='https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;351;400;700&display=swap' />
+        <GoogleFonts href='https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap' />
       </Head>
       <div className='select-none font-slab'>
         <Header
