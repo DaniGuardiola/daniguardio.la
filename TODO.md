@@ -68,3 +68,4 @@
 - RSS
 - next/image
 - next font optimization
+- static tweets: https://static-tweet.now.sh/

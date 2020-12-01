@@ -1,4 +1,9 @@
-import { BlogPostMetadata, PostData, getPostData, getPostIds } from 'lib/posts'
+import {
+  BlogPostMetadata,
+  PostData,
+  getPostData,
+  getPostIds
+} from 'lib/static/posts'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
 import Layout from 'components/layout/Layout'

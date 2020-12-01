@@ -1,4 +1,4 @@
-import { PostList as PostListType, getPostList } from 'lib/posts'
+import { PostList as PostListType, getPostList } from 'lib/static/posts'
 
 import { GetStaticProps } from 'next'
 import Head from 'next/head'

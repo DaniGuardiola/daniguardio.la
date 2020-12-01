@@ -1,3 +1,4 @@
+import BlogOGImageTemplate, { BlogOGImageParams } from './BlogOGImageTemplate'
 import rehypeTOC, { HtmlElementNode } from '@jsdevtools/rehype-toc'
 import rehypeUrlInspector, { UrlMatch } from '@jsdevtools/rehype-url-inspector'
 
@@ -6,6 +7,7 @@ import { Source } from 'next-mdx-remote/hydrate'
 import { compareDesc } from 'date-fns'
 import computeReadingTime from 'reading-time'
 import { promises as fs } from 'fs'
+import generateOGImages from './generate-og-images'
 import matter from 'gray-matter'
 import mdxComponents from 'components/mdx/mdx-components'
 import path from 'path'
@@ -87,6 +89,21 @@ async function copyPostResources (category: Category, id: string) {
     const dest = path.join(postPublicDir, file)
     return fs.copyFile(src, dest)
   })
+}
+
+async function copyOrGeneratePostOGImage (
+  category: Category,
+  id: string,
+  { title, description }: BlogPostMetadata
+) {
+  const postDir = getPostDir(category, id)
+  // TODO: check if already exists and copy instead of generate
+  const postPublicDir = getPostPublicDir(category, id)
+  await generateOGImages<BlogOGImageParams>(
+    BlogOGImageTemplate,
+    (_: BlogOGImageParams) => path.join(postPublicDir, 'og-image'),
+    [{ id, title, description }]
+  )
 }
 
 async function cleanup (category: Category, postIds: string[]) {
@@ -218,6 +235,7 @@ export async function getPostData (
   const { metadata, content } = await getMetadataAndContent(category, id)
   const source: Source = await renderMDX(content, metadata)
   await copyPostResources(category, id)
+  await copyOrGeneratePostOGImage(category, id, metadata)
   return { source, metadata }
 }
 
