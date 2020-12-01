@@ -22,6 +22,7 @@
 - Share buttons
 - Next/prev buttons
 - review user-select
+- remove image from blog metadata
 
 # Optimizations / future
 

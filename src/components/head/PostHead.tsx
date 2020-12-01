@@ -3,26 +3,22 @@ import Head from 'next/head'
 
 export default function PostHead ({
   title,
-  image,
   description,
   url
 }: {
   title: string
-  image?: string
   description: string
   url: string
 }) {
+  const postUrl = `https://${BASE_DOMAIN}/${url}`
+  const image = `${postUrl}/og-image.png`
   return (
     <Head>
       <title>{title}</title>
       <meta key='description' name='description' content={description}></meta>
 
       {/* open graph */}
-      <meta
-        key='og-url'
-        property='og:url'
-        content={`https://${BASE_DOMAIN}/${url}`}
-      />
+      <meta key='og-url' property='og:url' content={postUrl} />
       <meta key='og-type' property='og:type' content='article' />
       <meta key='og-title' property='og:title' content={title} />
       <meta
@@ -30,7 +26,7 @@ export default function PostHead ({
         property='og:description'
         content={description}
       />
-      {image && <meta key='og-image' property='og:image' content={image} />}
+      <meta key='og-image' property='og:image' content={image} />
 
       {/* twitter */}
       <meta
@@ -45,9 +41,7 @@ export default function PostHead ({
         name='twitter:description'
         content={description}
       />
-      {image && (
-        <meta key='twitter-image' name='twitter:image' content={image} />
-      )}
+      <meta key='twitter-image' name='twitter:image' content={image} />
       <meta key='twitter-url' name='twitter:url' content={url} />
     </Head>
   )

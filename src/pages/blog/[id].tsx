@@ -74,18 +74,13 @@ export default function BlogPost ({ source, metadata }: PostData) {
   const content = hydrate(source, {
     components: mdxComponents
   })
-  const { image, description, title: postTitle, id } = metadata
+  const { description, title: postTitle, id } = metadata
   const title = `${postTitle} - Dani Guardiola's blog`
   const url = `blog/${id}`
   return (
     <>
       <BackToTop />
-      <SocialHead
-        title={title}
-        description={description}
-        image={image}
-        url={url}
-      />
+      <SocialHead title={title} description={description} url={url} />
       <BlogHeader metadata={metadata} />
       <MDX>{content}</MDX>
       <div className='h-16' />

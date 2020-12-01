@@ -10,7 +10,7 @@ export type NavLinkData = {
   subpath?: string
 }
 
-export const BASE_DOMAIN = 'daniguardiola.me'
+export const BASE_DOMAIN = 'daniguardio-la.vercel.app'
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
