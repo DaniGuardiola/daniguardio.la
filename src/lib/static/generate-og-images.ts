@@ -9,7 +9,9 @@ export default async function generateOGImages<T> (
   imagePath: string | ((params: T) => string),
   targets: T[] | T
 ) {
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox']
+  })
   const page = await browser.newPage()
   await page.setViewport({ width: 1200, height: 628 })
   if (!Array.isArray(targets)) targets = [targets]
