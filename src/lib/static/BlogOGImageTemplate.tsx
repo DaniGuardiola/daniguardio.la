@@ -14,7 +14,7 @@ export default function BlogOGImageTemplate ({ title }: BlogOGImageParams) {
   }
   
   .pattern {
-    background-image: radial-gradient(#ffffff9e 0%, transparent 2px);
+    background-image: radial-gradient(#ffffff9e 10%, transparent 2px);
     background-position: 0 0;
     background-size: 24px 24px;
     -webkit-mask: linear-gradient(red, transparent);
