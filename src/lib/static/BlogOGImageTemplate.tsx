@@ -1,9 +1,13 @@
 export type BlogOGImageParams = {
   id: string
   title: string
+  section?: string
 }
 
-export default function BlogOGImageTemplate ({ title }: BlogOGImageParams) {
+export default function BlogOGImageTemplate ({
+  title,
+  section
+}: BlogOGImageParams) {
   const css = `
   .font-slab {
     font-family: 'Roboto Slab', serif;
@@ -48,7 +52,12 @@ export default function BlogOGImageTemplate ({ title }: BlogOGImageParams) {
           <div className='flex items-center justify-center flex-grow'>
             <p className='font-mono text-6xl text-black'>
               daniguardio.la
-              <span className='font-bold text-green-900'>{' > blog'}</span>
+              {section && (
+                <span className='font-bold text-green-900'>
+                  {' > '}
+                  {section}
+                </span>
+              )}
             </p>
           </div>
           {/* <p className='px-16 pt-8 text-4xl italic leading-relaxed text-green-900 font-slab'>

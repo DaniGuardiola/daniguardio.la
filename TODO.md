@@ -2,7 +2,6 @@
 
 - SEO meta
   - blog
-  - projects
   - about-me
   - https://cards-dev.twitter.com/validator
   - https://ogp.me/
@@ -26,6 +25,7 @@
 
 # Optimizations / future
 
+- projects page
 - Archive
 - Lab
 - refine history: anchor navigation
@@ -75,3 +75,4 @@
 - publish posts lib as npm module
 - publish use-scroll as npm module
 - publish use-route-active as npm module
+- even better SEO and og stuff

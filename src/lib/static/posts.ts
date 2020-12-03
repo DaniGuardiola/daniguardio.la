@@ -97,12 +97,12 @@ async function copyOrGeneratePostOGImage (
   { title }: BlogPostMetadata
 ) {
   const postDir = getPostDir(category, id)
-  // TODO: check if already exists and copy instead of generate
+  // TODO: check if already exists and copy instead of generating
   const postPublicDir = getPostPublicDir(category, id)
   await generateOGImages<BlogOGImageParams>({
     Template: BlogOGImageTemplate,
     outputPath: (_: BlogOGImageParams) => path.join(postPublicDir, 'og-image'),
-    targets: [{ id, title }]
+    targets: { id, title, section: 'blog' }
   })
 }
 
