@@ -1,4 +1,4 @@
-import { NAV_LINKS, NavLinkData, SOCIAL_LINKS } from 'lib/constants'
+import { NAV_LINKS, NavLinkData, SOCIAL_LINKS } from 'lib/static/constants'
 import { useIsExactRouteActive, useIsRouteActive } from 'lib/use-route-active'
 
 import FaviconBlinkHead from 'components/head/FaviconBlink'

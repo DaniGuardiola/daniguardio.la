@@ -70,3 +70,8 @@
 - next/image
 - next font optimization
 - static tweets: https://static-tweet.now.sh/
+- publish typewriter as npm module
+- publish og-image as npm module
+- publish posts lib as npm module
+- publish use-scroll as npm module
+- publish use-route-active as npm module
