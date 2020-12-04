@@ -5,8 +5,6 @@ import Head from 'next/head'
 import Layout from 'components/layout/Layout'
 import PostList from 'components/ui/PostList'
 
-const emptyChar = '‎' // this is an empty character, prevents height changes
-
 export default function Blog ({ posts }: { posts: PostListType }) {
   return (
     <>
@@ -19,7 +17,7 @@ export default function Blog ({ posts }: { posts: PostListType }) {
       </Head>
       <div className='text-white bg-green-900'>
         <div className='container p-8 mx-auto lg:container-lg'>
-          <h1 className='text-xl sm:text-3xl'>Thoughts about things</h1>
+          <h1 className='text-xl sm:text-3xl'>Code drunk, refactor sober</h1>
         </div>
       </div>
       <div className='container px-6 py-4 mx-auto font-mono lg:container-lg'>

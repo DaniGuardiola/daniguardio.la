@@ -1,14 +1,5 @@
-export type SocialLink = {
-  title: string
-  url: string
-  className?: string
-}
-
-export type NavLinkData = {
-  title: string
-  path: string
-  subpath?: string
-}
+// data
+// ----
 
 export const BASE_DOMAIN = 'daniguardio-la.vercel.app'
 
@@ -34,13 +25,38 @@ export const NAV_LINKS: NavLinkData[] = [
     path: '/',
     subpath: '/blog/'
   },
-  {
-    title: 'projects',
-    path: '/projects',
-    subpath: '/project/'
-  },
+  // {
+  //   title: 'projects',
+  //   path: '/projects',
+  //   subpath: '/project/'
+  // },
+  // {
+  //   title: 'archive',
+  //   path: '/archive',
+  //   subpath: '/archive/'
+  // },
+  // {
+  //   title: 'lab',
+  //   path: '/lab',
+  //   subpath: '/lab/'
+  // },
   {
     title: 'about me',
     path: '/about-me'
   }
 ]
+
+// types
+// -----
+
+export type SocialLink = {
+  title: string
+  url: string
+  className?: string
+}
+
+export type NavLinkData = {
+  title: string
+  path: string
+  subpath?: string
+}

@@ -32,7 +32,7 @@ export default function Layout ({ children }: PropsWithChildren<{}>) {
           scrolled={scrolled}
           collapsed={lastScrollDirection === 'down'}
         />
-        {children}
+        <main>{children}</main>
       </div>
     </>
   )

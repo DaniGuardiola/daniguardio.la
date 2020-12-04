@@ -35,7 +35,7 @@
     "autoprefixer": "^10.0.2",
     "bluebird": "^3.7.2",
     "gray-matter": "^4.0.2",
-    "postcss": "^8.1.8",
+    "postcss": "^8.1.14",
     "puppeteer": "^5.5.0",
     "reading-time": "^1.2.1",
     "rehype-accessible-emojis": "^0.3.2",

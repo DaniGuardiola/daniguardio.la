@@ -1,8 +1,36 @@
+// const reallyBadCssParser = require('../lib/static/really-bad-css-parser')
+
 const h = (s = '') => [1, 2, 3, 4, 5, 6].map(n => `h${n}${s}`).join(', ')
 module.exports = theme => ({
   DEFAULT: {
     css: {
       wordBreak: 'break-word',
+      // ...(await reallyBadCssParser(`
+      // nav {
+      //   @apply text-red-500 rounded shadow;
+      //   margin-top: -7rem !important;
+      //   line-height: 1.25rem;
+      //   padding-top: 0.25rem;
+      //   padding-left: 2rem;
+      //   border-radius: 0.5rem;
+      //   margin-bottom: 2rem;
+      //   padding-right: 2rem;
+      //   padding-bottom: 0.25rem;
+      //   background-color: #1a281e;
+      // }
+
+      // nav p {
+      //   font-size: 1rem;
+      //   font-family: ${theme('fontFamily.mono')};
+      //   color: ${theme('colors.white')};
+      //   font-weight: bold;
+      // }
+
+      // nav ol > li {
+      //   padding-left: 1em;
+      //   font-size: 1rem;
+      // }
+      // `)),
       nav: {
         backgroundColor: '#1a281e',
         borderRadius: '0.5rem',

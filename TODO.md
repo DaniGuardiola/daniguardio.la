@@ -12,10 +12,8 @@
     - Custom image
 - Setup MDX images
 - Decent 404 page
-- Projects: grid view or something like that
 - About me page
 - Link stuff: internal, \_blank, noopener, whatever
-- robots.txt
 - daniguardio.la
 - Semantic HTML
 - Share buttons
@@ -25,28 +23,31 @@
 
 # Optimizations / future
 
+- custom og-image support
 - projects page
+- Projects: grid view or something like that
 - Archive
 - Lab
 - refine history: anchor navigation
-- drafts in subpath (blog/\_drafts/etc)
+- drafts in subpath (blog/\_drafts/etc)?
 - sitemap? https://leerob.io/blog/nextjs-sitemap-robots
-- SEO stuff everywhere
+- SEO stuff everywhere i guess
 - Improve favicon stuff
   - https://realfavicongenerator.net/
-- SSG revalidate
-- Webmentions
+- SSG revalidate? Custom build cache?
+- Webmentions?
 - Automatically hide posts before date
 - Fix FOUT: https://jaicab.com/localFont/
 - Nav bleed into padding when overflow?
-- article tags
+- post tags
 - tag search
 - Copy button for code blocks
 - Fullscreen button for code blocks
 - Also for images
 - Hide recommended videos on YouTube?
-- Add video support to articles
-- Article big-image support
+- Add youtube video support to posts
+- Add own video support to posts
+- Post big-image support
 - Dark theme
 - Side sticky TOC if it fits?
 - Side TOC highlight current section?
@@ -54,17 +55,17 @@
   - https://github.com/rsclarke/rehype-shiki
   - https://github.com/shikijs/shiki/blob/master/packages/themes/data/dark-plus.json
 - Investigate: https://fatihkalifa.com/typescript-twoslash
-- Typography MDX use tailwind classes instead of props
-- Some kind of easter egg
-- Code highlight support
+- Typography MDX use tailwind classes instead of raw CSS props https://github.com/postcss/postcss-js
+- Some kind of easter egg?
+- Code highlight (as in range highlight) support
 - Code diff support
-- Auto-generate preview images
 - AMP
 - 500 page
-- Some kind of parallax?
+- Some kind of parallax on blog post header?
 - project header?
 - investigate router SSR etc
-- scroll header link into view when clicked
+- scroll header link into view when clicked (horizontal overflow on mobile)
+- different nav layout on mobile?
 - a11y
 - RSS
 - next/image
@@ -75,4 +76,7 @@
 - publish posts lib as npm module
 - publish use-scroll as npm module
 - publish use-route-active as npm module
-- even better SEO and og stuff
+- even more og tags
+- Stop blinking on header collapse?
+- Move post resources to sub-dir?
+- better semantics even https://www.elegantthemes.com/blog/wordpress/semantic-html-best-practices-for-2019

@@ -16,32 +16,6 @@ import hydrate from 'next-mdx-remote/hydrate'
 import mdxComponents from 'components/mdx/mdx-components'
 import useScroll from 'lib/use-scroll'
 
-function BlogHeader ({
-  metadata: {
-    title,
-    description,
-    readingTime: { text: readingTime },
-    timestamp
-  }
-}: {
-  metadata: BlogPostMetadata
-}) {
-  return (
-    <div className='pb-16 text-white bg-green-900 select-text'>
-      <div className='container px-8 pt-10 pb-8 mx-auto lg:container-lg'>
-        <p className='mb-2 font-mono text-sm sm:hidden'>
-          {format(timestamp, 'MMM d, y')} · {readingTime}
-        </p>
-        <p className='hidden mb-1 font-mono sm:block'>
-          {format(timestamp, "Lo 'of' MMMM, y")} · {readingTime}
-        </p>
-        <h1 className='text-xl sm:text-3xl'>{title}</h1>
-        <p className='mt-1 text-lg italic font-light'>{description}</p>
-      </div>
-    </div>
-  )
-}
-
 function BackToTop () {
   const [_, scrolled] = process.browser
     ? useScroll(window, undefined, 500)
@@ -70,6 +44,38 @@ function BackToTop () {
   )
 }
 
+function BlogHeader ({
+  metadata: {
+    title,
+    description,
+    readingTime: { text: readingTime },
+    timestamp
+  }
+}: {
+  metadata: BlogPostMetadata
+}) {
+  return (
+    <header className='pb-16 text-white bg-green-900 select-text'>
+      <div className='container px-8 pt-10 pb-8 mx-auto lg:container-lg'>
+        <p className='mb-2 font-mono text-sm text-white text-opacity-75 sm:hidden'>
+          {format(timestamp, 'MMM d, y')}
+          <span className='font-bold'> · </span>
+          {readingTime}
+        </p>
+        <p className='hidden mb-1 font-mono text-white text-opacity-75 sm:block'>
+          {format(timestamp, "Lo 'of' MMMM, y")}
+          <span className='font-bold'> · </span>
+          {readingTime}
+        </p>
+        <h1 className='text-xl sm:text-3xl'>{title}</h1>
+        <p className='mt-2 font-light text-white text-md sm:text-lg text-opacity-80'>
+          {description}
+        </p>
+      </div>
+    </header>
+  )
+}
+
 export default function BlogPost ({ source, metadata }: PostData) {
   const content = hydrate(source, {
     components: mdxComponents
@@ -79,11 +85,13 @@ export default function BlogPost ({ source, metadata }: PostData) {
   const url = `blog/${id}`
   return (
     <>
-      <BackToTop />
       <SocialHead title={title} description={description} url={url} />
-      <BlogHeader metadata={metadata} />
-      <MDX>{content}</MDX>
-      <div className='h-16' />
+      <article>
+        <BackToTop />
+        <BlogHeader metadata={metadata} />
+        <MDX>{content}</MDX>
+        <div className='h-16' />
+      </article>
     </>
   )
 }

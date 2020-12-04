@@ -4,6 +4,7 @@
 
 @layer utilities {
   @variants responsive {
+    /* smaller max container size */
     .container-lg {
       max-width: 1024px;
     }

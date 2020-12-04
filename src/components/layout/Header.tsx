@@ -1,4 +1,4 @@
-import { NAV_LINKS, NavLinkData, SOCIAL_LINKS } from 'lib/static/constants'
+import { NAV_LINKS, NavLinkData, SOCIAL_LINKS } from 'data'
 import { useIsExactRouteActive, useIsRouteActive } from 'lib/use-route-active'
 
 import FaviconBlinkHead from 'components/head/FaviconBlink'
@@ -141,8 +141,8 @@ export default function Header ({
 }) {
   return (
     <>
-      <div className='sticky top-0 z-10 h-32 pointer-events-none sm:h-24'>
-        <header
+      <header className='sticky top-0 z-10 h-32 pointer-events-none sm:h-24'>
+        <div
           className={cn(
             'bg-gray-100 border-b-2 border-gray-300 pointer-events-auto',
             'hover:h-32 sm:hover:h-24 overflow-hidden transition-all duration-300',
@@ -159,8 +159,8 @@ export default function Header ({
               <Nav />
             </div>
           </div>
-        </header>
-      </div>
+        </div>
+      </header>
       <style jsx>{`
         .scrollbar-fix {
           margin-left: calc(100vw - 100%);

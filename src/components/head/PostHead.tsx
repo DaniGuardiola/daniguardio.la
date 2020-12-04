@@ -1,4 +1,4 @@
-import { BASE_DOMAIN } from 'lib/static/constants'
+import { BASE_DOMAIN } from 'data'
 import Head from 'next/head'
 
 export default function PostHead ({
