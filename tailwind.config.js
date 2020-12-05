@@ -1,24 +1,12 @@
-const postStyles = require('./src/styles/mdx-styles')
-
-module.exports = {
-  plugins: [require('@tailwindcss/typography')],
-  purge: ['./src/**/*.{js,ts,jsx,tsx}'],
+const merge = require('lodash.merge')
+const baseConfig = require('./tailwind.base.config')
+const typography = require('@tailwindcss/typography')
+const styles = require('./src/styles/mdx-styles.compiled.json')
+module.exports = merge(baseConfig, {
+  plugins: [typography],
   theme: {
     extend: {
-      fontFamily: {
-        slab: '"Roboto Slab", serif',
-        mono: '"Roboto Mono", monospace'
-      },
-      fontWeight: {
-        'normal-light': '351'
-      },
-      typography: postStyles
-    }
-  },
-  variants: {
-    extend: {
-      margin: ['first', 'last'],
-      height: ['hover']
+      typography: styles
     }
   }
-}
+})

@@ -60,9 +60,6 @@ export default function BlogOGImageTemplate ({
               )}
             </p>
           </div>
-          {/* <p className='px-16 pt-8 text-4xl italic leading-relaxed text-green-900 font-slab'>
-            {description}
-          </p> */}
         </body>
       </html>
     </>

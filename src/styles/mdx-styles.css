@@ -1,0 +1,102 @@
+DEFAULT {
+  css {
+    @apply break-words;
+
+    nav {
+      @apply px-8 py-1 mb-8 leading-5 rounded-lg bg-deep-green;
+      @apply -mt-28 !important;
+    }
+
+    nav p {
+      @apply font-mono text-base font-bold leading-5 text-white;
+    }
+
+    nav ol > li {
+      @apply pl-4 text-base leading-5;
+    }
+
+    nav ol > li > a {
+      @apply font-mono text-white;
+    }
+
+    nav ol > li:before {
+      @apply font-bold text-white opacity-50;
+    }
+
+    nav > ol > li:before {
+      @apply -top-0.5;
+      content: '>';
+    }
+
+    nav > ol > li li:before {
+      content: '-';
+    }
+
+    a {
+      @apply text-blue-800 no-underline;
+    }
+
+    a:hover {
+      @apply underline;
+    }
+
+    blockquote {
+      @apply not-italic border-gray-500 bg-gray-100 pr-4 py-0.5 rounded-lg rounded-l-none;
+    }
+
+    blockquote p:first-of-type::before,
+    blockquote p:last-of-type::after {
+      content: '';
+    }
+
+    code {
+      @apply px-1 bg-gray-200 rounded-lg;
+    }
+
+    code::before,
+    code::after {
+      content: '';
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      scroll-margin-top: 5rem;
+    }
+
+    /* :is(h1, h2, h3, h4, h5, h6) > a { */
+    h1 > a,
+    h2 > a,
+    h3 > a,
+    h4 > a,
+    h5 > a,
+    h6 > a {
+      @apply relative text-gray-900;
+    }
+
+    img {
+      @apply mx-auto;
+    }
+  }
+}
+xl {
+  css {
+    /* :is(h1, h2, h3, h4, h5, h6) > a:hover:before { */
+    h1 > a:hover:before,
+    h2 > a:hover:before,
+    h3 > a:hover:before,
+    h4 > a:hover:before,
+    h5 > a:hover:before,
+    h6 > a:hover:before {
+      @apply absolute text-gray-600 -left-3;
+      content: '#';
+    }
+
+    nav ol > li {
+      @apply text-lg leading-5;
+    }
+  }
+}

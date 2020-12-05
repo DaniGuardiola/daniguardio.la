@@ -12,14 +12,12 @@
     - Custom image
 - Setup MDX images
 - Decent 404 page
-- About me page
 - Link stuff: internal, \_blank, noopener, whatever
-- daniguardio.la
-- Semantic HTML
 - Share buttons
 - Next/prev buttons
 - review user-select
 - remove image from blog metadata
+- Better about me image
 
 # Optimizations / future
 
@@ -80,3 +78,4 @@
 - Stop blinking on header collapse?
 - Move post resources to sub-dir?
 - better semantics even https://www.elegantthemes.com/blog/wordpress/semantic-html-best-practices-for-2019
+- post footer of some kind?

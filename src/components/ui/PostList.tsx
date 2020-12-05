@@ -12,18 +12,18 @@ export default function PostList ({
 }) {
   let lastYear = 3000
   return (
-    <ul>
+    <section>
       {posts.map(({ id, title, timestamp, description }) => {
         const year = getYear(timestamp)
         let yearHeading
         if (year < lastYear) {
-          yearHeading = <li className='font-bold '>{year}</li>
+          yearHeading = <p className='font-bold '>{year}</p>
           lastYear = year
         }
         return (
           <Fragment key={id}>
             {yearHeading}
-            <li className='py-2 group'>
+            <article className='py-2 group'>
               <Link href={`/${category}/${id}`}>
                 <a>
                   <p>
@@ -40,10 +40,10 @@ export default function PostList ({
                   <p className='mt-1 mb-2 text-sm italic'>{description}</p>
                 </a>
               </Link>
-            </li>
+            </article>
           </Fragment>
         )
       })}
-    </ul>
+    </section>
   )
 }

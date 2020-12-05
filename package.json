@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "yarn tailwind-hack && next dev",
+    "build": "yarn tailwind-hack && next build",
+    "start": "next start",
+    "tailwind-hack": "node tailwind-hack"
   },
   "dependencies": {
     "@jsdevtools/rehype-url-inspector": "^2.0.2",
@@ -35,6 +36,7 @@
     "autoprefixer": "^10.0.2",
     "bluebird": "^3.7.2",
     "gray-matter": "^4.0.2",
+    "lodash.merge": "^4.6.2",
     "postcss": "^8.1.14",
     "puppeteer": "^5.5.0",
     "reading-time": "^1.2.1",
