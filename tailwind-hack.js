@@ -2,7 +2,7 @@ const postcss = require('postcss')
 const postcssJs = require('postcss-js')
 const tailwind = require('tailwindcss')
 const autoprefixer = require('autoprefixer')
-const fs = require('fs/promises')
+const fs = require('fs').promises
 const path = require('path')
 
 const getPath = p => path.join(process.cwd(), 'src/styles', p)
