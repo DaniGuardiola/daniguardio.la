@@ -21,6 +21,8 @@
 
 # Optimizations / future
 
+- rounded post images
+- better post list styles
 - custom og-image support
 - projects page
 - Projects: grid view or something like that
