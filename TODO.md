@@ -76,3 +76,5 @@
 - og profile -> about me
 - use Link in post links
 - next / prev post no smooth scrolling (prob happening in other pages too)
+- about me external links
+- blog & about me internal links
