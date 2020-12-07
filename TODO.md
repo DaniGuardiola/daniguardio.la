@@ -78,3 +78,4 @@
 - next / prev post no smooth scrolling (prob happening in other pages too)
 - about me external links
 - blog & about me internal links
+- scripts to auto-publish to dev.to and medium
