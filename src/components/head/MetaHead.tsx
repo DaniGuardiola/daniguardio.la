@@ -41,7 +41,7 @@ export default function MetaHead ({
         name='twitter:card'
         content='summary_large_image'
       />
-      <meta key='twitter-site' name='twitter:site' content='@daniguardiolame' />
+      <meta key='twitter-site' name='twitter:site' content='@daniguardio_la' />
       <meta key='twitter-title' name='twitter:title' content={title} />
       <meta
         key='twitter-description'
