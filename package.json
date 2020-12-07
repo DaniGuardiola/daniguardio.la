@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "yarn build-scripts && next dev",
-    "build": "yarn build-scripts && next build",
+    "dev": "yarn pre-build && next dev",
+    "build": "yarn pre-build && next build",
     "start": "next start",
-    "build-scripts": "node scripts/tailwind-hack"
+    "pre-build": "node scripts/tailwind-hack && yarn clean-cache",
+    "clean-cache": "rm -rf .cache"
   },
   "dependencies": {
     "@jsdevtools/rehype-url-inspector": "^2.0.2",

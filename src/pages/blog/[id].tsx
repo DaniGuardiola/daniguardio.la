@@ -2,7 +2,9 @@ import {
   BlogPostMetadata,
   PostData,
   getPostData,
-  getPostIds
+  getPostIds,
+  getPrevNextPosts,
+  PrevNextPosts
 } from 'lib/static/posts'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
@@ -16,6 +18,8 @@ import hydrate from 'next-mdx-remote/hydrate'
 import mdxComponents from 'components/mdx/mdx-components'
 import useScroll from 'lib/use-scroll'
 import TwitterIcon from 'components/icons/TwitterIcon'
+import { useState } from 'react'
+import Link from 'next/link'
 
 function BackToTop () {
   const [_, scrolled] = process.browser
@@ -29,7 +33,7 @@ function BackToTop () {
           <a
             href='#top'
             className={cn(
-              'pointer-events-auto px-6 py-2 bg-green-900 text-white font-mono',
+              'pointer-events-auto px-6 py-2 bg-deep-green text-white font-mono',
               'rounded text-md sm:text-xl shadow-md hover:shadow-lg transition-all duration-300',
               {
                 'pointer-events-auto': scrolled,
@@ -46,14 +50,17 @@ function BackToTop () {
 }
 
 function TwitterButton ({ title, url }: BlogPostMetadata) {
+  const [fullUrl] = useState(
+    process.browser
+      ? `https://${window.location.host}${window.location.pathname}`
+      : `https://daniguardio.la${url}`
+  )
   return (
     <a
       target='_blank'
       className='relative bottom-0.5'
       href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-        process.browser
-          ? `https://${window.location.host}${window.location.pathname}`
-          : `https://daniguardio.la/${url}`
+        fullUrl
       )}&text=${encodeURIComponent(title)}%20-%20by%20@daniguardio_la`}
     >
       <TwitterIcon className='inline w-5 h-5' />
@@ -94,7 +101,42 @@ function BlogHeader ({
   )
 }
 
-export default function BlogPost ({ source, metadata }: PostData) {
+function PrevNextPost ({ prevPost, nextPost }: PrevNextPosts) {
+  return (
+    <div className='text-white bg-green-900'>
+      <div className='container p-4 mx-auto lg:container-lg sm:p-8 sm:text-2xl'>
+        {prevPost && (
+          <p>
+            <Link href={prevPost.url}>
+              <a>
+                {'<- '}
+                {prevPost.title}
+              </a>
+            </Link>
+          </p>
+        )}
+        {nextPost && (
+          <p className='mt-8 text-right'>
+            <Link href={nextPost.url}>
+              <a>
+                {nextPost.title}
+                {' ->'}
+              </a>
+            </Link>
+          </p>
+        )}
+      </div>
+      <div className='h-24' />
+    </div>
+  )
+}
+
+export default function BlogPost ({
+  source,
+  metadata,
+  prevPost,
+  nextPost
+}: PostData & PrevNextPosts) {
   const content = hydrate(source, {
     components: mdxComponents
   })
@@ -113,7 +155,7 @@ export default function BlogPost ({ source, metadata }: PostData) {
         <BackToTop />
         <BlogHeader metadata={metadata} />
         <MDX>{content}</MDX>
-        <div className='h-16' />
+        <PrevNextPost prevPost={prevPost} nextPost={nextPost} />
       </article>
     </>
   )
@@ -131,6 +173,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }: Params) => {
   const { id } = params
-  const props = await getPostData('blog', id)
-  return { props }
+  const postData = await getPostData('blog', id)
+  const prevNext = await getPrevNextPosts('blog', id)
+  return { props: { ...postData, ...prevNext } }
 }

@@ -12,6 +12,11 @@
 
 # production
 /build
+public/blog
+public/project
+public/og
+mdx-styles.compiled.json
+.cache
 
 # misc
 .DS_Store
@@ -33,11 +38,3 @@ yarn-error.log*
 
 # IDEs
 .vscode
-
-# auto-generated static resources
-public/blog
-public/project
-public/og
-
-# tailwind hack
-mdx-styles.compiled.json

@@ -3,11 +3,6 @@ import Head from 'next/head'
 export default function BaseHead () {
   return (
     <Head>
-      <meta
-        key='description'
-        name='description'
-        content="Dani Guardiola's personal site. Engineering, fun projects, music and more!"
-      ></meta>
       <link key='favicon' rel='icon' href='favicon.ico' />
       <meta name='viewport' content='width=device-width, initial-scale=1' />
       <link rel='preconnect' href='https://fonts.gstatic.com' />

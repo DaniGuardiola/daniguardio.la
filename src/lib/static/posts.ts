@@ -41,6 +41,11 @@ export type PostData = {
 
 export type PostList = BlogPostMetadata[]
 
+export type PrevNextPosts = {
+  prevPost: BlogPostMetadata | null
+  nextPost: BlogPostMetadata | null
+}
+
 // file paths
 // ----------
 
@@ -61,6 +66,34 @@ function getPostPublicDir (category: Category, id: string) {
 
 function getPostPath (category: Category, id: string) {
   return path.join(getPostDir(category, id), 'post.mdx')
+}
+
+const CACHE_BASE_PATH = path.join(process.cwd(), '.cache')
+
+function getCachePath (key: string) {
+  return path.join(CACHE_BASE_PATH, `${key}.json`)
+}
+
+// cache
+// -----
+
+async function writeCache (key: string, value: Record<string, any>) {
+  await fs.mkdir(CACHE_BASE_PATH, { recursive: true })
+  return fs.writeFile(getCachePath(key), JSON.stringify(value))
+}
+
+async function isCached (key: string) {
+  try {
+    await fs.access(getCachePath(key))
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+async function readCache (key: string) {
+  const value = await fs.readFile(getCachePath(key), 'utf-8')
+  return JSON.parse(value)
 }
 
 // file system
@@ -229,29 +262,67 @@ function renderMDX (content: string, metadata: BlogPostMetadata) {
 // public
 // ------
 
-export async function getPostIds (category: Category) {
+export async function getPostIds (category: Category): Promise<string[]> {
+  // read cache
+  const cacheKey = '.post-ids'
+  if (await isCached(cacheKey)) return readCache(cacheKey)
+
   const postsDir = getPostsDir(category)
   await fs.mkdir(postsDir, { recursive: true })
-  return await fs.readdir(postsDir)
+  const result = await fs.readdir(postsDir)
+
+  // write cache and return
+  await writeCache(cacheKey, result)
+  return result
 }
 
 export async function getPostData (
   category: Category,
   id: string
 ): Promise<PostData> {
+  // read cache
+  const cacheKey = `.post.${category}.${id}`
+  if (await isCached(cacheKey)) return readCache(cacheKey)
+
   const { metadata, content } = await getMetadataAndContent(category, id)
   const source: Source = await renderMDX(content, metadata)
   await copyPostResources(category, id)
   await copyOrGeneratePostOGImage(category, id, metadata)
-  return { source, metadata }
+  const result = { source, metadata }
+
+  // write cache and return
+  await writeCache(cacheKey, result)
+  return result
 }
 
 export async function getPostList (category: Category): Promise<PostList> {
+  // read cache
+  const cacheKey = '.post-list'
+  if (await isCached(cacheKey)) return readCache(cacheKey)
+
   const postIds = await getPostIds(category)
   const posts = await Promise.map(postIds, async id => {
     const { metadata } = await getMetadataAndContent(category, id)
     return metadata
   })
   await cleanup(category, postIds)
-  return posts.filter(({ draft }) => !draft).sort(comparePosts)
+  const result = posts.filter(({ draft }) => !draft).sort(comparePosts)
+
+  // write cache and return
+  await writeCache(cacheKey, result)
+  return result
+}
+
+export async function getPrevNextPosts (
+  category: Category,
+  id: string
+): Promise<PrevNextPosts> {
+  const postList = await getPostList(category)
+  const currentIndex = postList.findIndex(
+    postMetadata => id === postMetadata.id
+  )
+  const nextPost = postList[currentIndex - 1] || null
+  const prevPost = postList[currentIndex + 1] || null
+
+  return { prevPost, nextPost }
 }

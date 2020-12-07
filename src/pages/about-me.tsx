@@ -15,7 +15,7 @@ export default function AboutMe ({ source }: { source: Source }) {
       <MetaHead
         type='website'
         title='About Dani Guardiola'
-        url=''
+        url='about-me'
         image='og/about-me.png'
         description='Some of the stuff I love includes music, engineering, interface design, free software (as in freedom), reverse-engineering, and not taking things seriously. Cats, too.'
       />

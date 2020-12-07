@@ -1,12 +1,7 @@
-# Basic stuff
-
-- Next/prev buttons
-- review user-select
-- Better about me image
-- Fix about me jump on page load
-
 # Optimizations / future
 
+- Fix about me jump on page load
+- Better about me image
 - Decent 404 page
 - slag font on lists?
 - Maybe don't even hydrate MDX?
@@ -79,3 +74,5 @@
     - Custom image
 - 301 redirect /blog -> /
 - og profile -> about me
+- use Link in post links
+- next / prev post no smooth scrolling (prob happening in other pages too)
