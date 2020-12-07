@@ -1,26 +1,15 @@
 # Basic stuff
 
-- SEO meta
-  - blog
-  - about-me
-  - https://cards-dev.twitter.com/validator
-  - https://ogp.me/
-  - Image:
-    - https://developers.facebook.com/docs/sharing/webmasters/images/
-    - https://www.swyx.io/jamstack-og-images/
-    - Generator fallback
-    - Custom image
-- Setup MDX images
-- Decent 404 page
-- Link stuff: internal, \_blank, noopener, whatever
-- Share buttons
 - Next/prev buttons
 - review user-select
-- remove image from blog metadata
 - Better about me image
+- Fix about me jump on page load
 
 # Optimizations / future
 
+- Decent 404 page
+- slag font on lists?
+- Maybe don't even hydrate MDX?
 - rounded post images
 - better post list styles
 - custom og-image support
@@ -76,8 +65,17 @@
 - publish posts lib as npm module
 - publish use-scroll as npm module
 - publish use-route-active as npm module
-- even more og tags
 - Stop blinking on header collapse?
 - Move post resources to sub-dir?
 - better semantics even https://www.elegantthemes.com/blog/wordpress/semantic-html-best-practices-for-2019
 - post footer of some kind?
+- Even more OG stuff
+  - https://cards-dev.twitter.com/validator
+  - https://ogp.me/
+  - Image:
+    - https://developers.facebook.com/docs/sharing/webmasters/images/
+    - https://www.swyx.io/jamstack-og-images/
+    - Generator fallback
+    - Custom image
+- 301 redirect /blog -> /
+- og profile -> about me

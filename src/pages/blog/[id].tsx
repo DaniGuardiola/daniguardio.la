@@ -9,12 +9,13 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import Layout from 'components/layout/Layout'
 import MDX from 'components/mdx/MDX'
 import { Params } from 'next/dist/next-server/server/router'
-import SocialHead from 'components/head/PostHead'
+import MetaHead from 'components/head/MetaHead'
 import cn from 'classnames'
 import { format } from 'date-fns'
 import hydrate from 'next-mdx-remote/hydrate'
 import mdxComponents from 'components/mdx/mdx-components'
 import useScroll from 'lib/use-scroll'
+import TwitterIcon from 'components/icons/TwitterIcon'
 
 function BackToTop () {
   const [_, scrolled] = process.browser
@@ -44,7 +45,24 @@ function BackToTop () {
   )
 }
 
+function TwitterButton ({ title, url }: BlogPostMetadata) {
+  return (
+    <a
+      target='_blank'
+      className='relative bottom-0.5'
+      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        process.browser
+          ? `https://${window.location.host}${window.location.pathname}`
+          : `https://daniguardio.la/${url}`
+      )}&text=${encodeURIComponent(title)}%20-%20by%20@daniguardio_la`}
+    >
+      <TwitterIcon className='inline w-5 h-5' />
+    </a>
+  )
+}
+
 function BlogHeader ({
+  metadata,
   metadata: {
     title,
     description,
@@ -56,16 +74,16 @@ function BlogHeader ({
 }) {
   return (
     <header className='pb-16 text-white bg-green-900 select-text'>
-      <div className='container px-8 pt-10 pb-8 mx-auto lg:container-lg'>
-        <p className='mb-2 font-mono text-sm text-white text-opacity-75 sm:hidden'>
-          {format(timestamp, 'MMM d, y')}
+      <div className='container relative px-8 pt-10 pb-8 mx-auto lg:container-lg'>
+        <p className='mb-2 font-mono text-sm text-white text-opacity-75 sm:mb-1'>
+          <span className='sm:hidden'>{format(timestamp, 'MMM d, y')}</span>
+          <span className='hidden sm:inline'>
+            {format(timestamp, "Lo 'of' MMMM, y")}
+          </span>
           <span className='font-bold'> · </span>
           {readingTime}
-        </p>
-        <p className='hidden mb-1 font-mono text-white text-opacity-75 sm:block'>
-          {format(timestamp, "Lo 'of' MMMM, y")}
           <span className='font-bold'> · </span>
-          {readingTime}
+          <TwitterButton {...metadata} />
         </p>
         <h1 className='text-xl sm:text-3xl'>{title}</h1>
         <p className='mt-2 font-light text-white text-md sm:text-lg text-opacity-80'>
@@ -85,7 +103,12 @@ export default function BlogPost ({ source, metadata }: PostData) {
   const url = `blog/${id}`
   return (
     <>
-      <SocialHead title={title} description={description} url={url} />
+      <MetaHead
+        title={title}
+        description={description}
+        url={url}
+        type='article'
+      />
       <article>
         <BackToTop />
         <BlogHeader metadata={metadata} />

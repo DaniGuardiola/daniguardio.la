@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "yarn tailwind-hack && next dev",
-    "build": "yarn tailwind-hack && next build",
+    "dev": "yarn build-scripts && next dev",
+    "build": "yarn build-scripts && next build",
     "start": "next start",
-    "tailwind-hack": "node tailwind-hack"
+    "build-scripts": "node scripts/tailwind-hack"
   },
   "dependencies": {
     "@jsdevtools/rehype-url-inspector": "^2.0.2",

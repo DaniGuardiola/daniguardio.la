@@ -1,4 +1,4 @@
-import BlogOGImageTemplate, { BlogOGImageParams } from './BlogOGImageTemplate'
+import OGImageTemplate, { OGImageParams } from './OGImageTemplate'
 import rehypeTOC, { HtmlElementNode } from '@jsdevtools/rehype-toc'
 import rehypeUrlInspector, { UrlMatch } from '@jsdevtools/rehype-url-inspector'
 
@@ -31,7 +31,6 @@ export type BlogPostMetadata = {
   description: string
   tags: string[]
   timestamp: number
-  image?: string
   readingTime: ReturnType<typeof computeReadingTime>
 }
 
@@ -99,9 +98,9 @@ async function copyOrGeneratePostOGImage (
   const postDir = getPostDir(category, id)
   // TODO: check if already exists and copy instead of generating
   const postPublicDir = getPostPublicDir(category, id)
-  await generateOGImages<BlogOGImageParams>({
-    Template: BlogOGImageTemplate,
-    outputPath: (_: BlogOGImageParams) => path.join(postPublicDir, 'og-image'),
+  await generateOGImages<OGImageParams>({
+    Template: OGImageTemplate,
+    outputPath: (_: OGImageParams) => path.join(postPublicDir, 'og-image'),
     targets: { id, title, section: 'blog' }
   })
 }
@@ -189,13 +188,21 @@ const getRehypeUrlInspectorWithOptions = ({
 }: BlogPostMetadata) => [
   rehypeUrlInspector,
   {
-    selectors: ['img[src]'],
+    selectors: ['img[src]', 'a[href]'],
     inspectEach: ({ url, node }: UrlMatch) => {
       if (node.tagName === 'img') {
         if (url.startsWith('https://') || url.startsWith('/')) return
         node.properties = {
           ...node.properties,
           src: `${postUrl}/${url}`
+        }
+      }
+      if (node.tagName == 'a') {
+        if (url.startsWith('http')) {
+          node.properties = {
+            ...node.properties,
+            target: '_blank'
+          }
         }
       }
     }

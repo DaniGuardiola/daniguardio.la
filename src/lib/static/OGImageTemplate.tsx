@@ -1,13 +1,10 @@
-export type BlogOGImageParams = {
+export type OGImageParams = {
   id: string
   title: string
   section?: string
 }
 
-export default function BlogOGImageTemplate ({
-  title,
-  section
-}: BlogOGImageParams) {
+export default function OGImageTemplate ({ title, section }: OGImageParams) {
   const css = `
   .font-slab {
     font-family: 'Roboto Slab', serif;
@@ -47,7 +44,10 @@ export default function BlogOGImageTemplate ({
         <body className='flex flex-col w-full h-full'>
           <div className='fixed top-0 left-0 w-full h-52 pattern'></div>
           <div className='flex items-end w-full px-16 py-16 text-6xl font-light text-white bg-green-900 h-96 font-slab'>
-            <p className='leading-tight'>{title}</p>
+            <p
+              className='leading-tight whitespace-pre-wrap'
+              dangerouslySetInnerHTML={{ __html: title }}
+            />
           </div>
           <div className='flex items-center justify-center flex-grow'>
             <p className='font-mono text-6xl text-black'>

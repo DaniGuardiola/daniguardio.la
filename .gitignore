@@ -37,6 +37,7 @@ yarn-error.log*
 # auto-generated static resources
 public/blog
 public/project
+public/og
 
 # tailwind hack
 mdx-styles.compiled.json

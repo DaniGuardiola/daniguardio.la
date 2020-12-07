@@ -1,7 +1,7 @@
 import { NAV_LINKS, NavLinkData, SOCIAL_LINKS } from 'data'
 import { useIsExactRouteActive, useIsRouteActive } from 'lib/use-route-active'
 
-import FaviconBlinkHead from 'components/head/FaviconBlink'
+import FaviconBlinkHead from 'components/head/FaviconBlinkHead'
 import Link from 'next/link'
 import TypeWriter from 'components/ui/TypeWriter'
 import cn from 'classnames'

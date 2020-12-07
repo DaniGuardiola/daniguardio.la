@@ -1,15 +1,11 @@
 import '../styles/global.css'
 
-import {
-  AppPropsType,
-  NextWebVitalsMetric
-} from 'next/dist/next-server/lib/utils'
-
+import { AppProps } from 'next/app'
 import { PropsWithChildren } from 'react'
 
 const Noop = ({ children }: PropsWithChildren<{}>) => children
 
-function MyApp ({ Component, pageProps }: AppPropsType) {
+function MyApp ({ Component, pageProps }: AppProps) {
   // @ts-ignore
   const Layout = Component.Layout || Noop
 
