@@ -1,7 +1,7 @@
 // data
 // ----
 
-export const BASE_DOMAIN = 'beta.daniguardio.la'
+export const BASE_DOMAIN = 'daniguardio.la'
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
