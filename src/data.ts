@@ -10,12 +10,12 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     title: 'twitter',
-    url: 'https://twitter.com/daniguardiolame',
+    url: 'https://twitter.com/daniguardio_la',
     className: 'text-blue-500'
   },
   {
     title: 'email',
-    url: 'mailto:hi@daniguardiola.me'
+    url: 'mailto:hi@daniguardio.la'
   }
 ]
 
