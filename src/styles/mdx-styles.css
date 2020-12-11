@@ -82,7 +82,7 @@ DEFAULT {
     }
 
     pre {
-      @apply shadow;
+      @apply shadow bg-deep-green;
     }
   }
 }
