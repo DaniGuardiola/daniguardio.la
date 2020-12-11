@@ -10,6 +10,22 @@ tags:
   - hacking
 ---
 
+> **Too long, didn't read?**
+>
+> This article describes a series of vulnerabilities and exploits that I found to circumvent regex URL validation.
+>
+> Jump straight to the exploits:
+>
+> - [#1 - The dot exploit](#1---the-dot-exploit)
+> - [#2 - The escaping exploit](#2---the-escaping-exploit)
+> - [#3 - The subdomain exploit](#3---the-subdomain-exploit)
+>
+> You will probably need to scroll up a bit to get more context on the vulnerabilities that make these exploits possible.
+>
+> Also check out how to protect a RegExp against them:
+>
+> - [The secure RegExp](#the-secure-regexp)
+
 # Why I dislike LinkedIn
 
 <Tweet
@@ -22,7 +38,7 @@ tags:
 
 Its interface is ugly, slow, and confusing. Or at least it was, I haven't checked in a while. However, that is not my main issue with it.
 
-The thing that keeps me away from it is its culture. I don't intend to over-generalize, of course, but I find it very superficial and shallow. Last time I used it (long ago), it was just so full of buzzwords, "experts" and "knowledge" that I got dizzy. I didn't even know what was real anymore.
+The thing that keeps me away from it is its culture. I don't intend to over-generalize, of course, but I find it very superficial and shallow. The last time I used it (long ago), it was just so full of buzzwords, "experts" and "knowledge" that I got dizzy. I didn't even know what was real anymore.
 
 <Tweet
   id='1286579072106205189'
@@ -236,40 +252,76 @@ Bingo! Using the `?` character works with this pattern. This is what the address
 
 !["Escaped" address in a browser](form-6.png)
 
+Note how the browser highlights the domain that the URL is pointing to: `notmylinkedin.com`
+
 This trick works because these characters divide URLs into different fragments that serve different purposes. Here are a few examples:
 
-- `?` character separates the query parameters: `https://example.com?key=value` (the query parameters are `key=value`)
-- `#` separates the [anchor ID](https://html.com/anchors-links/): `https://example.com#section` (the anchor ID is `section`)
-- `/` separates the pathname: `https://example.com/path` (the path is `path`)
+- The `?` character separates the query parameters:
 
-Only one thing was left to do at this point. I submitted it... and it worked!
+  Example URL: `https://example.com?key=value`
+
+  The query parameters are `key=value`
+
+- The `#` character separates the [anchor ID](https://html.com/anchors-links/):
+
+  Example URL: `https://example.com#section`
+
+  The anchor ID is `section`
+
+- The `/` character separates the pathname:
+
+  Example URL: `https://example.com/path`
+
+  The pathname is `path`
+
+Only one thing left to do. I submitted it... and it worked!
 
 ![Success message](form-7.png)
 
+The payload, as you can see, is the same as the one I used with the first exploit. Any subpath would still redirect to my CV, so it works just fine.
+
 # #3 - The subdomain exploit
+
+When I further analyzed this regular expression, I realized that there was yet another vulnerability.
+
+Let's look at the expression again:
+
+```
+^https?:\/\/(.*\.)?linkedin\.com
+```
+
+Notice how there's nothing after `.com`. This allows us to put anything we want after it.
+
+For instance, we could put `https://linkedin.com.example.com` and it'd still match.
+
+![Subdomain matching](form-8.png)
+
+We could use the same payload again by entering `https://linkedin.com.notmylinkedin.com` and it would work as long as I redirect all subdomains to my CV as well.
+
+I didn't get to try this exploit, but it probably would have worked.
 
 # The secure RegExp
 
 The first validation was protected against arbitrary characters in the subdomain, but didn't handle the dot correctly.
 
-The second validation handled the dot correctly but allowed arbitrary characters in the subdomain.
+The second validation handled the dot correctly but allowed arbitrary characters in the subdomain. Not only that, but it was also vulnerable to the subdomain exploit as well.
 
 Honestly, that is hilarious. It's also pretty harmless, as you can't really do much harm. However, under different circumstances, it could become a serious security problem.
 
-So, how do you protect against both exploits?
+So, how do you protect against all these exploits?
 
-Well, we've seen the two separate techniques:
+Well, we've already seen separate techniques for the first two:
 
-- Matching only allowed subdomain characters
-
-  ```
-  [-a-z0-9.]
-  ```
-
-- Matching the dot literally before the domain
+- Matching the dot literally before the domain (prevents the dot exploit, #1)
 
   ```
   (\.)?linkedin\.com
+  ```
+
+- Matching only allowed subdomain characters (prevents the escaping exploit, #2)
+
+  ```
+  [-a-z0-9.]
   ```
 
 We can just combine them:
@@ -278,16 +330,26 @@ We can just combine them:
 ([-a-z0-9.]*\.)?linkedin\.com
 ```
 
-The full pattern would be like this:
+Additionally, we can add the `/` character at the end to prevent exploit #3 (the subdomain exploit) as well. We could also put this inside of an optional capturing group in case we wanted to allow something like `https://linkedin.com` (without the final `/`), but that's probably never going to be the case anyway.
+
+The full pattern would look like this:
 
 ```
 ^https?:\/\/([-a-z0-9.]*\.)?linkedin\.com\/.*$
 ```
 
-This pattern, by the way, also protects against another (briefly mentioned above) potential attack, which would be using a URL such as `linkedin.com.mydomain.com`, because we're literally matching the slash (`/`) character at the end so that it doesn't allow any other character such as a dot.
+Let's put it to the test:
+
+![Testing the secure regular expression](secure-regexp.png)
+
+Yay! It works
 
 ---
 
 I'm not 100% sure that this RegExp is not vulnerable, but at least it is protected against the three attacks that I have mentioned.
 
 If you still break it somehow, please do let me know!
+
+And remember to secure your regular expressions if you don't want to have someone like me getting past them.
+
+😈
