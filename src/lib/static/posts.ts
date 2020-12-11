@@ -159,6 +159,10 @@ function comparePosts (a: BlogPostMetadata, b: BlogPostMetadata) {
 }
 
 async function getMetadataAndContent (category: Category, id: string) {
+  // read cache
+  const cacheKey = `.post.${category}.${id}.metadata`
+  if (await isCached(cacheKey)) return readCache(cacheKey)
+
   const { data, content } = matter(await getPostFile(category, id))
   // get metadata from post frontmatter
   const { title, description, tags, date, draft } = data
@@ -179,7 +183,11 @@ async function getMetadataAndContent (category: Category, id: string) {
     timestamp,
     readingTime
   }
-  return { metadata, content }
+  const result = { metadata, content }
+
+  // write cache and return
+  await writeCache(cacheKey, result)
+  return result
 }
 
 // MDX rendering

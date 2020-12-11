@@ -1,25 +1,25 @@
 import {
   BlogPostMetadata,
   PostData,
+  PrevNextPosts,
   getPostData,
   getPostIds,
-  getPrevNextPosts,
-  PrevNextPosts
+  getPrevNextPosts
 } from 'lib/static/posts'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
 import Layout from 'components/layout/Layout'
+import Link from 'next/link'
 import MDX from 'components/mdx/MDX'
-import { Params } from 'next/dist/next-server/server/router'
 import MetaHead from 'components/head/MetaHead'
+import { Params } from 'next/dist/next-server/server/router'
+import TwitterIcon from 'components/icons/TwitterIcon'
 import cn from 'classnames'
 import { format } from 'date-fns'
 import hydrate from 'next-mdx-remote/hydrate'
 import mdxComponents from 'components/mdx/mdx-components'
 import useScroll from 'lib/use-scroll'
-import TwitterIcon from 'components/icons/TwitterIcon'
 import { useState } from 'react'
-import Link from 'next/link'
 
 function BackToTop () {
   const [_, scrolled] = process.browser
@@ -85,7 +85,7 @@ function BlogHeader ({
         <p className='mb-2 font-mono text-sm text-white text-opacity-75 sm:mb-1'>
           <span className='sm:hidden'>{format(timestamp, 'MMM d, y')}</span>
           <span className='hidden sm:inline'>
-            {format(timestamp, "Lo 'of' MMMM, y")}
+            {format(timestamp, "do 'of' MMMM, y")}
           </span>
           <span className='font-bold'> · </span>
           {readingTime}

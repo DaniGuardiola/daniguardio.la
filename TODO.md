@@ -15,7 +15,7 @@
 - refine history: anchor navigation
 - drafts in subpath (blog/\_drafts/etc)?
 - sitemap? https://leerob.io/blog/nextjs-sitemap-robots
-- SEO stuff everywhere i guess
+- SEO stuff everywhere I guess
 - Improve favicon stuff
   - https://realfavicongenerator.net/
 - SSG revalidate? Custom build cache?
@@ -79,3 +79,9 @@
 - about me external links
 - blog & about me internal links
 - scripts to auto-publish to dev.to and medium
+- scripts to auto-post on social networks and other sites like reddit or hacker news
+- social links -> icons?
+- better cache impl
+- maybe short dates on blog post list for desktop too?
+- adjust anchor hashtag symbol for each heading size
+- more padding at bottom of article

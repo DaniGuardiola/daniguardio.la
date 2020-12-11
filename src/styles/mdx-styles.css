@@ -3,7 +3,7 @@ DEFAULT {
     @apply break-words;
 
     nav {
-      @apply px-8 py-1 mb-8 leading-5 rounded-lg bg-deep-green;
+      @apply px-8 py-1 mb-8 leading-5 rounded-lg shadow bg-deep-green;
       @apply -mt-28 !important;
     }
 
@@ -41,7 +41,7 @@ DEFAULT {
     }
 
     blockquote {
-      @apply not-italic border-gray-500 bg-gray-100 pr-4 py-0.5 rounded-lg rounded-l-none;
+      @apply not-italic border-gray-500 bg-gray-100 pr-4 py-0.5 rounded-lg rounded-l-none shadow;
     }
 
     blockquote p:first-of-type::before,
@@ -78,7 +78,11 @@ DEFAULT {
     }
 
     img {
-      @apply mx-auto;
+      @apply mx-auto rounded shadow;
+    }
+
+    pre {
+      @apply shadow;
     }
   }
 }
@@ -91,7 +95,7 @@ xl {
     h4 > a:hover:before,
     h5 > a:hover:before,
     h6 > a:hover:before {
-      @apply absolute text-gray-600 -left-3;
+      @apply absolute text-gray-600 -left-10;
       content: '#';
     }
 
