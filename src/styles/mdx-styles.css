@@ -40,6 +40,14 @@ DEFAULT {
       @apply underline;
     }
 
+    a img {
+      @apply transition-shadow;
+    }
+
+    a:hover img {
+      @apply shadow-lg;
+    }
+
     blockquote {
       @apply not-italic border-gray-500 bg-gray-100 pr-4 py-0.5 rounded-lg rounded-l-none shadow;
     }
@@ -83,6 +91,14 @@ DEFAULT {
 
     pre {
       @apply shadow bg-deep-green;
+    }
+
+    .twitter-tweet-rendered {
+      @apply transition-shadow shadow rounded-2xl;
+    }
+
+    .twitter-tweet-rendered:hover {
+      @apply shadow-lg;
     }
   }
 }

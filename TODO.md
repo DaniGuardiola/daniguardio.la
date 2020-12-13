@@ -1,82 +1,84 @@
-# Optimizations / future
+# Next batch of important details
 
 - Fix about me jump on page load
 - Better about me image
-- Decent 404 page
-- slag font on lists?
 - Maybe don't even hydrate MDX?
-- rounded post images
 - better post list styles
 - custom og-image support
+- refine history: anchor navigation
+- more padding at bottom of article
+- Automatically hide posts before date
+- drafts in subpath (blog/\_drafts/etc)?
+- Dark theme
+- Highlighting improvements:
+  - Switch to shiki
+    - https://github.com/rsclarke/rehype-shiki
+    - https://github.com/shikijs/shiki/blob/master/packages/themes/data/dark-plus.json
+  - Investigate: https://fatihkalifa.com/typescript-twoslash
+  - Code highlight (as in range highlight) support
+  - Code diff support
+  - regexp highlighting
+- investigate router SSR etc
+- next/image
+- static tweets: https://static-tweet.now.sh/
+- Stop blinking on header collapse?
+- Move post resources to sub-dir?
+- Better footer styles
+- 301 redirect /blog -> /
+- use Link in post links
+- use Link in about me
+- about me external links
+
+# Optimizations / future
+
+- Decent 404 page
+- slag font on lists?
 - projects page
 - Projects: grid view or something like that
 - Archive
 - Lab
-- refine history: anchor navigation
-- drafts in subpath (blog/\_drafts/etc)?
 - sitemap? https://leerob.io/blog/nextjs-sitemap-robots
 - SEO stuff everywhere I guess
 - Improve favicon stuff
   - https://realfavicongenerator.net/
 - SSG revalidate? Custom build cache?
 - Webmentions?
-- Automatically hide posts before date
-- Fix FOUT: https://jaicab.com/localFont/
 - Nav bleed into padding when overflow?
 - post tags
 - tag search
 - Copy button for code blocks
 - Fullscreen button for code blocks
-- Also for images
+- Fullscreen for images?
 - Hide recommended videos on YouTube?
 - Add youtube video support to posts
 - Add own video support to posts
-- Post big-image support
-- Dark theme
+- Post big-main-image support
 - Side sticky TOC if it fits?
 - Side TOC highlight current section?
-- Switch to shiki for highlighting:
-  - https://github.com/rsclarke/rehype-shiki
-  - https://github.com/shikijs/shiki/blob/master/packages/themes/data/dark-plus.json
-- Investigate: https://fatihkalifa.com/typescript-twoslash
-- Typography MDX use tailwind classes instead of raw CSS props https://github.com/postcss/postcss-js
 - Some kind of easter egg?
-- Code highlight (as in range highlight) support
-- Code diff support
 - AMP
 - 500 page
-- Some kind of parallax on blog post header?
+- Some kind of parallax on blog post header / footer?
 - project header?
-- investigate router SSR etc
 - scroll header link into view when clicked (horizontal overflow on mobile)
 - different nav layout on mobile?
 - a11y
 - RSS
-- next/image
 - next font optimization
-- static tweets: https://static-tweet.now.sh/
 - publish typewriter as npm module
 - publish og-image as npm module
 - publish posts lib as npm module
 - publish use-scroll as npm module
 - publish use-route-active as npm module
-- Stop blinking on header collapse?
-- Move post resources to sub-dir?
 - better semantics even https://www.elegantthemes.com/blog/wordpress/semantic-html-best-practices-for-2019
-- post footer of some kind?
 - Even more OG stuff
   - https://cards-dev.twitter.com/validator
   - https://ogp.me/
   - Image:
     - https://developers.facebook.com/docs/sharing/webmasters/images/
     - https://www.swyx.io/jamstack-og-images/
-    - Generator fallback
-    - Custom image
-- 301 redirect /blog -> /
 - og profile -> about me
-- use Link in post links
 - next / prev post no smooth scrolling (prob happening in other pages too)
-- about me external links
 - blog & about me internal links
 - scripts to auto-publish to dev.to and medium
 - scripts to auto-post on social networks and other sites like reddit or hacker news
@@ -84,4 +86,12 @@
 - better cache impl
 - maybe short dates on blog post list for desktop too?
 - adjust anchor hashtag symbol for each heading size
-- more padding at bottom of article
+- posts variable width per-element:
+  - .container-lg size:
+    - images
+    - code blocks
+    - quotes
+  - full-width bg thing?
+- up() button remove #top from url
+- self-promo at bottom of all posts?
+- post comments
