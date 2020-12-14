@@ -22,7 +22,7 @@ tags:
 >
 > _My impulses are the real god that I must follow as it is the only persistent and real influence on me, My Ego is my God, I am a follower of Egolatry._
 >
-> \- [Urban Dictionary](https://www.urbandictionary.com/define.php?term=Egolatry)
+> — [Urban Dictionary](https://www.urbandictionary.com/define.php?term=Egolatry)
 
 # Self-love
 
@@ -33,6 +33,18 @@ In fact, I might have done it myself in the past, but in a more... sneaky way: I
 ![Love yourself!](self-love.jpg)
 
 However, I still wanted to find those self-liked tweets, so I decided to create a web extension that does exactly that! I called it **Egolatron**.
+
+<Tweet
+  id='1328806906928967681'
+  placeholder={`Have you ever liked your own tweet?
+  
+  Well, I built a browser extension that detects self-likes.
+  
+  I call it "Egolatron". Coming soon to the Chrome Web Store.`}
+  userId='daniguardio_la'
+  userName='Dani Guardiola_'
+  date='2020-11-17'
+/>
 
 # The strategy
 
@@ -140,7 +152,55 @@ We can find out about this API call by using the ["Network" tab from the DevTool
    ![The button to open tweet likes](like-ui.png)
 3. Inspect the request using the DevTools.
 
-Now we have all the information we need to use the API for our evil purposes 😈.
+By doing this we can see that the resource we need is `api.twitter.com/2/timeline/liked_by.json?tweet_id=<ID>`.
+
+The API requires an authentication token among the request headers:
+
+![Auth token](token-1.png)
+
+It's almost as if this token is screaming.
+
+![AAAAAAAAAAAAAA](token-2.png)
+
+After spending some time looking for this token, I finally found it in a JavaScript file by searching for it on the DevTools with a regular expression:
+
+![Token found!](token-3.png)
+
+It seems like it is included in the main JavaScript bundle of the application. This file's name is `main.<hash>.js` and it is being loaded at the end of the body with a `<script>` tag. It is also being preloaded with a `<link rel="preload" as="script">` in the `<head>`:
+
+![Main bundle preload](token-4.png)
+
+If we take a look at a formatted version of this file, we can spot the token there:
+
+![The token inside the main bundle](token-5.png)
+
+With this knowledge, we can do something like this to obtain this token:
+
+```javascript
+async function getBearerToken () {
+  // find the link tag and get its 'href' value
+  const scriptUrl = document.querySelector(
+    'link[href^="https://abs.twimg.com/responsive-web/client-web/main."]'
+  ).href
+  // fetch the file and get it as text
+  const scriptContent = await (await fetch(scriptUrl)).text()
+  // extract the bearer token
+  const bearerToken = scriptContent.match(/"(AAAA[a-zA-Z0-9%]*)/)[1]
+  return bearerToken
+}
+```
+
+Notice how we are looking for the `<link>` tag by using the selector `link[href^=.../main.]`. This is because tools like Webpack add hashes to these bundles.
+
+This means that a bundle could be named `main.123456789.js` in one build and `main.abcdefghi.js` in the next one. To make our selector resilient to hash changes, we are using the `[attr^=value]` selector, which matches an element that has the attribute `attr` with a value that starts with `value`.
+
+Then we are using the URL to re-fetch the script (as text). Finally, we use a regular expression to find the bearer token inside the minified bundle code.
+
+This method is more or less equivalent to this method of fixing cars:
+
+![Car repair!](token-6.png)
+
+But you know what? It works! Now we have everything we need to use the API for our evil purposes 😈. Only 180 times every 15 minutes though, because it is rate-limited 😔.
 
 ```javascript
 function updateTweet (tweetData) {
@@ -148,7 +208,7 @@ function updateTweet (tweetData) {
 }
 ```
 
-Of course, the `updateTweet` function is called from inside the loop, which is executed constantly. We don't want our script to make a bazillion API calls, so we need to check if it has already been checked:
+Of course, the `updateTweet` function is called from inside the loop, which is executed constantly. We don't want our script to make a bazillion API calls (remember the rate limit), so we need to check whether it is a new tweet or if it has already been checked:
 
 ```javascript
 function updateTweet (tweetData) {
@@ -250,16 +310,28 @@ The `.getBoundingClientRect()` function will give us the position of the element
 
 If both are true, then the element is fully visible.
 
-# Get Egolatron!
+# How to look under the hood
 
-<Tweet
-  id='1328806906928967681'
-  placeholder='Have you ever liked your own tweet?\n\nWell, I built a browser extension that detects self-likes.\n\nI call it "Egolatron". Coming soon to the Chrome Web Store.'
-  userId='daniguardio_la'
-  userName='Dani Guardiola_'
-  date='2020-11-17'
-/>
+Other than by reading the code itself, you can enable three baked-in debugging options. To do this, you need to open the DevTools console, and switch to the extension context ("Egolatron" instead of "top" in the dropdown). Then, execute the following:
+
+- For detailed logs: `_egolatron.setLog(true)`
+- For detailed stats: `_egolatron.setStats(true)`
+- For debug styles: `_egolatron.setDebug(true)`
+
+To disable, pass `false` instead.
+
+Enabling debug styles will also enable logs and stats, overriding their individual settings. The debug styles will show a blue border for tweets that are being analyzed, green for tweets confirmed to not be 'self-liked' and red for 'self-liked' tweets (this will replace the fancy styles with the animated medal). Oh, and purple means that the API request for that tweet returned an error.
+
+---
 
 [![Available in the Chrome Web Store](/img/webstore-promo.png)](https://chrome.google.com/webstore/detail/egolatron/gncgbgdmioamlfdcliheeepnmgknlekm)
 
 [![Get the source code in GitHub](/img/github-promo.png)](https://github.com/DaniGuardiola/egolatron)
+
+Hope you enjoy it!
+
+If you find funny self-liked tweets, [please send them my way](https://twitter.com/daniguardio_la) so we can share a laugh.
+
+Also, I have some ideas for the future of this extension, like adding a stats UI or expanding to other platforms like Instagram or Facebook.
+
+Which one do you want to see first? Wanna help me build those features? [Hit me up!](mailto:hi@daniguardio.la)

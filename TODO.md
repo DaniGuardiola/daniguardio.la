@@ -4,8 +4,10 @@
 - Better about me image
 - Maybe don't even hydrate MDX?
 - better post list styles
+- slag font on post lists?
 - custom og-image support
 - refine history: anchor navigation
+- up() button remove #top from url
 - more padding at bottom of article
 - Automatically hide posts before date
 - drafts in subpath (blog/\_drafts/etc)?
@@ -24,15 +26,22 @@
 - Stop blinking on header collapse?
 - Move post resources to sub-dir?
 - Better footer styles
+- self-promo at bottom of all posts?
 - 301 redirect /blog -> /
 - use Link in post links
 - use Link in about me
 - about me external links
+- better cache impl
+- social links -> icons? only mobile?
+- maybe short dates on blog post list for desktop too?
+- maybe fixed width for blog post list dates on desktop?
+- Add youtube video support to posts
+- Hide recommended videos on YouTube?
+- adjust anchor hashtag symbol for each heading size
 
 # Optimizations / future
 
 - Decent 404 page
-- slag font on lists?
 - projects page
 - Projects: grid view or something like that
 - Archive
@@ -49,8 +58,6 @@
 - Copy button for code blocks
 - Fullscreen button for code blocks
 - Fullscreen for images?
-- Hide recommended videos on YouTube?
-- Add youtube video support to posts
 - Add own video support to posts
 - Post big-main-image support
 - Side sticky TOC if it fits?
@@ -63,7 +70,7 @@
 - scroll header link into view when clicked (horizontal overflow on mobile)
 - different nav layout on mobile?
 - a11y
-- RSS
+- RSS https://www.npmjs.com/package/rss
 - next font optimization
 - publish typewriter as npm module
 - publish og-image as npm module
@@ -79,19 +86,12 @@
     - https://www.swyx.io/jamstack-og-images/
 - og profile -> about me
 - next / prev post no smooth scrolling (prob happening in other pages too)
-- blog & about me internal links
 - scripts to auto-publish to dev.to and medium
 - scripts to auto-post on social networks and other sites like reddit or hacker news
-- social links -> icons?
-- better cache impl
-- maybe short dates on blog post list for desktop too?
-- adjust anchor hashtag symbol for each heading size
 - posts variable width per-element:
   - .container-lg size:
     - images
     - code blocks
     - quotes
   - full-width bg thing?
-- up() button remove #top from url
-- self-promo at bottom of all posts?
 - post comments
