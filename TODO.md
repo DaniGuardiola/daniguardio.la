@@ -94,4 +94,6 @@
     - code blocks
     - quotes
   - full-width bg thing?
-- post comments
+- post comments: https://github.com/umputun/remark42
+- analytics: https://umami.is/docs/features
+- optional image captions
