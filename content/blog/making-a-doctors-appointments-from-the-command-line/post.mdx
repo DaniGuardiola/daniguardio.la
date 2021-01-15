@@ -19,6 +19,8 @@ TODO:
 
 [![Get the source code in GitHub](/img/github-promo.png)](https://github.com/DaniGuardiola/saludmadrid-unofficial-cli)
 
+![The CLI banner](cli-appointments.gif)
+
 # A bit of backstory
 
 I live in Madrid, Spain.
@@ -214,7 +216,7 @@ You can also inspect the full response body:
 
 ![a response on mitmproxy's web interface](mitmproxy-ui-2.png)
 
-Using this tool we can collect all relevant information about the API we need for the next step.
+Using this tool we can collect all relevant information about the API we need to build the CLI.
 
 # Building the CLI
 
@@ -230,12 +232,30 @@ The CLI is fairly simple. If you want to learn all of the implementation details
 
 - **[`cli.js`](https://github.com/DaniGuardiola/saludmadrid-unofficial-cli/blob/main/cli.js):** the entrypoint for the CLI. Handles filesystem storage (for credentials persistence), menus and the banner.
 
-# CLI design ✨
+# The CLI in action ✨
 
-## Banner
+The banner looks good, huh? 😎
 
-![The CLI banner](cli-banner.png)
+![The CLI banner](cli-banner.gif)
 
-Looks good, huh? 😎
+The login process is pretty straightforward.
 
-(to do)
+![Login into an account](cli-login.gif)
+
+Profiles are persisted on the filesystem, so you don't have enter your credentials again every time.
+
+The CLI also logs a message with relevant information from the authorities for the user. This message comes from the server.
+
+![Profile login](cli-profile.gif)
+
+You can make, reschedule, and cancel appointments easily. The backend is surprisingly fast.
+
+The CLI also shows logs for every important action so you can keep track of them.
+
+![Making appointments](cli-appointments.gif)
+
+---
+
+[![Get the source code in GitHub](/img/github-promo.png)](https://github.com/DaniGuardiola/saludmadrid-unofficial-cli)
+
+The source

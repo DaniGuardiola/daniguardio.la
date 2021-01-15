@@ -60,6 +60,10 @@ function getPostDir (category: Category, id: string) {
   return path.join(getPostsDir(category), id)
 }
 
+function getPostResourcesDir (category: Category, id: string) {
+  return path.join(getPostDir(category, id), 'public')
+}
+
 function getPostPublicDir (category: Category, id: string) {
   return path.join(getPostsPublicDir(category), id)
 }
@@ -104,23 +108,24 @@ async function getPostFile (category: Category, id: string) {
 }
 
 async function copyPostResources (category: Category, id: string) {
-  const postDir = getPostDir(category, id)
+  const postDir = getPostResourcesDir(category, id)
   const postPublicDir = getPostPublicDir(category, id)
   // remove previous public post dir
   await fs.rmdir(postPublicDir, { recursive: true })
-  // get filenames of post resources
-  const files = await fs.readdir(postDir)
-  // stop early if there are no files
-  if (!files) return
-  // create new public post dir
-  await fs.mkdir(postPublicDir, { recursive: true })
-  // copy all files except actual post
-  return Promise.map(files, async file => {
-    if (file === 'post.mdx') return
-    const src = path.join(postDir, file)
-    const dest = path.join(postPublicDir, file)
-    return fs.copyFile(src, dest)
-  })
+  try {
+    // get filenames of post resources
+    const files = await fs.readdir(postDir)
+    // stop early if there are no files
+    if (!files) return
+    // create new public post dir
+    await fs.mkdir(postPublicDir, { recursive: true })
+    // copy all files except actual post
+    return Promise.map(files, async file => {
+      const src = path.join(postDir, file)
+      const dest = path.join(postPublicDir, file)
+      return fs.copyFile(src, dest)
+    })
+  } catch {}
 }
 
 async function copyOrGeneratePostOGImage (

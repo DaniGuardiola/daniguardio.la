@@ -1,23 +1,27 @@
+import puppeteer, { LaunchOptions } from 'puppeteer'
+
 import Promise from 'bluebird'
 import { promises as fs } from 'fs'
 import path from 'path'
-import puppeteer from 'puppeteer'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 type GenerateOGImagesInput<T> = {
   Template: React.FunctionComponent<T>
   outputPath: string | ((params: T) => string)
   targets: T[] | T
+  puppeteerLaunchOptions?: LaunchOptions
 }
 
 export default async function generateOGImages<T> ({
   Template,
   outputPath,
-  targets
+  targets,
+  puppeteerLaunchOptions
 }: GenerateOGImagesInput<T>) {
   // start puppeteer
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox'] // without this argument, it breaks when run as root
+    args: ['--no-sandbox'], // without this argument, it breaks when run as root
+    ...puppeteerLaunchOptions
   })
   // open a page and setup its viewport
   const page = await browser.newPage()

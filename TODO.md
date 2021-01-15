@@ -24,7 +24,6 @@
 - next/image
 - static tweets: https://static-tweet.now.sh/
 - Stop blinking on header collapse?
-- Move post resources to sub-dir?
 - Better footer styles
 - self-promo at bottom of all posts?
 - 301 redirect /blog -> /
