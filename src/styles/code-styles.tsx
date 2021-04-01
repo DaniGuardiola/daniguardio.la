@@ -9,7 +9,7 @@
  * @author Denis Ciccale <dciccale@gmail.com>
  * @author Zeno Rocha <hi@zenorocha.com>
  */
-import css from 'styled-jsx/css'
+import { css } from 'styled-jsx/css'
 
 export default css.global`
   .hljs {
