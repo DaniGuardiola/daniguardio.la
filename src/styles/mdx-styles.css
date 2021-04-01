@@ -54,7 +54,7 @@ DEFAULT {
 
     blockquote p:first-of-type::before,
     blockquote p:last-of-type::after {
-      content: '';
+      content: '' !important;
     }
 
     code {
