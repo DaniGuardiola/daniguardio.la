@@ -218,6 +218,67 @@ You can also inspect the full response body:
 
 Using this tool we can collect all relevant information about the API we need to build the CLI.
 
+# Reverse-engineering (again)
+
+I have a confession to make. I've lied to you.
+
+When I originally wrote this CLI tool, I couldn't make the proxy method to work. In fact, after multiple attempts, I was really close to giving up, but then I found a solution completely by accident.
+
+## chrome://inspect
+
+Chrome has a tool that allows you to remotely debug Chrome tabs and webviews opened on a different device. It works by connecting to the device either through the network or via USB, and attaching a DevTools instance to the target tab/webview.
+
+This tool can be accessed at `chrome://inspect` and it's been pretty useful to me through the years, especially for debugging responsive styles and behavior on actual phones.
+
+![Chrome inspect](chrome-inspect.png)
+
+It turns out that this app was built using [Apache Cordova](https://cordova.apache.org/), which means that it runs inside of a Chrome webview.
+
+Normally, production Cordova apps don't allow access through Chrome inspect, but this one did. I found out completely by accident, when I was debugging unrelated stuff and I realized that the app's webview was showing up in the list.
+
+Just like with the proxy method, the inspector shows information about requests, and that's how I originally analyzed the server API.
+
+---
+
+Some time after I built this and let it sit forever with my other unfinished projects, I gave a talk about reverse-engineering at the company I was working for at the time, and talked about this project among other things.
+
+I wanted to take a few screenshots so I set up the project again and... the inspect method didn't work at all. I eventually gave up and tried the proxy method which did work this time around. However, before I gave up I tried to make it work for a while, and here's what I found.
+
+## Cordoba and webview inspection
+
+Cordoba disables webview inspection by default for production builds, and enables it for development ones. My hypothesis is that they shipped a development version in the past, and have since switched to the production one (which seems like a reasonable decision).
+
+You can still enable it programmatically by using the following function call:
+
+```java
+WebView.setWebContentsDebuggingEnabled(false)
+```
+
+That's a Java method that needs to be called at runtime.
+
+Here's the thing: Android app logic is compiled from Java (or Kotlin) classes into what's called Dalvik bytecode. Apps are packaged into `.apk` (Android application package) files, which contain the bytecode, assets, manifest files, etc.
+
+## Unpacking the app
+
+In order to call this method, we need to modify the bytecode to include this function call. We can do this by unpackaging, modyfing and re-packaging the app, just like we did in the proxy method.
+
+Unlike the proxy method, however, we don't have a tool that automatically applies the changes (`apk-mitm`). Instead, we need to do it ourselves.
+
+We can unpack an app by using `apktool` (which is internally used by `apk-mitm`). This tool actually does two things in succescion.
+
+- First, it extracts all files, as the `.apk` file is just an archive.
+
+This includes assets like images:
+
+![An image inside an unpackaged apk file](unpackaged-assets.png)
+
+And files like the `AndroidManifest.xml`, which contains metadata such as permissions:
+
+![A fragment of the Android manifest file which describes permissions](unpackaged-manifest.png)
+
+In this step, the bytecode is extracted as well, in the form of `.dex` files. But there's a problem with these files. Turns out the bytecode is, quite literally, a bunch of bytes.
+
+
 # Building the CLI
 
 The CLI is fairly simple. If you want to learn all of the implementation details, [check the repo](https://github.com/DaniGuardiola/saludmadrid-unofficial-cli), but here's a simple description:
